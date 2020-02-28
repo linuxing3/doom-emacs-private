@@ -1,5 +1,29 @@
 ;;; org+config.el -*- lexical-binding: t; -*-  
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+
+(org-add-link-type
+ "grep" 'endless/follow-grep-link)
+
+(defun endless/follow-grep-link (regexp)
+  "Run `rgrep' with REGEXP as argument."
+  (grep-compute-defaults)
+  (rgrep regexp "*" (expand-file-name "./")))
+
+(org-add-link-type
+ "yt" 'endless/follow-youtube-link)
+
+(defun endless/follow-youtube-link (id)
+  "Run `rgrep' with REGEXP as argument."
+  (browse-url (concat "https://www.youtube.com/watch?v=" id)))
+
+(org-add-link-type
+ "tag" 'endless/follow-tag-link)
+
+(defun endless/follow-tag-link (tag)
+  "Display a list of TODO headlines with tag TAG.
+With prefix argument, also display headlines without a TODO keyword."
+  (org-tags-view (null current-prefix-arg) tag))
+
 ;; Add built-in modules of org
 (setq
   org-modules (quote (org-bibtex org-habit org-info org-protocol org-mac-link org-notmuch))

@@ -49,13 +49,22 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-one-light)
 
 ;; Simple tweaks
 (setq dired-hide-details-mode t)
 ;; Auto revert-mode. Look ma, no hands...
 (setq global-auto-revert-mode t)
-
+;; All coding utf-8
+(set-terminal-coding-system 'utf-8)
+(set-language-environment 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+(setq locale-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+;;
+;;
 ;; set column whitespace style
 (setq
  whitespace-line-column 100
