@@ -51,6 +51,16 @@
 	  "M-9"       (λ! (+workspace/switch-to 8))
 	  "M-0"       #'+workspace/switch-to-last
 
+	  ;; Other functional keys
+    :nv "<f2>"  #'previous-buffer
+		:nv "<f4>"  #'+neotree/open ;;explore proi
+    :nv "<f3>"  #'next-buffer
+		:nv "<f7>"  (lambda! (find-file "D:/Dropbox/config/bookmarks"));; 打开chrome书签
+		:nv "<f8>"  #'fill-paragraph ;;折行
+		:nv "<f9>"  #'org-capture ;;org抓取器
+		:nv "<f10>"  #'my-gridsome-create-newpost-empty;;建立新博客
+		:nv "<f12>"  #'my-blog-gridsome-deploy ;;发布博客
+
 	  ;; Other sensible, textmate-esque global bindings
 	  :ne "M-r"   #'+eval/buffer  ;; 运行代码
 	  :ne "C-M-r"   #'+eval/buffer  ;; 运行代码

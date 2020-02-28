@@ -1,0 +1,2 @@
+#!/bin/sh
+/usr/local/Cellar/emacs-plus/HEAD-faaaece/bin/emacs --daemon

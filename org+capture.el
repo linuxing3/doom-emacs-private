@@ -152,8 +152,7 @@
          "Temp Links from the interwebs"
          entry
          (file+headline "D:/Dropbox/org/links.org" "Bookmarks")
-         "%?\nEntered on %U\n \%i\n %a"
-         :immediate-finish t
+         "* %t %:description\nlink: %l \n\n%i\n"
          :kill-buffer nil))
 
   (add-to-list 'org-capture-templates
@@ -190,6 +189,7 @@
                  (file+headline "D:/Dropbox/org/xingwenju.org" "Reading")
                  "** TODO %^{书名}\n%u\n%a\n"
                  :clock-in t
+                 :immediate-finish t
                  :clock-resume t))
   (add-to-list 'org-capture-templates
                '("tp"
@@ -205,6 +205,7 @@
                  entry
                  (file+headline "D:/Dropbox/org/works.org" "Work")
                  "** TODO %^{任务}\n%u\n%a\n"
+                 :immediate-finish t
                  :clock-in t :clock-resume t))
 
   ;; Most often used
@@ -215,6 +216,7 @@
                  (file+headline "D:/Dropbox/org/inbox.org" "Phone Calls")
                  (file "D:/Dropbox/org/capture-template/phone.template")
                  ;; "* %^{Habit cards|music|balls|games}\n  %?"
+                 :immediate-finish t
                  :new-line 1))
 
   (add-to-list 'org-capture-templates
@@ -224,6 +226,7 @@
                  (file "D:/Dropbox/org/habit.org")
                  (file "D:/Dropbox/org/capture-template/habit.template")
                  ;; "* %^{Habit cards|music|balls|games}\n  %?"
+                 :immediate-finish t
                  :new-line 1))
 
   (add-to-list 'org-capture-templates
@@ -233,6 +236,7 @@
                  (file "D:/Dropbox/org/notes.org")
                  (file "D:/Dropbox/org/capture-template/notes.template")
                  ;; "* %^{Loggings For...} %t %^g\n  %?"
+                 :immediate-finish t
                  :new-line 1))
 
   (add-to-list 'org-capture-templates
@@ -242,6 +246,7 @@
                  (file "D:/Dropbox/org/inbox.org")
                  (file "D:/Dropbox/org/capture-template/inbox.template")
                  ;; "* [#%^{Priority}] %^{Title} %^g\n SCHEDULED:%U %?\n"
+                 :immediate-finish t
                  :new-line 1))
 
   ;; template list

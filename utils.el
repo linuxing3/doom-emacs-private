@@ -11,8 +11,8 @@
 (defun dropbox-path (path)
   "Prepend drive label to PATH."
   (if IS-WINDOWS
-    (expand-file-name path "D:/Dropbox")
-    (expand-file-name path "/home/linuxing3/Dropbox")))
+    (concat "D:/Dropbox/" path)
+    (concat "/home/linuxing3/Dropbox/" path)))
 
 ;;;###autoload
 (defmacro with-dir (DIR &rest FORMS)
@@ -41,3 +41,5 @@
        (ditaa . t)
        (plantuml . t)
        ))))
+
+(dropbox-path "org")
