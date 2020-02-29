@@ -53,7 +53,26 @@
 
 ;;; org related packages
 
+(package! ob-typescript)
+(package! ob-dart)
 (package! org-super-agenda)
-
+(package! org-fancy-priorities)
 (package! org-roam
   :recipe (:host github :repo "jethrokuan/org-roam" :branch "develop"))
+;;;  -*- lexical-binding: t; -*-
+;;;  -*- no-byte-compile: t; -*-
+
+(package! move-text)
+(package! ascii-art-to-unicode)
+;; (package! indium)
+
+;;(package! reason-mode)
+;;(package! vue-mode)
+;; (package! kotlin-mode)
+(package! prettier-js)
+;;(package! origami)
+;;(package! deadgrep)
+;;(package! dart-mode)
+;;(package! sql-indent)
+;; (package! wakatime-mode)
+;;(package! parinfer)

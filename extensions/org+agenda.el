@@ -11,13 +11,6 @@
 (defun +org-private|setup-todos-addons ()
   (after! org
     ;;Todo tags
-    (setq org-todo-state-tags-triggers
-          (quote (("CANCELLED" ("CANCELLED" . t))
-                  ("IN-PROGRESS" ("WAITING") ("IN-PROGRESS" . t))
-                  (done ("WAITING") ("HOLD"))
-                  ("TODO" ("CANCELLED") ("IN-PROGRESS"))
-                  ("NEXT" ("CANCELLED") ("IN-PROGRESS"))
-                  ("DONE" ("CANCELLED") ("IN-PROGRESS")))))
     (bind-keys :map org-mode-map
                ("A-b" . (surround-text-with "+"))
                ("s-b" . (surround-text-with "*"))
@@ -29,11 +22,26 @@
                ("s-`" . (surround-text-with "~"))
                ("C-s-f" . forward-sentence)
                ("C-s-b" . backward-sentence))
-    (font-lock-add-keywords            ; A bit silly but my headers are now
-     'org-mode `(("^\\*+ \\(TODO\\) "  ; shorter, and that is nice canceled
+    )
+  )
+
+(defun +org-private|setup-todos ()
+  "Setup todos ..."
+  (after! org
+    (setq org-todo-keywords
+          '((sequence "TODO" "NEXT" "IN-PROGRESS" "|" "DONE" "CANCELED")))
+    ;; Todo keywords faces mixed with font-lock-add-keywords
+    (setq org-todo-keyword-faces
+          (quote (("TODO" :foreground "red" :weight bold :underline t)
+                  ("NEXT" :foreground "blue" :weight bold :underline t)
+                  ("IN-PROGRESS" :foreground "forest green" :weight bold :underline t)
+                  ("DONE" :foreground "forest green" :weight bold :underline t)
+                  ("CANCELLED" :foreground "forest green" :weight bold :underline t))))
+    (font-lock-add-keywords
+     'org-mode `(("^\\*+ \\(TODO\\) "
                   (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚑")
                             nil)))
-                 ("^\\*+ \\(NEXT\\) "
+                 ("^\\*+ \\(TODO\\) "
                   (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚐")
                             nil)))
                  ("^\\*+ \\(IN-PROGRESS\\) "
@@ -45,27 +53,15 @@
                  ("^\\*+ \\(DONE\\) "
                   (1 (progn (compose-region (match-beginning 1) (match-end 1) "✔")
                             nil)))))
-    )
-  )
+    ;; Change state will trigger tags
+    (setq org-todo-state-tags-triggers
+          (quote (("CANCELLED" ("CANCELLED" . t))
+                  ("IN-PROGRESS" ("IN-PROGRESS" . t))
+                  ("TODO" ("CANCELLED") ("IN-PROGRESS"))
+                  ("NEXT" ("CANCELLED") ("IN-PROGRESS"))
+                  ("DONE" ("CANCELLED") ("IN-PROGRESS")))))
+    ))
 
-(defun +org-private|setup-todos ()
-  "Setup todos ..."
-  (after! org
-    ;; (setq org-agenda-files '("~/Dropbox/org/"))
-    (setq org-todo-keywords
-          '((sequence "TODO" "NEXT" "IN-PROGRESS" "|" "DONE" "CANCELED")))
-    ;; todo keywords
-    (setq org-todo-keyword-faces
-          (quote (("TODO" :foreground "red" :weight bold)
-                  ("NEXT" :foreground "blue" :weight bold)
-                  ("IN-PROGRESS" :foreground "forest green" :weight bold)
-                  ("WAITING" :foreground "orange" :weight bold)
-                  ("DONE" :foreground "forest green" :weight bold)
-                  ("CANCELLED" :foreground "forest green" :weight bold)
-                  )))
-
-    )
-  )
 (defun +org-private|setup-agenda ()
   (setq org-agenda-block-separator ""
         org-agenda-clockreport-parameter-plist (quote (:link t :maxlevel 3 :fileskip0 t :stepskip0 t :tags "-COMMENT"))

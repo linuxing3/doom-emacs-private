@@ -52,7 +52,10 @@
 (setq doom-theme 'doom-one-light)
 
 ;; Simple tweaks
-
+(add-to-list 'default-frame-alist
+             '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist
+             '(ns-appearance . dark))
 (setq doom-scratch-buffer-major-mode 'org-mode
       treemacs-width 32
 
@@ -81,13 +84,13 @@
 (setq global-auto-revert-mode t)
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 ;; All coding utf-8
-(set-terminal-coding-system 'utf-8)
-(set-language-environment 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
-(setq locale-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
+;; (set-terminal-coding-system 'utf-8)
+;; (set-language-environment 'utf-8)
+;; (set-keyboard-coding-system 'utf-8)
+;; (prefer-coding-system 'utf-8)
+;; (setq locale-coding-system 'utf-8)
+;; (set-default-coding-systems 'utf-8)
+;; (set-terminal-coding-system 'utf-8)
 ;;
 ;;
 ;;; :editor evil
