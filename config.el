@@ -29,7 +29,7 @@
 (setq user-full-name "Xing Wenju"
       user-mail-address "linuxing3@qq.com")
 
-(load! "utils" nil t)
+(load! "extensions/utils" nil t)
 ;; ---------------------------------------------------------
 ;; UI
 ;; ---------------------------------------------------------
@@ -44,7 +44,6 @@
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
 (setq doom-font (font-spec :family "Hack" :size 16))
-(load! "ui+font" nil t)
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -56,13 +55,13 @@
 ;; Auto revert-mode. Look ma, no hands...
 (setq global-auto-revert-mode t)
 ;; All coding utf-8
-(set-terminal-coding-system 'utf-8)
-(set-language-environment 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
-(setq locale-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
+;; (set-terminal-coding-system 'utf-8)
+;; (set-language-environment 'utf-8)
+;; (set-keyboard-coding-system 'utf-8)
+;; (prefer-coding-system 'utf-8)
+;; (setq locale-coding-system 'utf-8)
+;; (set-default-coding-systems 'utf-8)
+;; (set-terminal-coding-system 'utf-8)
 ;;
 ;;
 ;; set column whitespace style
@@ -71,6 +70,12 @@
  whitespace-style
  '(face trailing lines-tail))
 
+;; This determines the style of line numbers in effect. If set to `nil', line
+;; numbers are disabled. For relative line numbers, set this to `relative'.
+(setq display-line-numbers-type t)
+
+
+(load! "extensions/ui+font" nil t)
 
 ;; ---------------------------------------------------------
 ;; Org mode
@@ -80,25 +85,24 @@
 ;; change `org-directory'. 
 ;; It must be set before org loads!
 (setq org-directory (dropbox-path "org"))
-(load! "org+config" nil t)
-;; after org loads, do more customization
-(load! "org+capture" nil t)
-
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+;; It can be set after org loads!
+(load! "extensions/org+config" nil t)
+(load! "extensions/org+capture" nil t)
+(load! "extensions/org+agenda" nil t)
+(load! "extensions/org+brain" nil t)
+(load! "extensions/org+babel" nil t)
 
 ;; ---------------------------------------------------------
 ;; Languages Support
 ;; ---------------------------------------------------------
-(load! "lang+python" nil t)
+(load! "extensions/lang+python" nil t)
 ;; ---------------------------------------------------------
 ;; App
 ;; ---------------------------------------------------------
-(load! "app+blog" nil t)
-(load! "app+plantuml" nil t)
+(load! "extensions/app+blog" nil t)
+(load! "extensions/app+plantuml" nil t)
 
 ;; ---------------------------------------------------------
 ;; Keybindings
 ;; ---------------------------------------------------------
-(load! "keybinding+spacemacs" nil t)
+(load! "extensions/keybinding+spacemacs" nil t)

@@ -1,0 +1,81 @@
+#+TITLE:  Emacs for Linux
+#+AUTHOR: Howard Abrams
+#+EMAIL:  howard.abrams@gmail.com
+#+DATE:   2014 Aug 28
+#+TAGS:   emacs linux
+
+Mostly key bindings for the Super key to work as a Command key on
+Linux.
+
+* Notifications
+
+  Perhaps I would want to tie into the Linux notification system.
+  Then again, maybe not.
+
+* Locate
+
+  While I use Apple Spotlight for indexing my text files on the Mac,
+  on Linux, we use =recoll= ...
+
+  #+BEGIN_SRC elisp
+    (setq locate-command "recoll")
+  #+END_SRC
+
+* Applications
+
+** GNU Global
+
+   While I can use Homebrew to install Gnu Global on the Mac, on
+   Linux, I may need to do things old school:
+
+   First, ctags:
+
+   #+BEGIN_SRC sh :tangle no
+     if [ -d ~/Other/ctags ]
+     then
+       cd ~/Other
+       wget http://prdownloads.sourceforge.net/ctags/ctags-5.8.tar.gz
+       tar xfz ctags-5.8.tar.gz
+     fi
+     cd ~/Other/ctags
+
+    ./configure && make && make install
+   #+END_SRC
+
+   And then Gnu Global:
+
+   #+BEGIN_SRC sh :tangle no
+    if [ ! -d ~/Other/global-6.4 ]
+    then
+        cd ~/Other
+        wget http://tamacom.com/global/global-6.4.tar.gz
+        tar xfz global-6.4.tar.gz
+    fi
+    cd ~/Other/global-6.4
+
+    ./configure --with-exuberant-ctags=/usr/local/bin/ctags
+    make && make install
+   #+END_SRC
+
+   Now, the code in [[file:emacs.org::*Programming%20Languages][emacs.org]] should work like a charm.
+
+* Technical Artifacts
+
+  Make sure that we can simply =require= this library.
+
+#+BEGIN_SRC elisp
+  (provide 'init-linux)
+#+END_SRC
+
+  Before you can build this on a new system, make sure that you put
+  the cursor over any of these properties, and hit: =C-c C-c=
+
+#+DESCRIPTION: A literate programming version of my Emacs Initialization for Linux Systems
+
+#+PROPERTY:    header-args:sh     :tangle no
+#+PROPERTY:    header-args:elisp  :tangle ~/.emacs.d/elisp/init-linux.el
+#+PROPERTY:    header-args:       :results silent   :eval no-export   :comments org
+
+#+OPTIONS:     num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS:     skip:nil author:nil email:nil creator:nil timestamp:nil
+#+INFOJS_OPT:  view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js

@@ -1,0 +1,119 @@
+#+TITLE:     ZShell Resources Startup File
+#+AUTHOR:    Howard Abrams
+#+EMAIL:     howard.abrams@gmail.com
+
+This startup file is loaded for /interactive/ shells, so most of the
+things here are for callable functions, aliases and the like.
+
+* Key Bindings
+
+  On the Mac, open up the Terminal preferences, under your =Basic=
+  settings, select the =Keyboard= tab and select the checkbox for
+  =Use option as meta key= to take avantage of these.
+
+#+BEGIN_SRC shell
+  bindkey -e
+#+END_SRC
+
+  =Meta-u= to chdir to the parent directory and then display the contents.
+
+#+BEGIN_SRC shell
+  bindkey -s '\eu' '^Ucd ..; ls^M'
+#+END_SRC
+
+  Since =AUTO_PUSHD= is set, =Meta-p= pops the dir stack
+
+#+BEGIN_SRC shell
+  bindkey -s '\ep' '^Upopd >/dev/null; dirs -v^M'
+#+END_SRC
+
+  Pipe the current command through less with =Meta-l=
+
+#+BEGIN_SRC shell
+  bindkey -s "\el" " 2>&1|less^M"
+#+END_SRC
+
+* Completion
+
+  I still wonder how important it is to start up the =compinstall=,
+  and auto load the =compinit=. I suppose it wouldn't hurt, eh?
+
+#+BEGIN_SRC shell
+  zstyle :compinstall filename '/Users/howard.abrams/.zshrc'
+#+END_SRC
+
+  Add my own custom completion scripts:
+
+#+BEGIN_SRC shell
+  fpath=(~/.zsh/completion $fpath)
+
+  autoload -Uz compinit
+  compinit
+#+END_SRC
+
+  Show completion menu when number of options is at least 2
+
+#+BEGIN_SRC shell
+  zstyle ':completion:*' menu select=2
+  zstyle ":completion:*:descriptions" format "%B%d%b"
+#+END_SRC
+
+  Only do completion for Git, as we don't use any other version
+  control system anymore.
+
+#+BEGIN_SRC shell
+  zstyle ":vcs_info:*" enable git  # svn
+#+END_SRC
+
+* Modules
+
+  Using the modules from [[https://github.com/robbyrussell/oh-my-zsh][Oh My Zsh]].
+  The plugins are in =~/.oh-my-zsh/plugins/*=
+
+#+BEGIN_SRC shell
+  plugins=(osx terminalapp gnu-utils lein npm)
+#+END_SRC
+
+  I use [[http://mxcl.github.com/homebrew/][Homebrew]] on my home computers, but [[http://www.macports.org][MacPorts]] at work.
+  We will check to see which is installed, and then add that
+  completion module:
+
+#+BEGIN_SRC shell
+  if [[ -d /usr/local/Cellar ]]
+  then
+      plugins+=(brew)      # Adds a "brews" command
+  else
+      plugins+=(macports)  # Adds "psu" for port self_update and others
+  fi
+#+END_SRC
+
+* Oh My Zsh
+
+  Load up the modules and other goodies from Oh my Zsh.
+
+#+BEGIN_SRC shell
+  source $ZSH/oh-my-zsh.sh
+#+END_SRC
+
+* My Functions
+
+  Each machine I'm on (work or home), may have some special functions
+  or aliases, so let's load anything that begins with =.zshrc-=:
+
+#+BEGIN_SRC shell
+  if [[ -f $HOME/.zshrc-* ]]
+  then
+      for SH_FILE in $HOME/.zshrc-*
+      do
+          source $SH_FILE
+      done
+  fi
+#+END_SRC
+
+* Technical Gunk
+
+  The following are the tangled settings. Type: =C-c C-v t=
+  to create the script file.
+
+#+PROPERTY: header-args:shell :tangle ~/.zshrc :shebang #!/usr/local/bin/zsh :comments org
+#+DESCRIPTION: Functions, aliases and other resources for ZShell

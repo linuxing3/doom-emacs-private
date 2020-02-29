@@ -12,7 +12,6 @@
           "Yahei Consolas Hybrid-16"
           "Microsoft Yahei-16"
           "Fira Code-16"
-          "Hack-16"
           "Courier-16"
           "Lucida Console-16"
           "Segoe UI Symbol-16"
@@ -31,10 +30,10 @@
           "Courier-16"
           "Menlo-16"))))
 
-(if (string-equal system-type "windows-nt")
+(if IS-WINDOWS
 	(setq
-    doom-font (font-spec :family "Hack" :size 16)
-    doom-big-font (font-spec :family "Yahei Consolas Hybrid" :size 20)
+    doom-font (font-spec :family "Yahei Consolas Hybrid" :size 16)
+    doom-big-font (font-spec :family "Yahei Consolas Hybrid" :size 18)
 		doom-variable-pitch-font (font-spec :family "Yahei Consolas Hybrid" :size 16)
 		doom-unicode-font (font-spec :family "Yahei Consolas Hybrid" :size 16))
 	(setq

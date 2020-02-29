@@ -1,4 +1,4 @@
-;;; org+capture.el -*- lexical-binding: t; -*-
+;;; private/org/+quick-capture.el -*- lexical-binding: t; -*-
 
 (after! org
 
@@ -80,6 +80,30 @@
                          fields
                          "\n\n"))))
 
+  ;; Publish
+  (setq org-publish-project-alist
+        '(("blog-org"
+           :base-directory "~/Dropbox/org/blog/"
+           :base-extension "org"
+           :publishing-directory "~/Dropbox/xingwenju.com/github-pages/"
+           :recursive t
+           :htmlized-source t
+           :section-numbers nil
+           :publishing-function org-html-publish-to-html
+           :headline-levels 4
+           :html-extension "html"
+           :body-only t             ; Only export section between <body> </body>
+           :table-of-contents nil
+           )
+          ("blog-static"
+           :base-directory "~/Dropbox/org/blog/"
+           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|php"
+           :publishing-directory "~/Dropbox/xingwenju.com/github-pages/"
+           :recursive t
+           :publishing-function org-publish-attachment
+           )
+          ("blog" :components ("blog-org" "blog-static"))))
+
   ;; Capture template
 
   (setq org-capture-templates nil)
@@ -90,15 +114,15 @@
                `("xv"
                  "Vocabulary"
                  entry
-                 (file+headline "D:/Dropbox/org/anki.org" "Vocabulary")
+                 (file+headline "~/Dropbox/org/anki.org" "Vocabulary")
                  ,(concat "* %^{heading} :note:\n"
                           "%(generate-anki-note-body)\n")))
   (add-to-list 'org-capture-templates
                '("xs"
                  "Snippets"
                  entry
-                 (file "D:/Dropbox/org/snippets.org")
-                 (file "D:/Dropbox/org/capture-template/snippet.template")
+                 (file "~/Dropbox/org/snippets.org")
+                 (file "~/Dropbox/org/capture-template/snippet.template")
                  ;; "* %?\t%^g\n #+BEGIN_SRC %^{language}\n\n#+END_SRC"
                  :kill-buffer t))
 
@@ -106,8 +130,8 @@
                '("xb"
                  "Billing"
                  plain
-                 (file+function "D:/Dropbox/org/billing.org" find-month-tree)
-                 (file "D:/Dropbox/org/capture-template/billing.template")
+                 (file+function "~/Dropbox/org/billing.org" find-month-tree)
+                 (file "~/Dropbox/org/capture-template/billing.template")
                  ;; " | %U | %^{类别} | %^{描述} | %^{金额} |"
                  :kill-buffer t))
 
@@ -115,8 +139,8 @@
                '("xc"
                  "Contacts"
                  entry
-                 (file "D:/Dropbox/org/contacts.org")
-                 (file "D:/Dropbox/org/capture-template/contact.template")
+                 (file "~/Dropbox/org/contacts.org")
+                 (file "~/Dropbox/org/capture-template/contact.template")
                  ;; "* %^{姓名} %^{手机号}p %^{邮箱}p %^{住址}p %^{微信}p %^{微博}p %^{whatsapp}p\n\n  %?"
                  :empty-lines 1 :kill-buffer t))
 
@@ -124,7 +148,7 @@
                '("xp"
                  "Passwords"
                  entry
-                 (file "D:/Dropbox/org/passwords.org.cpt")
+                 (file "~/Dropbox/org/passwords.org.cpt")
                  "* %U - %^{title} %^G\n\n  - 用户名: %^{用户名}\n  - 密码: %(get-or-create-password)"
                  :empty-lines 1 :kill-buffer t))
 
@@ -132,7 +156,7 @@
                `("xx"
                  "Blog"
                  plain
-                 (file ,(concat "D:/Dropbox/org/blog/" (format-time-string "%Y-%m-%d.org")))
+                 (file ,(concat "~/Dropbox/org/blog/" (format-time-string "%Y-%m-%d.org")))
                  ,(concat "#+startup: showall\n"
                           "#+options: toc:nil\n"
                           "#+begin_export html\n"
@@ -151,15 +175,16 @@
       '("l"
          "Temp Links from the interwebs"
          entry
-         (file+headline "D:/Dropbox/org/links.org" "Bookmarks")
-         "* %t %:description\nlink: %l \n\n%i\n"
+         (file+headline "~/Dropbox/org/links.org" "Bookmarks")
+         "%?\nEntered on %U\n \%i\n %a"
+         :immediate-finish t
          :kill-buffer nil))
 
   (add-to-list 'org-capture-templates
                '("a"
                  "Protocol Annotation"
                  plain
-                 (file+function "D:/Dropbox/org/links.org" org-capture-template-goto-link)
+                 (file+function "~/Dropbox/org/links.org" org-capture-template-goto-link)
                  " %^{Title}\n  %U - %?\n\n  %:initial"
                  :empty-lines 1))
 
@@ -170,7 +195,7 @@
                '("ts"                                              ; hotkey
                  "Son Daniel's Task"                               ; title
                  entry                                             ; type
-                 (file+headline "D:/Dropbox/org/daniel.org" "Task") ; target
+                 (file+headline "~/Dropbox/org/daniel.org" "Task") ; target
                  "** TODO %^{任务}\n%u\n%a\n"                      ; template
                  :clock-in t
                  :clock-resume t))
@@ -178,7 +203,7 @@
                '("tl"
                  "Wife Lulu's Task"
                  entry
-                 (file+headline "D:/Dropbox/org/lulu.org" "Task")
+                 (file+headline "~/Dropbox/org/lulu.org" "Task")
                  "** TODO %^{任务}\n%u\n%a\n"
                  :clock-in t
                  :clock-resume t))
@@ -186,26 +211,24 @@
                '("tr"
                  "My Book Reading Task"
                  entry
-                 (file+headline "D:/Dropbox/org/xingwenju.org" "Reading")
+                 (file+headline "~/Dropbox/org/xingwenju.org" "Reading")
                  "** TODO %^{书名}\n%u\n%a\n"
                  :clock-in t
-                 :immediate-finish t
                  :clock-resume t))
   (add-to-list 'org-capture-templates
                '("tp"
                  "My Work Projects"
                  entry
-                 (file "D:/Dropbox/org/projects.org")
-                 (file "D:/Dropbox/org/capture-template/project.template")
+                 (file "~/Dropbox/org/projects.org")
+                 (file "~/Dropbox/org/capture-template/project.template")
                  :empty-line 1
                  :clock-resume t))
   (add-to-list 'org-capture-templates
                '("tw"
                  "My Work Task"
                  entry
-                 (file+headline "D:/Dropbox/org/works.org" "Work")
+                 (file+headline "~/Dropbox/org/works.org" "Work")
                  "** TODO %^{任务}\n%u\n%a\n"
-                 :immediate-finish t
                  :clock-in t :clock-resume t))
 
   ;; Most often used
@@ -213,40 +236,36 @@
                '("P"
                  "My Phone calls"
                  entry
-                 (file+headline "D:/Dropbox/org/inbox.org" "Phone Calls")
-                 (file "D:/Dropbox/org/capture-template/phone.template")
+                 (file+headline "~/Dropbox/org/inbox.org" "Phone Calls")
+                 (file "~/Dropbox/org/capture-template/phone.template")
                  ;; "* %^{Habit cards|music|balls|games}\n  %?"
-                 :immediate-finish t
                  :new-line 1))
 
   (add-to-list 'org-capture-templates
                '("h"
                  "My Habit"
                  entry
-                 (file "D:/Dropbox/org/habit.org")
-                 (file "D:/Dropbox/org/capture-template/habit.template")
+                 (file "~/Dropbox/org/habit.org")
+                 (file "~/Dropbox/org/capture-template/habit.template")
                  ;; "* %^{Habit cards|music|balls|games}\n  %?"
-                 :immediate-finish t
                  :new-line 1))
 
   (add-to-list 'org-capture-templates
                '("n"
                  "My Notes"
                  entry
-                 (file "D:/Dropbox/org/notes.org")
-                 (file "D:/Dropbox/org/capture-template/notes.template")
+                 (file "~/Dropbox/org/notes.org")
+                 (file "~/Dropbox/org/capture-template/notes.template")
                  ;; "* %^{Loggings For...} %t %^g\n  %?"
-                 :immediate-finish t
                  :new-line 1))
 
   (add-to-list 'org-capture-templates
                '("i"
                  "My GTD Inbox"
                  entry
-                 (file "D:/Dropbox/org/inbox.org")
-                 (file "D:/Dropbox/org/capture-template/inbox.template")
+                 (file "~/Dropbox/org/inbox.org")
+                 (file "~/Dropbox/org/capture-template/inbox.template")
                  ;; "* [#%^{Priority}] %^{Title} %^g\n SCHEDULED:%U %?\n"
-                 :immediate-finish t
                  :new-line 1))
 
   ;; template list
