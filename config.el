@@ -55,13 +55,13 @@
 ;; Auto revert-mode. Look ma, no hands...
 (setq global-auto-revert-mode t)
 ;; All coding utf-8
-;; (set-terminal-coding-system 'utf-8)
-;; (set-language-environment 'utf-8)
-;; (set-keyboard-coding-system 'utf-8)
-;; (prefer-coding-system 'utf-8)
-;; (setq locale-coding-system 'utf-8)
-;; (set-default-coding-systems 'utf-8)
-;; (set-terminal-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-language-environment 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+(setq locale-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
 ;;
 ;;
 ;; set column whitespace style
@@ -90,6 +90,7 @@
 (load! "extensions/org+capture" nil t)
 (load! "extensions/org+agenda" nil t)
 (load! "extensions/org+brain" nil t)
+(load! "extensions/org+roam" nil t)
 (load! "extensions/org+babel" nil t)
 
 ;; ---------------------------------------------------------

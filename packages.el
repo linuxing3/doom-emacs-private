@@ -54,5 +54,6 @@
 ;;; org related packages
 
 (package! org-super-agenda)
-(package! org-pomodoro)
-(package! org-cliplink)
+
+(package! org-roam
+  :recipe (:host github :repo "jethrokuan/org-roam" :branch "develop"))

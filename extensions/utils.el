@@ -25,7 +25,7 @@
 ;; (macroexpand '(with-dir "~/.emacs.d"))
 
 ;;;###autoload
-(defun my-development-environment ()
+(defun linuxing3/development-environment ()
   ;; Ensure the babel load file type
   (with-eval-after-load 'org
     (org-babel-do-load-languages

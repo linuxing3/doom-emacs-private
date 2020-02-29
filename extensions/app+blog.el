@@ -14,12 +14,12 @@
 (setq blog-gridsome-base-dir "D:/workspace/gridsome.org")
 (setq org-journal-base-dir "D:/Dropbox/org/journal")
 
-(defun my-blog-gridsome-find-dir ()
+(defun linuxing3/blog-gridsome-find-dir ()
   "Open gatsby blog files"
   (interactive)
   (find-file "D:/workspace/gridsome.org/blog"))
 
-(defun my-blog-gridsome-deploy ()
+(defun linuxing3/blog-gridsome-deploy ()
   "Run gridsome cli and push changes upstream."
   (interactive)
   (with-dir blog-gridsome-base-dir
@@ -31,21 +31,21 @@
             (shell-command "git push -u origin master")
             ))
 
-(defun my-blog-gridsome-start-server ()
+(defun linuxing3/blog-gridsome-start-server ()
   "Run gridsome server if not already running and open its webpage."
   (interactive)
   (with-dir blog-gatsby-base-dir
             (unless (get-process blog-gridsome-process)
               (start-process blog-gridsome-process nil "gridsome" "develop" "-H" "0.0.0.0"))
             ))
-(defun my-blog-gridsome-end-server ()
+(defun linuxing3/blog-gridsome-end-server ()
   "End gridsome server process if running."
   (interactive)
   (--when-let (get-process blog-gridsome-process)
     (delete-process it)))
 
 ;;;###autoload
-(defun my-find-gridsome-filepath (gridsome-post-subdir gridsome-post-filename)
+(defun linuxing3/find-gridsome-filepath (gridsome-post-subdir gridsome-post-filename)
 	"Create the gridsome post in a specific hugo post directory"
 	(interactive
    (let ((gridsome-post-subdirs '("blog" "docs" )))
@@ -63,12 +63,12 @@
     (format "%s" gridsome-post-filepath)))
 
 ;;;###autoload
-(defun my-gridsome-create-newpost-empty ()
+(defun linuxing3/gridsome-create-newpost-empty ()
 	"Create the gridsome post in a specific hugo post directory"
 	(interactive)
 	(progn
     (setq gridsome-post-subdir (ido-completing-read "Directory Name: " '("blog" "docs")))
-    (setq gridsome-post-filepath (my-find-gridsome-filepath gridsome-post-subdir (read-from-minibuffer "File Name: " "write-blog")))
+    (setq gridsome-post-filepath (linuxing3/find-gridsome-filepath gridsome-post-subdir (read-from-minibuffer "File Name: " "write-blog")))
     (find-file gridsome-post-filepath)
     (goto-char (point-min))
     (insert "---\n")
@@ -79,13 +79,13 @@
     (insert "---\n")))
 
 ;;;###autoload
-(defun my-org-export-md-to-gridsome-newpost ()
+(defun linuxing3/org-export-md-to-gridsome-newpost ()
 	"Saving the current org file as a gridsome post
 in a specific hugo post directory"
 	(interactive)
 	(progn
     (setq gridsome-post-subdir (ido-completing-read "Directory Name: " '("blog" "docs")))
-   	(setq gridsome-post-filepath (my-find-gridsome-filepath gridsome-post-subdir (read-from-minibuffer "File Name: " "write-blog")))
+   	(setq gridsome-post-filepath (linuxing3/find-gridsome-filepath gridsome-post-subdir (read-from-minibuffer "File Name: " "write-blog")))
     (message gridsome-post-filepath)
     (org-md-export-as-markdown)
     (evil-save gridsome-post-filepath)
@@ -93,7 +93,7 @@ in a specific hugo post directory"
     (find-file gridsome-post-filepath)))
 
 ;;;###autoload
-(defun my-org-journal-new-journal ()
+(defun linuxing3/org-journal-new-journal ()
 	"Create the journal in a specific directory, then your can export ..."
 	(interactive)
 	(progn
