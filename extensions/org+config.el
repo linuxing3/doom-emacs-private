@@ -5,7 +5,9 @@
 ;; Add built-in modules of org
 (setq
  org-modules (quote (org-bibtex org-habit org-info org-protocol org-mac-link org-notmuch))
- org-ellipsis " ▼ ")
+ org-ellipsis " ▼ "
+ org-bullets-bullet-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")
+ )
 
 (setq diary-file (dropbox-path "org/diary"))
 ;; Add all files under org-directory folder to agenda

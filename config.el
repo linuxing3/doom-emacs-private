@@ -29,7 +29,8 @@
 (setq user-full-name "Xing Wenju"
       user-mail-address "linuxing3@qq.com")
 
-(load! "extensions/utils" nil t)
+;; FIXED Moved to autoload
+;; (load! "extensions/utils" nil t)
 ;; ---------------------------------------------------------
 ;; UI
 ;; ---------------------------------------------------------
@@ -43,7 +44,7 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "Hack" :size 16))
+(setq doom-font (font-spec :family "Hack" :size 12))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -51,9 +52,34 @@
 (setq doom-theme 'doom-one-light)
 
 ;; Simple tweaks
+
+(setq doom-scratch-buffer-major-mode 'org-mode
+      treemacs-width 32
+
+      ;; Line numbers are pretty slow all around. The performance boost of
+      ;; disabling them outweighs the utility of always keeping them on.
+      display-line-numbers-type nil
+
+      ;; On-demand code completion. I don't often need it.
+      company-idle-delay nil
+
+      ;; lsp-ui-sideline is redundant with eldoc and much more invasive, so
+      ;; disable it by default.
+      lsp-ui-sideline-enable nil
+      lsp-enable-indentation nil
+      lsp-enable-on-type-formatting nil
+      lsp-enable-symbol-highlighting nil
+      lsp-enable-file-watchers nil
+
+      ;; Disable help mouse-overs for mode-line segments (i.e. :help-echo text).
+      ;; They're generally unhelpful and only add confusing visual clutter.
+      mode-line-default-help-echo nil
+      show-help-function nil)
+
 (setq dired-hide-details-mode t)
 ;; Auto revert-mode. Look ma, no hands...
 (setq global-auto-revert-mode t)
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 ;; All coding utf-8
 (set-terminal-coding-system 'utf-8)
 (set-language-environment 'utf-8)
@@ -64,6 +90,10 @@
 (set-terminal-coding-system 'utf-8)
 ;;
 ;;
+;;; :editor evil
+(setq evil-split-window-below t
+      evil-vsplit-window-right t)
+
 ;; set column whitespace style
 (setq
  whitespace-line-column 100

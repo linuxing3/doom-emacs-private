@@ -43,11 +43,13 @@
        ))))
 
 
+;;;###autoload
 (defun run-bash ()
   (interactive)
   (let ((shell-file-name "C:\\Program Files\\Git\\bin\\bash.exe"))
     (shell "*bash*")))
 
+;;;###autoload
 (defun run-cmdexe ()
   (interactive)
   (let ((shell-file-name "cmd.exe"))
@@ -56,11 +58,11 @@
 (defun run-powershell ()
   "Run powershell"
   (interactive)
-  (async-shell-command "c:/windows/system32/WindowsPowerShell/v1.0/powershell.exe -Command -"
-                       nil
-                       nil))
+  (let ((shell-file-name "cmd.exe"))
+    (shell "*c:/windows/system32/WindowsPowerShell/v1.0/powershell.exe*")))
 
 
+;;;###autoload
 (defun msbuild-2017-x86-setup ()
   "Set enviorment variables to load Microsoft Visual C++ Compiler (MSVC 32 bits)"
   (interactive)
@@ -115,3 +117,49 @@
            ";" "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/"
            ";" "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/Tools/"
            )))
+
+
+;;
+;;; Scratch frame
+
+(defvar +linuxing3--scratch-frame nil)
+
+(defun cleanup-scratch-frame (frame)
+  (when (eq frame +linuxing3--scratch-frame)
+    (with-selected-frame frame
+      (setq doom-fallback-buffer-name (frame-parameter frame 'old-fallback-buffer))
+      (remove-hook 'delete-frame-functions #'cleanup-scratch-frame))))
+
+;;;###autoload
+(defun open-scratch-frame (&optional fn)
+  "Opens the org-capture window in a floating frame that cleans itself up once
+you're done. This can be called from an external shell script."
+  (interactive)
+  (let* ((frame-title-format "")
+         (preframe (cl-loop for frame in (frame-list)
+                            if (equal (frame-parameter frame 'name) "scratch")
+                            return frame))
+         (frame (unless preframe
+                  (make-frame `((name . "scratch")
+                                (width . 120)
+                                (height . 24)
+                                (transient . t)
+                                (internal-border-width . 10)
+                                (left-fringe . 0)
+                                (right-fringe . 0)
+                                (undecorated . t)
+                                ,(if IS-LINUX '(display . ":0")))))))
+    (setq +linuxing3--scratch-frame (or frame posframe))
+    (select-frame-set-input-focus +linuxing3--scratch-frame)
+    (when frame
+      (with-selected-frame frame
+        (if fn
+            (call-interactively fn)
+          (with-current-buffer (switch-to-buffer "*scratch*")
+            ;; (text-scale-set 2)
+            (when (eq major-mode 'fundamental-mode)
+              (emacs-lisp-mode)))
+          (redisplay)
+          (set-frame-parameter frame 'old-fallback-buffer doom-fallback-buffer-name)
+          (setq doom-fallback-buffer-name "*scratch*")
+          (add-hook 'delete-frame-functions #'cleanup-scratch-frame))))))

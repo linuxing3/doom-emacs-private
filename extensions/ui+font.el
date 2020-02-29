@@ -9,36 +9,39 @@
       (cond
        ((string-equal system-type "windows-nt")
         '(
-          "Yahei Consolas Hybrid-16"
-          "Microsoft Yahei-16"
-          "Fira Code-16"
-          "Hack-16"
-          "Courier-16"
-          "Lucida Console-16"
-          "Segoe UI Symbol-16"
-          "Lucida Sans Unicode-16"
+          "Yahei Consolas Hybrid-12"
+          "Microsoft Yahei-12"
+          "Fira Code-12"
+          "Hack-12"
+          "Courier-12"
+          "Lucida Console-12"
+          "Segoe UI Symbol-12"
+          "Lucida Sans Unicode-12"
           ))
        ((string-equal system-type "gnu/linux")
         '(
-          "DejaVu Sans Mono-16"
-          "DejaVu Sans-16"
-          "Symbola-14"
+          "DejaVu Sans Mono-12"
+          "DejaVu Sans-12"
+          "Symbola-12"
           ))
        ((string-equal system-type "darwin") ; Mac
         '(
-          "Fira Code-16"
-          "Monaco-16"
-          "Courier-16"
-          "Menlo-16"))))
+          "Fira Code-12"
+          "Monaco-12"
+          "Courier-12"
+          "Menlo-12"))))
 
 (if (string-equal system-type "windows-nt")
 	(setq
-    doom-font (font-spec :family "Hack" :size 16)
+    doom-font (font-spec :family "Hack" :size 12)
     doom-big-font (font-spec :family "Yahei Consolas Hybrid" :size 18)
-		doom-variable-pitch-font (font-spec :family "Yahei Consolas Hybrid" :size 16)
-		doom-unicode-font (font-spec :family "Yahei Consolas Hybrid" :size 16))
+		doom-variable-pitch-font (font-spec :family "Yahei Consolas Hybrid" :size 12)
+		doom-unicode-font (font-spec :family "Yahei Consolas Hybrid" :size 12))
 	(setq
-    doom-font (font-spec :family "Fira Code" :size 16)
+    doom-font (font-spec :family "Fira Code" :size 12)
     doom-big-font (font-spec :family "Fira Code" :size 18)
-		doom-variable-pitch-font (font-spec :family "Fira Code" :size 16)
-		doom-unicode-font (font-spec :family "Fira Code" :size 16)))
+		doom-variable-pitch-font (font-spec :family "Fira Code" :size 12)
+		doom-unicode-font (font-spec :family "Fira Code" :size 12)))
+
+(custom-set-faces!
+  `(doom-modeline-bar-inactive :background ,(face-background 'mode-line-inactive)))
