@@ -33,15 +33,15 @@
 
 (if (string-equal system-type "windows-nt")
 	(setq
-    doom-font (font-spec :family "Hack" :size 12)
+    doom-font (font-spec :family "Hack" :size 14)
     doom-big-font (font-spec :family "Yahei Consolas Hybrid" :size 18)
-		doom-variable-pitch-font (font-spec :family "Yahei Consolas Hybrid" :size 12)
-		doom-unicode-font (font-spec :family "Yahei Consolas Hybrid" :size 12))
+		doom-variable-pitch-font (font-spec :family "Yahei Consolas Hybrid" :size 14)
+		doom-unicode-font (font-spec :family "Yahei Consolas Hybrid" :size 14))
 	(setq
-    doom-font (font-spec :family "Fira Code" :size 12)
+    doom-font (font-spec :family "Fira Code" :size 14)
     doom-big-font (font-spec :family "Fira Code" :size 18)
-		doom-variable-pitch-font (font-spec :family "Fira Code" :size 12)
-		doom-unicode-font (font-spec :family "Fira Code" :size 12)))
+		doom-variable-pitch-font (font-spec :family "Fira Code" :size 14)
+		doom-unicode-font (font-spec :family "Fira Code" :size 14)))
 
 (custom-set-faces!
   `(doom-modeline-bar-inactive :background ,(face-background 'mode-line-inactive)))
