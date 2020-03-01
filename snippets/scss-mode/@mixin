@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: @mixin
+# key: mix
+# uuid: mix
+# --
+@mixin ${1:mixin-name}($2) {
+    `%`$0
+}

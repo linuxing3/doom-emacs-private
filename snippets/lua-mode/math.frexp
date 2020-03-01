@@ -1,0 +1,2 @@
+# -*- mode: snippet -*-
+math.frexp($0)

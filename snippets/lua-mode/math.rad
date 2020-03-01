@@ -1,0 +1,2 @@
+# -*- mode: snippet -*-
+math.rad($0)
