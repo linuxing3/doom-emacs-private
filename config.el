@@ -135,6 +135,7 @@
 ;; ---------------------------------------------------------
 (load! "extensions/app+blog" nil t)
 (load! "extensions/app+plantuml" nil t)
+(load! "extensions/feature+magit" nil t)
 
 ;; ---------------------------------------------------------
 ;; Keybindings
