@@ -2,7 +2,7 @@
 
 (defhydra yt-hydra/help (:color blue :hint nil)
   "
-_msa_ stage-all _mp_ push #_mc_ commit #_md_ diff #_mla_ log #_mla_ status
+_msa_ stage-all _mp_ push _mc_ commit _md_ diff _mla_ log-all _ms_ status
 "
   ;;Magit part
   ("msa" magit-stage-modified)

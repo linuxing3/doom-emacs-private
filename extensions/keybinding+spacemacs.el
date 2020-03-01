@@ -53,7 +53,7 @@
 
 	  ;; Other functional keys
     :nv "<f2>"  #'previous-buffer
-		:nv "<f4>"  #'+neotree/open ;;explore proi
+		:nv "<f4>"  #'+treemacs/toggle ;;explore
     :nv "<f3>"  #'next-buffer
 		:nv "<f7>"  (lambda! (find-file "D:/Dropbox/config/bookmarks"));; 打开chrome书签
 		:nv "<f8>"  #'fill-paragraph ;;折行
@@ -84,7 +84,7 @@
 
 	  "C-x p"     #'+popup/other
     ;; 提高效率的快捷键
-	  :e  "jk"    (lambda! (evil-force-normal-state) (save-buffer)) ;;退出编辑状态并保存
+	  :ive  "jk"    (lambda! (evil-force-normal-state) (save-buffer)) ;;退出编辑状态并保存
 
 	  ;; --- <leader> -------------------------------------
 	  (:leader
