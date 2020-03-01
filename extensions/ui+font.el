@@ -33,10 +33,10 @@
 
 (if (string-equal system-type "windows-nt")
 	(setq
-    doom-font (font-spec :family "Hack" :size 16)
-    doom-big-font (font-spec :family "Yahei Consolas Hybrid" :size 18)
+    doom-font (font-spec :family "Fira Code" :size 16)
+    doom-big-font (font-spec :family "Fira Code" :size 18)
 		doom-variable-pitch-font (font-spec :family "Yahei Consolas Hybrid" :size 16)
-		doom-unicode-font (font-spec :family "Yahei Consolas Hybrid" :size 16))
+		doom-unicode-font (font-spec :famaly "Fira Code" :size 16))
 	(setq
     doom-font (font-spec :family "Fira Code" :size 16)
     doom-big-font (font-spec :family "Fira Code" :size 18)
