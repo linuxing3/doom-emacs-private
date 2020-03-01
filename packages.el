@@ -59,8 +59,6 @@
 (package! org-fancy-priorities)
 (package! org-roam
   :recipe (:host github :repo "jethrokuan/org-roam" :branch "develop"))
-;;;  -*- lexical-binding: t; -*-
-;;;  -*- no-byte-compile: t; -*-
 
 (package! move-text)
 (package! ascii-art-to-unicode)

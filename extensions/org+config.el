@@ -26,6 +26,13 @@
   ;; Customize archived location
   (setq org-archive-location (dropbox-path "org/archived/%s_archive::"))
 
+  ;; RSS with Elfeed
+  (setq rmh-elfeed-org-files (list
+                              (concat org-directory "/elfeed1.org")
+                              (concat org-directory "/elfeed2.org")))
+  (setq elfeed-db-directory (concat org-directory "/elfeed/db/"))
+  (setq elfeed-enclosure-default-dir (concat org-directory "/elfeed/enclosures/"))
+
   ;; Stuck projects
   (setq org-stuck-projects
         '("TODO={.+}/-DONE" nil nil "SCHEDULED:\\|DEADLINE:"))

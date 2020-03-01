@@ -1,4 +1,4 @@
-;;; c:/Users/Administrator/.doom.d/utils.el -*- lexical-binding: t; -*-
+;;; c:/Users/Administrator/.doom.d/autoload/utils.el -*- lexical-binding: t; -*-
 
 ;;;###autoload
 (defun os-path (path)

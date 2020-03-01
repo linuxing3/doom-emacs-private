@@ -29,7 +29,7 @@
 (setq user-full-name "Xing Wenju"
       user-mail-address "linuxing3@qq.com")
 
-;; FIXED Moved to autoload
+;; FIXME Moved to autoload
 ;; (load! "extensions/utils" nil t)
 ;; ---------------------------------------------------------
 ;; UI
