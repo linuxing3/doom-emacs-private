@@ -52,14 +52,14 @@
       "M-0"       #'+workspace/switch-to-last
 
       ;; Other functional keys
-      :nv "<f2>"  #'previous-buffer
-      :nv "<f4>"  #'+treemacs/toggle ;;explore
-      :nv "<f3>"  #'next-buffer
-      :nv "<f7>"  (lambda! (find-file "D:/Dropbox/config/bookmarks"));; 打开chrome书签
-      :nv "<f8>"  #'fill-paragraph ;;折行
-      :nv "<f9>"  #'org-capture ;;org抓取器
-      :nv "<f10>"  #'my-gridsome-create-newpost-empty;;建立新博客
-      :nv "<f12>"  #'my-blog-gridsome-deploy ;;发布博客
+      "<f2>"  #'previous-buffer
+      "<f4>"  #'+treemacs/toggle ;;explore
+      "<f3>"  #'next-buffer
+      "<f7>"  (lambda! (find-file "D:/Dropbox/config/bookmarks"));; 打开chrome书签
+      "<f8>"  #'fill-paragraph ;;折行
+      "<f9>"  #'org-capture ;;org抓取器
+      "<f10>"  #'my-gridsome-create-newpost-empty;;建立新博客
+      "<f12>"  #'my-blog-gridsome-deploy ;;发布博客
 
       ;; Other sensible, textmate-esque global bindings
       :ne "M-r"   #'+eval/buffer  ;; 运行代码
@@ -92,8 +92,8 @@
         :desc "Ex command"              :nv ";"  #'evil-ex ;;Vim类执行扩展命令
         :desc "M-x"                     :nv ":"  #'execute-extended-command ;;Emacs类执行扩展命令
         :desc "Extended command"        :n "SPC" #'execute-extended-command ;;
-        :desc "Pop up scratch buffer"   :nv "x"  #'doom/open-scratch-buffer ;;打开涂鸦缓冲区
-        :desc "Org Capture"             :nv "X"  #'org-capture ;;org抓取器
+        :desc "Pop up scratch buffer"   :nv "X"  #'doom/open-scratch-buffer ;;打开涂鸦缓冲区
+        :desc "Org Capture"             :nv "x"  #'org-capture ;;org抓取器
         ;;:desc "Reload Config"           :nv "r"  #'doom/reload ;; reload
 
         ;; Most commonly used

@@ -102,6 +102,18 @@ With prefix argument, also display headlines without a TODO keyword."
               (mapconcat (lambda (str) (concat "** " str))
                          fields
                          "\n\n"))))
+  ;; FIXME capture chrome https://www.diegoberrocal.com/blog/2015/08/19/org-protocol/
+  (defadvice org-capture
+      (after make-full-window-frame activate)
+    "Advise capture to be the only window when used as a popup"
+    (if (equal "emacs-capture" (frame-parameter nil 'name))
+        (delete-other-windows)))
+
+  (defadvice org-capture-finalize
+      (after delete-capture-frame activate)
+    "Advise capture-finalize to close the frame"
+    (if (equal "emacs-capture" (frame-parameter nil 'name))
+        (delete-frame)))
 
   ;; Capture template
 
@@ -171,12 +183,12 @@ With prefix argument, also display headlines without a TODO keyword."
 
   ;; Protocol Group
   (add-to-list 'org-capture-templates
-      '("l"
-         "Temp Links from the interwebs"
-         entry
-         (file+headline "D:/Dropbox/org/links.org" "Bookmarks")
-         "* %t %:description\nlink: %l \n\n%i\n"
-         :kill-buffer nil))
+               '("l"
+                 "Temp Links from the interwebs"
+                 entry
+                 (file+headline "D:/Dropbox/org/links.org" "Bookmarks")
+                 "* %t %:description\nlink: %l \n\n%i\n"
+                 :kill-buffer nil))
 
   (add-to-list 'org-capture-templates
                '("a"

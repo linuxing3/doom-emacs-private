@@ -5,7 +5,6 @@
 ;; Hooks
 (add-hook 'org-mode-hook #'auto-fill-mode)
 (add-hook 'org-mode-hook #'org-fancy-priorities-mode)
-(add-hook 'org-mode-hook #'org-roam-mode)
 
 (after! org
   ;; Add built-in modules of org

@@ -54,36 +54,50 @@
 ;; Simple tweaks
 (add-to-list 'default-frame-alist
              '(ns-transparent-titlebar . t))
+
 (add-to-list 'default-frame-alist
              '(ns-appearance . dark))
-(setq doom-scratch-buffer-major-mode 'org-mode
+
+(setq doom-scratch-buffer-major-mode 'emacs-lisp-mode
       treemacs-width 32
+      global-auto-revert-mode t
+      evil-split-window-below t
+      evil-vsplit-window-right t
+      display-line-numbers-type t
+      whitespace-line-column 100
+      whitespace-style '(face trailing lines-tail)
+
+      ;; FIXME Not enabled
+      dired-hide-details-mode t
 
       ;; Line numbers are pretty slow all around. The performance boost of
       ;; disabling them outweighs the utility of always keeping them on.
-      display-line-numbers-type nil
+      ;; display-line-numbers-type nil
 
-      ;; On-demand code completion. I don't often need it.
-      company-idle-delay nil
+      ;; FIXME On-demand code completion. I don't often need it.
+      ;; if nil, global company mode will disabled, and you need to enable manually
+      ;; (+company/toggle-auto-completion)
+      ;; (global-company-mode +1)
 
-      ;; lsp-ui-sideline is redundant with eldoc and much more invasive, so
+      ;; company-idle-delay nil
+
+      ;; FIXME lsp-ui-sideline is redundant with eldoc and much more invasive, so
       ;; disable it by default.
-      lsp-ui-sideline-enable nil
-      lsp-enable-indentation nil
-      lsp-enable-on-type-formatting nil
-      lsp-enable-symbol-highlighting nil
-      lsp-enable-file-watchers nil
+      ;; lsp-ui-sideline-enable nil
+      ;; lsp-enable-indentation nil
+      ;; lsp-enable-on-type-formatting nil
+      ;; lsp-enable-symbol-highlighting nil
+      ;; lsp-enable-file-watchers nil
 
-      ;; Disable help mouse-overs for mode-line segments (i.e. :help-echo text).
+      ;; FIXME Disable help mouse-overs for mode-line segments (i.e. :help-echo text).
       ;; They're generally unhelpful and only add confusing visual clutter.
-      mode-line-default-help-echo nil
-      show-help-function nil)
+      ;; mode-line-default-help-echo nil
+      ;; show-help-function nil
+      )
 
-(setq dired-hide-details-mode t)
-;; Auto revert-mode. Look ma, no hands...
-(setq global-auto-revert-mode t)
+
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
-;; All coding utf-8
+;; FIXME All coding utf-8, but still org date font are wrong
 ;; (set-terminal-coding-system 'utf-8)
 ;; (set-language-environment 'utf-8)
 ;; (set-keyboard-coding-system 'utf-8)
@@ -91,23 +105,8 @@
 ;; (setq locale-coding-system 'utf-8)
 ;; (set-default-coding-systems 'utf-8)
 ;; (set-terminal-coding-system 'utf-8)
-;;
-;;
-;;; :editor evil
-(setq evil-split-window-below t
-      evil-vsplit-window-right t)
 
-;; set column whitespace style
-(setq
- whitespace-line-column 100
- whitespace-style
- '(face trailing lines-tail))
-
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
-
-
+;; FIXME UI font with unicode error
 ;; (load! "extensions/ui+font" nil t)
 
 ;; ---------------------------------------------------------
@@ -115,7 +114,7 @@
 ;; ---------------------------------------------------------
 
 ;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. 
+;; change `org-directory'.
 ;; It must be set before org loads!
 (setq org-directory (dropbox-path "org"))
 ;; It can be set after org loads!
@@ -123,7 +122,7 @@
 (load! "extensions/org+capture" nil t)
 (load! "extensions/org+agenda" nil t)
 (load! "extensions/org+brain" nil t)
-(load! "extensions/org+roam" nil t)
+;; (load! "extensions/org+roam" nil t)
 (load! "extensions/org+babel" nil t)
 
 ;; ---------------------------------------------------------
