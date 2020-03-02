@@ -6,9 +6,9 @@
   :config
   (progn
     (defun linuxing3/org-roam-title-private (title)
-      (let ((timestamp (format-time-string "%Y%m%d%H%M%S" (current-time)))
+      (let ((timestamp (format-time-string "%Y-%m-%d%" (current-time)))
             (slug (org-roam--title-to-slug title)))
-        (format "private-%s_%s" timestamp slug)))
+        (format "%s-%s" timestamp slug)))
     (org-roam-directory "D:/Dropbox/org/roam/")
     (setq org-roam-filename-noconfirm nil)
     (setq org-roam-graphviz-executable "c:/program files (x86)/graphviz2.38/bin/dot.exe")
