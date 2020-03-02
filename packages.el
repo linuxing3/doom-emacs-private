@@ -51,19 +51,24 @@
 ;(package! builtin-package :recipe (:branch "develop"))
 
 
-;;; org related packages
-
+;;; org modes
 (package! ob-typescript)
 (package! ob-dart)
 (package! org-super-agenda)
 (package! org-fancy-priorities)
 (package! org-roam
   :recipe (:host github :repo "jethrokuan/org-roam" :branch "develop"))
+;; (package! emacs-easy-hugo
+;;  :recipe (:host github :repo "masasam/emacs-easy-hugo"))
 
+
+;; Editor
 (package! move-text)
 (package! ascii-art-to-unicode)
 ;; (package! indium)
 
+
+;; Languages
 ;;(package! reason-mode)
 ;;(package! vue-mode)
 ;; (package! kotlin-mode)

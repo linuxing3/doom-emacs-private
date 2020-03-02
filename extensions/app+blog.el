@@ -69,40 +69,49 @@
 	(progn
     (setq daily-name (format-time-string "%Y-%m-%d"))
     (setq gridsome-post-subdir (ido-completing-read "Directory Name: " '("blog" "docs")))
-    (setq gridsome-post-filepath (my-find-gridsome-filepath gridsome-post-subdir (read-from-minibuffer "File Name: " "write-blog")))
+  	(setq gridsome-post-base-name
+          (or
+           (org-global-prop-value "title")
+           (read-from-minibuffer "File Name (Slug Format): " "name-your-blog")))
+  	(setq gridsome-post-filepath
+          (my-find-gridsome-filepath gridsome-post-subdir gridsome-post-base-name))
     (find-file gridsome-post-filepath)
     (goto-char (point-min))
     (insert "---\n")
-    (insert (concat "title: \n"))
-    (insert "author: Xing Wenju\n")
-    (insert (concat "date: " daily-name "\n"))
-    (insert "excerpt: \n")
-    (insert "---\n")
-    (evil-save gridsome-post-filepath)
-    ))
+    (insert (concat "title: "
+                    (replace-regexp-in-string "-" " " gridsome-post-base-name)))
+    (insert "\nauthor: Xing Wenju")
+    (insert (concat "\ndate: " daily-name))
+    (insert "\nexcerpt: \n---\n")
+    (evil-save gridsome-post-filepath)))
 
 ;;;###autoload
 (defun my-org-export-md-to-gridsome-newpost ()
 	"Saving the current org file as a gridsome post
-in a specific hugo post directory"
+in a specific hugo post directory, will insert
+front matter with the file title and date"
 	(interactive)
 	(progn
     (setq gridsome-post-subdir (ido-completing-read "Directory Name: " '("blog" "docs")))
-   	(setq gridsome-post-filepath (my-find-gridsome-filepath gridsome-post-subdir (read-from-minibuffer "File Name: " "name-your-blog")))
+  	(setq gridsome-post-base-name
+          (or
+           (org-global-prop-value "title")
+           (read-from-minibuffer "File Name (Slug Format): " "name-your-blog")))
+  	(setq gridsome-post-filepath
+          (my-find-gridsome-filepath gridsome-post-subdir gridsome-post-base-name))
     (message gridsome-post-filepath)
     (org-md-export-as-markdown)
+    (goto-char (point-min))
+    (insert "---\n")
+    (insert (concat "title: "
+                    (replace-regexp-in-string "-" " " gridsome-post-base-name)))
+    (insert "\nauthor: Xing Wenju\n")
+    (insert (concat "date: "
+                    (format-time-string "%Y-%m-%d")))
+    (insert "\nexcerpt: \n---\n")
     (evil-save gridsome-post-filepath)
     (evil-window-delete)
-    (find-file gridsome-post-filepath)
-    ;;(goto-char (point-min))
-    ;;(insert "---\n")
-    ;;(insert (concat "title: \n"))
-    ;;(insert "author: Xing Wenju\n")
-    ;;(insert (concat "date: " daily-name "\n"))
-    ;;(insert "excerpt: \n")
-    ;;(insert "---\n")
-    ;;(evil-save gridsome-post-filepath)
-    ))
+    (find-file gridsome-post-filepath)))
 
 ;;;###autoload
 (defun my-org-journal-new-journal ()
@@ -121,3 +130,32 @@ in a specific hugo post directory"
         (insert (concat "#+DATE: " (format-time-string "%Y-%m-%d") "\n"))
         (insert "#+EXCERPT: org journal \n")
         (insert "---\n")))))
+
+;;;###autoload
+(defun commom--org-headers (file)
+  "Return a draft org mode header string for a new article as FILE."
+  (let ((datetimezone
+         (concat
+          (format-time-string "%Y-%m-%d"))))
+    (concat
+     "#+TITLE: " file
+     "\n#+AUTHOR: "
+     "\n#+DATE: " datetimezone
+     "\n#+PUBLISHDATE: " datetimezone
+     "\n#+EXCERPT: nil"
+     "\n#+DRAFT: nil"
+     "\n#+TAGS: nil, nil"
+     "\n#+DESCRIPTION: Short description"
+     "\n\n")))
+
+;;;###autoload
+(defun gridsome-current-time ()
+  "Generate current time in date format at the frontmatter."
+  (interactive)
+  (insert (concat
+           (format-time-string "%Y-%m-%dT%T")
+           (gridsome-orgtime-format (format-time-string "%z")))))
+
+(defun gridsome--orgtime-format (x)
+  "Format orgtime as X."
+  (concat (substring x 0 3) ":" (substring x 3 5)))
