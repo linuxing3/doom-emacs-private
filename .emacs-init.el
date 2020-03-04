@@ -17,7 +17,7 @@
 ;;
 ;; Chemacs - Emacs Profile Switcher v0.1
 ;;
-;; INSTALLATION
+;; 安装
 ;;
 ;; Install this file as ~/.emacs . Next time you start Emacs it will create a
 ;; ~/.emacs-profiles.el , with a single "default" profile
@@ -71,17 +71,17 @@
          (server-name-    (chemacs-emacs-profile-key 'server-name)))
     (setq user-emacs-directory emacs-directory)
 
-    ;; Allow multiple profiles to each run their server
+    ;; 客户端支持Allow multiple profiles to each run their server
     ;; use `emacsclient -s profile_name' to connect
     (when server-name-
       (setq server-name server-name-))
 
-    ;; Set environment variables, these are visible to init-file with getenv
+    ;; 设置环境变量 Set environment variables, these are visible to init-file with getenv
     (mapcar (lambda (env)
               (setenv (car env) (cdr env)))
             (chemacs-emacs-profile-key 'env))
 
-    ;; Start the actual initialization
+    ;; 启动 Start the actual initialization
     (load init-file)
 
     ;; Prevent customize from changing ~/.emacs (this file), but if init.el has
@@ -96,15 +96,16 @@
         (chemacs-load-profile (cadr args))
       (chemacs-check-command-line-args (cdr args)))))
 
+;; 【优化启动流程】
 ;; This is just a no-op so Emacs knows --with-profile is a valid option. If we
 ;; wait for command-switch-alist to be processed then after-init-hook has
 ;; already run.
 (add-to-list 'command-switch-alist '("--with-profile" .
                                      (lambda (_) (pop command-line-args-left))))
 
-;; Check for a --with-profile flag and honor it
+;; 检查【命令行参数】 Check for a --with-profile flag and honor it
 (chemacs-check-command-line-args command-line-args)
 
-;; Or if none given, load the "default" profile
+;; 如无参数，启动【默认环境】 Or if none given, load the "default" profile
 (when (not (member "--with-profile" command-line-args))
   (chemacs-load-profile "default"))
