@@ -85,7 +85,7 @@
 
       "C-x p"     #'+popup/other
       ;; 提高效率的快捷键
-      :i  "jk"    (lambda! (evil-force-normal-state) (save-buffer)) ;;退出编辑状态并保存
+      ;; :i  "jk"    (lambda! (evil-force-normal-state) (save-buffer)) ;;退出编辑状态并保存
 
       ;; --- <leader> -------------------------------------
       (:leader

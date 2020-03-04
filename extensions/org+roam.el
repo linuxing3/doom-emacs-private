@@ -22,10 +22,8 @@
 #+AUTHOR: linuxing
 #+EXCERPT: emacs
 #+TITLE: ${title}"))))
-  :config
-  ;; functions
   (defun linuxing3/org-roam-title-private (title)
-    (let ((timestamp (format-time-string "%Y-%m-%d%" (current-time)))
+    (let ((timestamp (format-time-string "%Y-%m-%d" (current-time)))
           (slug (org-roam--title-to-slug title)))
       (format "%s-%s" timestamp slug)))
   :bind (:map org-roam-mode-map
