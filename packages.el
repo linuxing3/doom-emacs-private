@@ -56,6 +56,7 @@
 (package! ob-dart)
 (package! org-super-agenda)
 (package! org-fancy-priorities)
+(package! org-pretty-tags)
 (package! org-roam
   :recipe (:host github :repo "jethrokuan/org-roam" :branch "develop"))
 ;; (package! emacs-easy-hugo

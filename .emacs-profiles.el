@@ -1,30 +1,48 @@
+;;; .emacs-profile.el -*- lexical-binding: t; -*-
+;; ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+;;
+;;       ___           ___           ___           ___           ___           ___           ___
+;;      /  /\         /__/\         /  /\         /__/\         /  /\         /  /\         /  /\
+;;     /  /:/         \  \:\       /  /:/_       |  |::\       /  /::\       /  /:/        /  /:/_
+;;    /  /:/           \__\:\     /  /:/ /\      |  |:|:\     /  /:/\:\     /  /:/        /  /:/ /\
+;;   /  /:/  ___   ___ /  /::\   /  /:/ /:/_   __|__|:|\:\   /  /:/~/::\   /  /:/  ___   /  /:/ /::\
+;;  /__/:/  /  /\ /__/\  /:/\:\ /__/:/ /:/ /\ /__/::::| \:\ /__/:/ /:/\:\ /__/:/  /  /\ /__/:/ /:/\:\
+;;  \  \:\ /  /:/ \  \:\/:/__\/ \  \:\/:/ /:/ \  \:\~~\__\/ \  \:\/:/__\/ \  \:\ /  /:/ \  \:\/:/~/:/
+;;   \  \:\  /:/   \  \::/       \  \::/ /:/   \  \:\        \  \::/       \  \:\  /:/   \  \0.1 /:/
+;;    \  \:\/:/     \  \:\        \  \:\/:/     \  \:\        \  \:\        \  \:\/:/     \__\/ /:/
+;;     \  \::/       \  \:\        \  \::/       \  \:\        \  \:\        \  \::/        /__/:/
+;;      \__\/         \__\/         \__\/         \__\/         \__\/         \__\/         \__\/
+;;
+;; ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+;;
+;; Chemacs - Emacs Profile
+;;
+;; ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 (
- ("default" . ((user-emacs-directory . "~/.emacs.d")))
+ ;; Doom as Default to WINDOWS HOME
+ ("default" . ((env . (("DOOMDIR" . "~/.doom.d")))
+               (user-emacs-directory . "~/.emacs.d")
+               (doom-private-dir . "~/.doom.d")))
 
- ("doom" . ((user-emacs-directory . "~/minecraft/doom/.emacs.d")
-		 (doom-private-dir . "~/minecraft/doom/.doom.d")
-                 (env . (("DOOMDIR" . "~/minecraft/doom/.doom.d")))))
+ ;; Spacemacs to other dir
+ ("spacemacs" . ((env . (("HOME" . "D:/Users/root")
+                         ("EMACSDIR" . "D:/Users/root/.emacs.d")
+                         ("SPACEMACSDIR" . "D:/Users/root/.spacemacs.d")))
+                 (user-emacs-directory . "D:/Users/root/.emacs.d")))
 
- ("cleandoom" . ((user-emacs-directory . "~/minecraft/cleandoom/.emacs.d")
-		 (doom-private-dir . "~/minecraft/cleandoom/.doom.d")
-                 (env . (("DOOMDIR" . "~/minecraft/cleandoom/.doom.d")))))
+ ;; Doom to C drive with default home dir
+ ("doom" . ((env . (("HOME" . "C:/Users/Wjb")
+                    ("EMACSDIR" . "C:/Users/Wjb/.emacs.d")
+                    ("DOOMDIR" . "C:/Users/Wjb/.doom.d")))
+            (user-emacs-directory . "C:/Users/Wjb/.emacs.d")
+            (doom-private-dir . "C:/Users/wjb/.doom.d")))
 
- ("spacemacs" . ((user-emacs-directory . "~/minecraft/spacemacs/.emacs.d")
-                 (env . (("SPACEMACSDIR" . "~/minecraft/spacemacs/.spacemacs.d")))))
-
- ("xman" . ((user-emacs-directory . "~/minecraft/xman/.emacs.d")
-                        (env . (("SPACEMACSDIR" . "~/minecraft/xman/.spacemacs.d")))))
-
- ("centaur" . ((user-emacs-directory . "~/minecraft/centaur/.emacs.d")))
-
- ("literate" . ((user-emacs-directory . "~/minecraft/literate/.emacs.d")))
-
- ("prelude" . ((user-emacs-directory . "~/minecraft/prelude/.emacs.d")))
-
- ("js" . ((user-emacs-directory . "~/minecraft/js/.emacs.d")))
-
- ("modern" . ((user-emacs-directory . "~/minecraft/modern/.emacs.d")
-                        (env . (("SPACEMACSDIR" . "~/minecraft/modern/.spacemacs.d")))))
-
- ("native" . ((user-emacs-directory . "~/minecraft/native/.emacs.d")
-                  (env . (("EMACSDIR" . "~/minecraft/native/.spacemacs.d"))))))
+ ;; Simplified Doom to D drive with customized home dir
+ ("cleandoom" . (
+                 (env . (("HOME" . "D:/Users/xingwenju")
+                         ("EMACSDIR" . "D:/Users/xingwenju/.emacs.d")
+                         ("DOOMDIR" . "D:/Users/xingwenju/.doom.d")))
+                 (user-emacs-directory . "D:/Users/xingwenju/.emacs.d")
+                 (doom-private-dir . "D:/Users/xingwenju/.doom.d")))
+ )

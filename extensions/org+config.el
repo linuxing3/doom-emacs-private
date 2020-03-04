@@ -5,6 +5,29 @@
 ;; Hooks
 (add-hook 'org-mode-hook #'auto-fill-mode)
 (add-hook 'org-mode-hook #'org-fancy-priorities-mode)
+(add-hook 'org-mode-hook #'prettify-symbols-mode)
+
+(use-package org-pretty-tags
+  :demand t
+  :config
+  (setq org-pretty-tags-surrogate-strings
+        (quote
+         (("@travel" . "☆")
+          ("@home" . "💡")
+          ("@office" . "✍")
+          ("@errand" . "✍")
+          ("HABIT" . "♬")
+          ("COMPUTER" . "🔥"))))
+  (org-pretty-tags-global-mode))
+
+(use-package org-fancy-priorities
+  :diminish
+  :demand t
+  :defines org-fancy-priorities-list
+  :hook (org-mode . org-fancy-priorities-mode)
+  :config
+  (unless (char-displayable-p ?❗)
+    (setq org-fancy-priorities-list '("⚡" "⬆" "⬇" "☕"))))
 
 (after! org
   ;; Add built-in modules of org
@@ -12,6 +35,7 @@
    org-modules (quote (org-bibtex org-habit org-protocol org-mac-link))
    org-ellipsis " ▼ "
    ;;org-bullets-bullet-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")
+   ;;org-bullets-bullet-list '("◉" "☯" "○" "☯" "✸" "☯" "✿" "☯" "✜" "☯" "◆" "☯" "▶")
    org-bullets-bullet-list '("⁖")
    org-tags-column -80
    )
@@ -32,6 +56,7 @@
                               (concat org-directory "/elfeed2.org")))
   (setq elfeed-db-directory (concat org-directory "/elfeed/db/"))
   (setq elfeed-enclosure-default-dir (concat org-directory "/elfeed/enclosures/"))
+  (setq elfeed-search-filter "@3-month-ago +unread")
 
   ;; Stuck projects
   (setq org-stuck-projects
@@ -44,16 +69,6 @@
         '((nil :maxlevel . 4)
           (org-agenda-files :maxlevel . 4)))
 
-  ;; Tweaks
-  (setq org-use-speed-commands t
-        org-return-follows-link t
-        org-hide-emphasis-markers t
-        org-completion-use-ido t
-        org-outline-path-complete-in-steps nil
-        org-src-fontify-natively t ;; Pretty code blocks
-        org-src-tab-acts-natively t
-        org-confirm-babel-evaluate nil ;; No code evaluation confirm
-        )
   ;; Column View
   (setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
   (setq org-global-properties (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
@@ -99,6 +114,13 @@
                       :background nil
                       :height 1.25
                       :weight 'bold)
+  (setq-default prettify-symbols-alist '(("#+BEGIN_SRC" . "†")
+                                         ("#+END_SRC" . "†")
+                                         ("#+begin_src" . "†")
+                                         ("#+end_src" . "†")
+                                         (">=" . "≥")
+                                         ("=>" . "⇨")))
+  (setq prettify-symbols-unprettify-at-point 'right-edge)
   ;; priorities symbols
   (setq org-fancy-priorities-list '("⚡" "⬆" "⬇" "☕")))
 
@@ -149,5 +171,4 @@
                               ("COMPUTER" . ?C)
                               ("PHONE" . ?E)
                               ("HABIT" . ?H)
-                              )))
-  )
+                              ))))

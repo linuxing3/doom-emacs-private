@@ -29,6 +29,8 @@
 (setq user-full-name "Xing Wenju"
       user-mail-address "linuxing3@qq.com")
 
+(setq bookmark-default-file (dropbox-path "shared/emacs-bookmarks"))
+
 ;; FIXME Moved to autoload
 ;; (load! "extensions/utils" nil t)
 ;; ---------------------------------------------------------
@@ -49,7 +51,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-one-light)
 
 ;; Simple tweaks
 (add-to-list 'default-frame-alist
@@ -98,16 +100,16 @@
 
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 ;; FIXME All coding utf-8, but still org date font are wrong
-;; (set-terminal-coding-system 'utf-8)
-;; (set-language-environment 'utf-8)
-;; (set-keyboard-coding-system 'utf-8)
-;; (prefer-coding-system 'utf-8)
-;; (setq locale-coding-system 'utf-8)
-;; (set-default-coding-systems 'utf-8)
-;; (set-terminal-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-language-environment 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+(setq locale-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
 
 ;; FIXME UI font with unicode error
-;; (load! "extensions/ui+font" nil t)
+(load! "extensions/ui+font" nil t)
 
 ;; ---------------------------------------------------------
 ;; Org mode
