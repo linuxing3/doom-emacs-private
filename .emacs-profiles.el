@@ -46,7 +46,7 @@
  ("cleandoom" . (
                  (env . (("HOME" . "D:/Users/xingwenju")
                          ("EMACSDIR" . "D:/Users/xingwenju/.emacs.d")
-                    ("EMACS_SERVER_FILE" . "D:/Users/xingwenju/.emacs.d/.local/cache/server/server")
+                         ("EMACS_SERVER_FILE" . "D:/Users/xingwenju/.emacs.d/.local/cache/server/server")
                          ("DOOMDIR" . "D:/Users/xingwenju/.doom.d")))
                  (user-emacs-directory . "D:/Users/xingwenju/.emacs.d")
                  (server-name . "D:/Users/xingwenju/.emacs.d/.local/cache/server/server")

@@ -1,5 +1,8 @@
 ;;; c:/Users/Administrator/.doom.d/lang+js.el -*- lexical-binding: t; -*-
 ;;;
+;;;
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
+
 (add-hook!
  js2-mode 'prettier-js-mode
  (add-hook 'before-save-hook #'refmt-before-save nil t))
