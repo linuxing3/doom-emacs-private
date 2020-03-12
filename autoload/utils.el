@@ -5,14 +5,21 @@
   "Prepend drive label to PATH."
   (if IS-WINDOWS
       (expand-file-name path "C:/Users/Administrator")
-    (expand-file-name path "/home/linuxing3")))
+    (expand-file-name path "/home/vagrant")))
 
 ;;;###autoload
 (defun dropbox-path (path)
   "Prepend drive label to PATH."
   (if IS-WINDOWS
       (concat "D:/Dropbox/" path)
-    (concat "/home/linuxing3/Dropbox/" path)))
+    (concat "/home/vagrant/Dropbox/" path)))
+
+;;;###autoload
+(defun workspace-path (path)
+  "Prepend drive label to PATH."
+  (if IS-WINDOWS
+      (concat "D:/workspace/" path)
+    (concat "/home/vagrant/workspace/" path)))
 
 ;;;###autoload
 (defmacro with-dir (DIR &rest FORMS)

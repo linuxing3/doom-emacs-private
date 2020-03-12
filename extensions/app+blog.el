@@ -11,13 +11,13 @@
 (defvar blog-gridsome-process "Gridsome Develop"
   "Name of 'gridsome develop' process process")
 
-(setq blog-gridsome-base-dir "D:/workspace/gridsome.org")
-(setq org-journal-base-dir "D:/Dropbox/org/journal")
+(setq blog-gridsome-base-dir (workspace-path "gridsome.org"))
+(setq org-journal-base-dir (workspace-path "org/journal"))
 
 (defun my-blog-gridsome-find-dir ()
   "Open gatsby blog files"
   (interactive)
-  (find-file "D:/workspace/gridsome.org/blog"))
+  (find-file (workspace-path "gridsome.org/blog")))
 
 (defun my-blog-gridsome-deploy ()
   "Run gridsome cli and push changes upstream."
