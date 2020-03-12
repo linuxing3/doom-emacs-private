@@ -14,6 +14,9 @@
 ;;      Alternatively, press 'gd' (or 'C-c g d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
+;; FIXME if https does not work, should use --insecure to install from elpa
+;;(setq gnutls-algorithm-priority nil)
+
 (doom! :input
        ;;chinese
        ;;japanese
