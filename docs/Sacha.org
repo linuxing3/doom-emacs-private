@@ -6200,10 +6200,10 @@ Let's see how that goes!
   (grep (concat "grep -nH -r -P " (shell-quote-argument string) " ~/backups/server/home/.znc/users/sacha/moddata/log/freenode")))
 #+end_src
 * Other cool configs you may want to check out
+<<links>>
   :PROPERTIES:
   :CUSTOM_ID: links
   :END:
-<<links>>
 
 - [[http://doc.norang.ca/org-mode.html][Bernt Hansen]]: Lots of Org-related config. I picked up the graph-drawing stuff from this.
 - [[https://github.com/bzg/dotemacs][Bastien Guerry]]: Org, Gnus, ERC - Explained in this [[http://sachachua.com/blog/2013/05/emacs-chat-bastien-guerry/][Emacs Chat (~1h)]]
