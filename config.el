@@ -65,37 +65,15 @@
       global-auto-revert-mode t
       evil-split-window-below t
       evil-vsplit-window-right t
-      display-line-numbers-type t
       whitespace-line-column 100
       whitespace-style '(face trailing lines-tail)
 
-      ;; FIXME Not enabled
+      ;; DONE can not be enabled here, must run as function and hook in init-mode
       dired-hide-details-mode t
 
       ;; Line numbers are pretty slow all around. The performance boost of
       ;; disabling them outweighs the utility of always keeping them on.
-      ;; display-line-numbers-type nil
-
-      ;; FIXME On-demand code completion. I don't often need it.
-      ;; if nil, global company mode will disabled, and you need to enable manually
-      ;; (+company/toggle-auto-completion)
-      ;; (global-company-mode +1)
-
-      ;; company-idle-delay nil
-
-      ;; FIXME lsp-ui-sideline is redundant with eldoc and much more invasive, so
-      ;; disable it by default.
-      ;; lsp-ui-sideline-enable nil
-      ;; lsp-enable-indentation nil
-      ;; lsp-enable-on-type-formatting nil
-      ;; lsp-enable-symbol-highlighting nil
-      ;; lsp-enable-file-watchers nil
-
-      ;; FIXME Disable help mouse-overs for mode-line segments (i.e. :help-echo text).
-      ;; They're generally unhelpful and only add confusing visual clutter.
-      ;; mode-line-default-help-echo nil
-      ;; show-help-function nil
-      )
+      display-line-numbers-type nil)
 
 
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
