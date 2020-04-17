@@ -31,8 +31,6 @@
 
 (setq bookmark-default-file (dropbox-path "shared/emacs-bookmarks"))
 
-;; FIXME Moved to autoload
-;; (load! "extensions/utils" nil t)
 ;; ---------------------------------------------------------
 ;; UI
 ;; ---------------------------------------------------------
@@ -67,16 +65,11 @@
       evil-vsplit-window-right t
       whitespace-line-column 100
       whitespace-style '(face trailing lines-tail)
-
-      ;; DONE can not be enabled here, must run as function and hook in init-mode
-      dired-hide-details-mode t
-
-      ;; Line numbers are pretty slow all around. The performance boost of
-      ;; disabling them outweighs the utility of always keeping them on.
       display-line-numbers-type nil)
 
 
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+
 ;; FIXME All coding utf-8, but still org date font are wrong
 (set-terminal-coding-system 'utf-8)
 (set-language-environment 'utf-8)
@@ -96,8 +89,12 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'.
 ;; It must be set before org loads!
-(setq org-directory (dropbox-path "org"))
-;; It can be set after org loads!
+;;
+(if (f-exists-p (dropbox-path "org"))
+    (setq org-directory (dropbox-path "org"))
+    (setq org-directory (expand-file-name "~/org")))
+
+;; These can be set after org loads!
 (load! "extensions/org+config" nil t)
 (load! "extensions/org+capture" nil t)
 (load! "extensions/org+agenda" nil t)
@@ -109,6 +106,7 @@
 ;; Languages Support
 ;; ---------------------------------------------------------
 (load! "extensions/lang+python" nil t)
+
 ;; ---------------------------------------------------------
 ;; App
 ;; ---------------------------------------------------------

@@ -1,25 +1,39 @@
-;;; c:/Users/Administrator/.doom.d/autoload/utils.el -*- lexical-binding: t; -*-
+;;; ~/.doom.d/autoload/utils.el -*- lexical-binding: t; -*-
+;;;
+
+(defvar home-directory ""
+  "Home directory")
+
+(defvar home-real-directory ""
+  "Home real directory")
+
+(setq home-real-directory
+      (if IS-WINDOWS (concat "C:/Users/" user-login-name)
+        (if (string= user-login-name "root") "/root"
+          (concat "/home/" user-login-name))))
+
+(setq home-directory (expand-file-name "~/"))
 
 ;;;###autoload
 (defun os-path (path)
   "Prepend drive label to PATH."
   (if IS-WINDOWS
-      (expand-file-name path "C:/Users/Administrator")
-    (expand-file-name path "/home/vagrant")))
+      (expand-file-name path home-directory)
+    (expand-file-name path home-directory)))
 
 ;;;###autoload
 (defun dropbox-path (path)
   "Prepend drive label to PATH."
   (if IS-WINDOWS
       (concat "D:/Dropbox/" path)
-    (concat "/home/vagrant/Dropbox/" path)))
+    (concat home-directory "/Dropbox/" path)))
 
 ;;;###autoload
 (defun workspace-path (path)
   "Prepend drive label to PATH."
   (if IS-WINDOWS
       (concat "D:/workspace/" path)
-    (concat "/home/vagrant/workspace/" path)))
+    (concat home-directory "/workspace/" path)))
 
 ;;;###autoload
 (defmacro with-dir (DIR &rest FORMS)
