@@ -100,7 +100,9 @@
                       :background nil
                       :height 1.0
                       :weight 'normal)
-  (set-face-attribute 'org-level-4 nil
+  (set-face-attribute 'org-lev
+
+		      el-4 nil
                       :foreground "DodgerBlue2"
                       :background nil
                       :height 1.0

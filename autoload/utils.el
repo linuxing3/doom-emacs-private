@@ -26,14 +26,14 @@
   "Prepend drive label to PATH."
   (if IS-WINDOWS
       (concat "D:/Dropbox/" path)
-    (concat home-directory "/Dropbox/" path)))
+    (concat home-directory "Dropbox/" path)))
 
 ;;;###autoload
 (defun workspace-path (path)
   "Prepend drive label to PATH."
   (if IS-WINDOWS
       (concat "D:/workspace/" path)
-    (concat home-directory "/workspace/" path)))
+    (concat home-directory "workspace/" path)))
 
 ;;;###autoload
 (defmacro with-dir (DIR &rest FORMS)
