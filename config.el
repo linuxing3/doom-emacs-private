@@ -90,9 +90,12 @@
 ;; change `org-directory'.
 ;; It must be set before org loads!
 ;;
-(if (f-exists-p (dropbox-path "org"))
-    (setq org-directory (dropbox-path "org"))
-    (setq org-directory (expand-file-name "~/org")))
+(defvar org-directory-default nil
+  "whether use org directory in default location")
+
+(if org-directory-default
+    (setq org-directory (expand-file-name "~/org"))
+  (setq org-directory (dropbox-path "org")))
 
 ;; These can be set after org loads!
 (load! "extensions/org+config" nil t)

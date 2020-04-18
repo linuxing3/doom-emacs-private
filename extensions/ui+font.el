@@ -11,7 +11,7 @@
         '(
           "Yahei Consolas Hybrid-12"
           "Microsoft Yahei-12"
-          "Fira Code-12"
+          "IBM Plex Mono-12"
           "Hack-12"
           "Courier-12"
           "Lucida Console-12"
@@ -26,7 +26,7 @@
           ))
        ((string-equal system-type "darwin") ; Mac
         '(
-          "Fira Code-12"
+          "IBM Plex Mono-12"
           "Monaco-12"
           "Courier-12"
           "Menlo-12"))))
@@ -38,10 +38,10 @@
      doom-variable-pitch-font (font-spec :family "Yahei Consolas Hybrid" :size 16)
      doom-unicode-font (font-spec :famaly "Yahei Consolas Hybrid" :size 16))
 	(setq
-   doom-font (font-spec :family "Fira Code" :size 16)
-   doom-big-font (font-spec :family "Fira Code" :size 18)
-   doom-variable-pitch-font (font-spec :family "Fira Code" :size 16)
-   doom-unicode-font (font-spec :family "Fira Code" :size 16)))
+   doom-font (font-spec :family "IBM Plex Mono" :size 16)
+   doom-big-font (font-spec :family "IBM Plex Mono" :size 18)
+   doom-variable-pitch-font (font-spec :family "IBM Plex Mono" :size 16)
+   doom-unicode-font (font-spec :family "IBM Plex Mono" :size 16)))
 
 (custom-set-faces!
   `(doom-modeline-bar-inactive :background ,(face-background 'mode-line-inactive)))
