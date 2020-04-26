@@ -7,7 +7,7 @@
       '(
         ("emacs-lisp" . emacs-lisp)
         ("python" . python)
-        ("sh" . shell)
+        ("shell" . shell)
         ("bash" . shell)
         ("zsh" . shell)
         ("typescript" . typescript)
