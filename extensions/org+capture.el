@@ -135,7 +135,7 @@ With prefix argument, also display headlines without a TODO keyword."
                  "Snippets"
                  entry
                  (file snippets-org-file)
-                 (file "~/EnvSetup/config/org/capture-template/snippet.template")
+                 (file "~/.doom.d/templates/capture-template/snippet.template")
                  ;; "* %?\t%^g\n #+BEGIN_SRC %^{language}\n\n#+END_SRC"
                  :kill-buffer t))
   (setq billing-org-file (dropbox-path "org/billing.org"))
@@ -144,7 +144,7 @@ With prefix argument, also display headlines without a TODO keyword."
                  "Billing"
                  plain
                  (file+function billing-org-file find-month-tree)
-                 (file "~/EnvSetup/config/org/capture-template/billing.template")
+                 (file "~/.doom.d/templates/capture-template/billing.template")
                  ;; " | %U | %^{类别} | %^{描述} | %^{金额} |"
                  :kill-buffer t))
 
@@ -154,7 +154,7 @@ With prefix argument, also display headlines without a TODO keyword."
                  "Contacts"
                  entry
                  (file contacts-org-file)
-                 (file "~/EnvSetup/config/org/capture-template/contact.template")
+                 (file "~/.doom.d/templates/capture-template/contact.template")
                  ;; "* %^{姓名} %^{手机号}p %^{邮箱}p %^{住址}p %^{微信}p %^{微博}p %^{whatsapp}p\n\n  %?"
                  :empty-lines 1 :kill-buffer t))
 
@@ -163,7 +163,7 @@ With prefix argument, also display headlines without a TODO keyword."
                '("xp"
                  "Passwords"
                  entry
-                 (file "D:/Dropbox/org/passwords.org.cpt")
+                 (file "D:/Dropbox/passwords.org.cpt")
                  "* %U - %^{title} %^G\n\n  - 用户名: %^{用户名}\n  - 密码: %(get-or-create-password)"
                  :empty-lines 1 :kill-buffer t))
 
@@ -241,7 +241,7 @@ With prefix argument, also display headlines without a TODO keyword."
                  "My Work Projects"
                  entry
                  (file projects-org-file)
-                 (file "~/EnvSetup/config/org/capture-template/project.template")
+                 (file "~/.doom.d/templates/capture-template/project.template")
                  :empty-line 1
                  :clock-resume t))
   (setq works-org-file (dropbox-path "org/works.org"))
@@ -261,7 +261,7 @@ With prefix argument, also display headlines without a TODO keyword."
                  "My Phone calls"
                  entry
                  (file+headline phone-org-file "Phone Calls")
-                 (file "~/EnvSetup/config/org/capture-template/phone.template")
+                 (file "~/.doom.d/templates/capture-template/phone.template")
                  ;; "* %^{Habit cards|music|balls|games}\n  %?"
                  :immediate-finish t
                  :new-line 1))
@@ -272,7 +272,7 @@ With prefix argument, also display headlines without a TODO keyword."
                  "My Habit"
                  entry
                  (file habit-org-file)
-                 (file "~/EnvSetup/config/org/capture-template/habit.template")
+                 (file "~/.doom.d/templates/capture-template/habit.template")
                  ;; "* %^{Habit cards|music|balls|games}\n  %?"
                  :immediate-finish t
                  :new-line 1))
@@ -283,7 +283,7 @@ With prefix argument, also display headlines without a TODO keyword."
                  "My Notes"
                  entry
                  (file notes-org-file)
-                 (file "~/EnvSetup/config/org/capture-template/notes.template")
+                 (file "~/.doom.d/templates/capture-template/notes.template")
                  ;; "* %^{Loggings For...} %t %^g\n  %?"
                  :immediate-finish t
                  :new-line 1))
@@ -294,7 +294,7 @@ With prefix argument, also display headlines without a TODO keyword."
                  "My GTD Inbox"
                  entry
                  (file inbox-org-file)
-                 (file "~/EnvSetup/config/org/capture-template/inbox.template")
+                 (file "~/.doom.d/templates/capture-template/inbox.template")
                  ;; "* [#%^{Priority}] %^{Title} %^g\n SCHEDULED:%U %?\n"
                  :immediate-finish t
                  :new-line 1))
