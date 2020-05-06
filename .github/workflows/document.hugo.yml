@@ -22,6 +22,6 @@ jobs:
           - cp docs/*.org ~/docs/content/
           - cd ~/docs
       - name: Hugo Actions
-          uses: srt32/hugo-action@v0.0.3
-          args:
+        uses: srt32/hugo-action@v0.0.3
+        args:
             - "--theme=hyde-x"
