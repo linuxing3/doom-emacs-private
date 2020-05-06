@@ -14,7 +14,7 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install wget
           wget -O hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.70.0/hugo_0.70.0_Linux-64bit.deb 
-          dpkg -i hugo.deb
+          sudo dpkg -i hugo.deb
           type hugo
       - name: create hugo sites
         run: |
