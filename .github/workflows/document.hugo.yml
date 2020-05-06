@@ -29,8 +29,6 @@ jobs:
           sed -i 's/example\.org/xunqinji\.top\/hugo/g' config.toml
           echo "Done with settings!"
       - name: build and deploy hugo site
-        with:
-          DEPLOY_KEY: ${{ secrets.ACTION_DEPLOY_KEY }}
         env:
           DEPLOY_KEY: ${{ secrets.ACTION_DEPLOY_KEY }}
           HOST: root@xunqinji.top
