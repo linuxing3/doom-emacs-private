@@ -6,7 +6,7 @@ on:
       master
 
 env:
-  SSH_ACTIONS: true
+  SSH_ACTIONS: false
   DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
   HOST: xunqinji.top
   USER: root
@@ -39,7 +39,9 @@ jobs:
           cd ~/docs
           hugo -D
           mkdir ~/.ssh
-          echo $DEPLOY_KEY > ~/.ssh/id_rsa
+          cat << EOF > ~/.ssh/id_rsa
+          $DEPLOY_KEY
+          EOF 
           chmod 600 ~/.ssh/id_rsa
           cat ~/.ssh/id_rsa
       - name: SSH connection to Actions
