@@ -22,8 +22,6 @@ jobs:
           cp docs/*.org ~/docs/content/
       - name: install hugo theme
         run: |
-          hugo new site ~/docs
-          cp docs/*.org ~/docs/content/
           cd ~/docs
           git init
           git submodule add https://github.com/budparr/gohugo-theme-ananke.git themes/ananke
