@@ -30,6 +30,7 @@ jobs:
           echo "Done with settings!"
       - name: build hugo site
         run: |
+          cd ~/docs
           hugo -D 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
