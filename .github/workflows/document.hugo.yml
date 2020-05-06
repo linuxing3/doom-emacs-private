@@ -32,8 +32,9 @@ jobs:
         run: |
           cd ~/docs
           hugo -D 
-          export DEPLOY_KEY={{ secrets.DEPLOY_KEY }}
+          export DEPLOY_KEY="${{ secrets.DEPLOY_KEY }}"
+          export HOST="root@xunqinji.top"
+          export DIR="/www/wwwroot/pro.xunqinji.top/"
           echo $DEPLOY_KEY
-          rsync -avzr --delete -e "ssh -i $DEPLOY_KEY -o StrictHostKeyChecking=no" public/ root@xunqinji.top:/www/wwwroot/pro.xunqinji.top/
+          rsync -avzr --delete -e "ssh -i $DEPLOY_KEY -o StrictHostKeyChecking=no" public/ $HOST:$DIR
           echo "Done!"
-
