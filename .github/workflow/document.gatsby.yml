@@ -7,7 +7,7 @@ jobs:
     name: Gastby build
     steps:
       - name: actions/checkout@master
-      - name: Deploy document
+      - name: Deploy document with gatsby
         uses: jzweifel/gatsby-cli-github-action@master
         env:
           GATSBY_PROJECT_PATH: "./docs"
