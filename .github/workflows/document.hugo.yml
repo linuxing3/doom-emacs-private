@@ -39,5 +39,5 @@ jobs:
         if: env.SSH_ACTIONS == 'true'
       - name: manually deploy hugo site
         run: |
-          sh deploy.sh
+          sh bin/deploy.sh
           echo "Done!"
