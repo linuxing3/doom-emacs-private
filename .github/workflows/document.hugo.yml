@@ -36,6 +36,8 @@ jobs:
         run: |
           cd ~/docs
           hugo -D 
-          echo $DEPLOY_KEY
-          sh -c "rsync -avzr --delete -e 'ssh -i $DEPLOY_KEY' --exclude .git/ public/ $HOST:$DIR"
+          mkdir ~/.ssh
+          echo $DEPLOY_KEY >> ~/.ssh/id_rsa
+          chmod -R 600 ~/.ssh 
+          rsync -avzr --delete --exclude .git/ public/ $HOST:$DIR
           echo "Done!"
