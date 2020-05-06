@@ -122,3 +122,12 @@
 ;; Keybindings
 ;; ---------------------------------------------------------
 (load! "extensions/keybinding+spacemacs" nil t)
+
+;; FIXME: let [backspace] key work as it should be for ssh and other environment
+;; NOTE:  \C-h      C must be uppercase
+(global-set-key "\?" 'help-command)
+(global-set-key "\C-h" 'delete-backward-char)
+
+;; TODO: Switch [delete] and [backspace] for ssh and other environment
+;; (keyboard-translate ?\C-h ?\C-?)
+;; (keyboard-translate ?\C-? ?\C-h)
