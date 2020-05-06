@@ -28,13 +28,10 @@ jobs:
           echo 'theme = "ananke"' >> config.toml
           sed -i 's/example\.org/xunqinji\.top\/hugo/g' config.toml
           echo "Done with settings!"
-      - name: build hugo site
+      - name: build and deploy hugo site
         run: |
           cd ~/docs
           hugo -D 
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
-        with:
-          ACCESS_TOKEN: be4d2fb7161448bafcb73cad812b12ad0d8dde2b 
-          BRANCH: gh-hugo-pages
-          FOLDER: "~/docs/public"
+          rsync -avzr --delete -e 'ssh -i {{ secrets.DEPLOY_KEY }}  -o StrictHostKeyChecking=no' public/ root@xunqinji.top:/www/wwwroot/pro.xunqinji.top/
+          echo "Done!"
+
