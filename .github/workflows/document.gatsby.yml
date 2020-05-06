@@ -4,7 +4,7 @@ on: push
 
 jobs:
   build:
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - name: Deploy document with gatsby
@@ -13,3 +13,9 @@ jobs:
           GATSBY_PROJECT_PATH: "./docs"
         with:
           gatsby_arg: build
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: be4d2fb7161448bafcb73cad812b12ad0d8dde2b 
+          BRANCH: gh-gastby-pages
+          FOLDER: build
