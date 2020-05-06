@@ -31,7 +31,7 @@ jobs:
         env:
           DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           HOST: xunqinji.top
-          User: root
+          USER: root
           DIR: /www/wwwroot/pro.xunqinji.top/
         run: |
           cd ~/docs
