@@ -122,18 +122,3 @@
 ;; Keybindings
 ;; ---------------------------------------------------------
 (load! "extensions/keybinding+spacemacs" nil t)
-
-;; FIXME: let [backspace] key work as it should be for ssh and other environment
-;; NOTE:  \C-h      C must be uppercase
-(global-set-key "\?" 'help-command)
-(global-set-key "\C-h" 'delete-backward-char)
-
- ;;使用 CTRL-[ 代替 <ESC>，左手小指 CTRL，右手小指 [ 熟练后很方便
-(global-set-key "\C-[" "ESC")
-
-;; TODO: Switch [delete] and [backspace] for ssh and other environment
-;; (keyboard-translate ?\C-h ?\C-?)
-;; (keyboard-translate ?\C-? ?\C-h)
-
-;; Setting the ALT in Terminal
-(set-keyboard-coding-system nil)

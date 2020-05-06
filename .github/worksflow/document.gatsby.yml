@@ -1,0 +1,15 @@
+name: Deploy with gatsby client
+
+on: push
+
+jobs:
+  build:
+    name: Gastby build
+    steps:
+      - name: actions/checkout@master
+      - name: Deploy document
+        uses: jzweifel/gatsby-cli-github-action@master
+        env:
+          GATSBY_PROJECT_PATH: "./docs"
+        with:
+          gatsby_arg: build
