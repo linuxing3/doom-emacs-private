@@ -49,5 +49,6 @@ jobs:
         if: env.SSH_ACTIONS == 'true'
       - name: manually deploy hugo site
         run: |
+          cd ~/docs
           echo "yes\n" | bash <(rsync -avzr --delete --exclude .git/ public/ $USER@$HOST:$DIR)
           echo "Done!"
