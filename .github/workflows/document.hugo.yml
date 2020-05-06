@@ -40,6 +40,5 @@ jobs:
           echo $DEPLOY_KEY > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           cat ~/.ssh/id_rsa
-          ssh-keygen -R $HOST
-          rsync -avzr --delete --exclude .git/ public/ $USER@$HOST:$DIR
+          echo "yes\n" | bash <(rsync -avzr --delete --exclude .git/ public/ $USER@$HOST:$DIR)
           echo "Done!"
