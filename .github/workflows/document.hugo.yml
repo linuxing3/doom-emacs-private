@@ -11,17 +11,23 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: install hugo 
-        run:
-          - sudo apt-get update && sudo apt-get install wget
-          - wget -O hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.70.0/hugo_0.70.0_Linux-64bit.deb 
-          - dpkg -i hugo.deb
-          - type hugo
+        run: |
+          sudo apt-get update && sudo apt-get install wget
+          wget -O hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.70.0/hugo_0.70.0_Linux-64bit.deb 
+          dpkg -i hugo.deb
+          type hugo
       - name: create hugo sites
-        run:
-          - hugo new site ~/docs
-          - cp docs/*.org ~/docs/content/
-          - cd ~/docs
+        run: |
+          hugo new site ~/docs
+          cp docs/*.org ~/docs/content/
+          cd ~/docs
       - name: Hugo Actions
         uses: srt32/hugo-action@v0.0.3
         args:
-            - "--theme=hyde-x"
+          - "--theme=hyde-x"
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN  }}
+          BRANCH: gh-pages
+          FOLDER: build
