@@ -39,9 +39,9 @@ jobs:
           cd ~/docs
           hugo -D
           mkdir ~/.ssh
-          cat > ~/.ssh/id_rsa << EOF"
+          cat > ~/.ssh/id_rsa << EOF
           $DEPLOY_KEY
-          "EOF 
+          EOF
           chmod 600 ~/.ssh/id_rsa
           cat ~/.ssh/id_rsa
       - name: SSH connection to Actions
