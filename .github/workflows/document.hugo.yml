@@ -6,7 +6,7 @@ on:
       master
 
 env:
-  SSH_ACTIONS: true
+  SSH_ACTIONS: false
   DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
   HOST: xunqinji.top
   USER: root
@@ -50,5 +50,6 @@ jobs:
       - name: manually deploy hugo site
         run: |
           cd ~/docs
-          echo "yes\n" | bash <(rsync -avzr --delete --exclude .git/ public/ $USER@$HOST:$DIR)
+          echo "yes
+          " | bash <(rsync -avzr --delete --exclude .git/ public/ $USER@$HOST:$DIR)
           echo "Done!"
