@@ -20,11 +20,22 @@ jobs:
         run: |
           hugo new site ~/docs
           cp docs/*.org ~/docs/content/
+      - name: install hugo theme
+        run: |
+          hugo new site ~/docs
+          cp docs/*.org ~/docs/content/
           cd ~/docs
-          hugo build
+          git init
+          git submodule add https://github.com/budparr/gohugo-theme-ananke.git themes/ananke
+          echo 'theme = "ananke"' >> config.toml
+          sed -i 's/example\.org/xunqinji\.top\/hugo/g' config.toml
+          echo "Done with settings!"
+      - name: build hugo site
+        run: |
+          hugo -D 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: be4d2fb7161448bafcb73cad812b12ad0d8dde2b 
           BRANCH: gh-hugo-pages
-          FOLDER: public
+          FOLDER: "~/docs/public"
