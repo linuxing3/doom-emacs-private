@@ -3,7 +3,7 @@ name: Deploy with gatsby client
 on: push
 
 jobs:
-  build:
+  build-gatsby-pages:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master

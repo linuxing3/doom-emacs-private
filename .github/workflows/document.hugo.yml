@@ -6,7 +6,7 @@ on:
       master
 
 jobs:
-  build:
+  build-hugo-pages:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -21,11 +21,10 @@ jobs:
           hugo new site ~/docs
           cp docs/*.org ~/docs/content/
           cd ~/docs
-      - name: Hugo Actions
-        uses: srt32/hugo-action@v0.0.3
+          hugo build
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: be4d2fb7161448bafcb73cad812b12ad0d8dde2b 
           BRANCH: gh-hugo-pages
-          FOLDER: build
+          FOLDER: public
