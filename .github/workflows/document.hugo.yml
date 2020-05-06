@@ -30,7 +30,8 @@ jobs:
       - name: build and deploy hugo site
         env:
           DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          HOST: root@xunqinji.top
+          HOST: xunqinji.top
+          User: root
           DIR: /www/wwwroot/pro.xunqinji.top/
         run: |
           cd ~/docs
@@ -39,5 +40,6 @@ jobs:
           echo $DEPLOY_KEY > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           cat ~/.ssh/id_rsa
-          rsync -avzr --delete --exclude .git/ public/ $HOST:$DIR
+          ssh-keygen -R $HOST
+          rsync -avzr --delete --exclude .git/ public/ $USER@$HOST:$DIR
           echo "Done!"
