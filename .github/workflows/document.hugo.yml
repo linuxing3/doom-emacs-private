@@ -34,22 +34,10 @@ jobs:
           echo 'theme = "ananke"' >> config.toml
           sed -i 's/example\.org/xunqinji\.top\/hugo/g' config.toml
           echo "Done with settings!"
-      - name: build hugo site
-        run: |
-          cd ~/docs
-          hugo -D
-          mkdir ~/.ssh
-          cat > ~/.ssh/id_rsa << EOF
-          $DEPLOY_KEY
-          EOF
-          chmod 600 ~/.ssh/id_rsa
-          cat ~/.ssh/id_rsa
       - name: SSH connection to Actions
         uses: P3TERX/debugger-action@master
         if: env.SSH_ACTIONS == 'true'
       - name: manually deploy hugo site
         run: |
-          cd ~/docs
-          echo "yes
-          " | bash <(rsync -avzr --delete --exclude .git/ public/ $USER@$HOST:$DIR)
+          sh deploy.sh
           echo "Done!"
