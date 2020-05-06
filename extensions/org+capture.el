@@ -117,7 +117,7 @@ With prefix argument, also display headlines without a TODO keyword."
 
   ;; Capture template
 
-  ;; (setq org-capture-templates nil)
+  (setq org-capture-templates nil)
 
   (add-to-list 'org-capture-templates '("x" "Extra"))
 

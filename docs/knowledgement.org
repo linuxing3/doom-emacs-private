@@ -1,0 +1,34 @@
+#+TITLE: Knowledgement
+
+## 问题解决之道 Problem solving
+
+(1) questions
+定义问题，确定问题的本质
+Define your issue
+
+(2) issues
+分解问题，找到每一步的解决方案
+write down you issue
+
+(3) negative
+Find out possible bugs
+
+(4) solution
+Test driven development
+i.e.
+#+BEGIN_SRC javascript
+test(i) {
+    expect(a).be(b)
+}
+#+END_SRC
+
+(5) Take a break
+Implementation
+
+## 简洁代码之道 Clean Coding
+
+* 提高可读性
+* 添加备注
+* 删除多余
+* 优化时空复杂性
+* 添加错误处理

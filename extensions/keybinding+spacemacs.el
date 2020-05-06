@@ -6,7 +6,6 @@
 ;; tell it explicitly.
 (setq expand-region-contract-fast-key "V")
 
-
 ;;
 (map! [remap evil-jump-to-tag] #'projectile-find-tag
       [remap find-tag]         #'projectile-find-tag
