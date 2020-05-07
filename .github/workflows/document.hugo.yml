@@ -11,7 +11,7 @@ env:
   ARGS: "-e -c -r"
   SERVER_PORT: "22"
   FOLDER: "./docs/site/public/"
-  SERVER_IP: "xunqinji.top:9002"
+  SERVER_IP: "xunqinji.top"
   USERNAME: "root"
   SERVER_DESTINATION: "/www/wwwroot/pro.xunqinji.top/"
 
