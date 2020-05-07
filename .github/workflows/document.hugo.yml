@@ -8,7 +8,7 @@ on:
 env:
   SSH_ACTIONS: false
   DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-  ARGS: "-e -c -r --delete"
+  ARGS: "-e -c -r"
   SERVER_PORT: "22"
   FOLDER: "./docs/site/public/"
   SERVER_IP: "xunqinji.top"
