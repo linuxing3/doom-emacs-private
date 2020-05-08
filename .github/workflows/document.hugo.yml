@@ -2,8 +2,7 @@ name: deploy document with hugo
 
 on:
   push:
-    branches:
-      master
+    branches: master
 
 env:
   SSH_ACTIONS: false
@@ -20,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: install hugo 
+      - name: install hugo
         run: |
           bash bin/deploy.sh
       - name: SSH connection to Actions
@@ -28,5 +27,3 @@ jobs:
         if: env.SSH_ACTIONS == 'true'
       - name: deploy to server
         uses: AEnterprise/rsync-deploy@v1.0
-
-        
