@@ -6,7 +6,7 @@
   :when (featurep! :lang org)
   :init
   ;; variables
-  (setq org-roam-directory "D:/Dropbox/org/roam/")
+  (setq org-roam-directory (dropbox-path "org/roam/"))
   (setq org-roam-filename-noconfirm nil)
   (setq org-roam-filename-noconfirm nil)
   (setq org-roam-graphviz-executable "dot.exe")

@@ -1,6 +1,8 @@
 ;;; private/defaults/+bindings.el -*- lexical-binding: t; -*-
 
+;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
+;; ---------------------------------------------------------
 
 ;; expand-region's prompt can't tell what key contract-region is bound to, so we
 ;; tell it explicitly.
@@ -52,14 +54,18 @@
       "M-0"       #'+workspace/switch-to-last
 
       ;; Other functional keys
+      ;; "<f1>"  #'help
       "<f2>"  #'previous-buffer
-      "<f4>"  #'+treemacs/toggle ;;explore
       "<f3>"  #'next-buffer
-      "<f7>"  (lambda! (find-file "D:/Dropbox/config/bookmarks"));; 打开chrome书签
+      "<f4>"  #'+treemacs/toggle ;;explore
+      "<f5>"  #'+eval/buffer
+      "<f6>"  #'+workspace/new ;;explore
+      "<f7>"  #'+workspace/display ;;explore
       "<f8>"  #'fill-paragraph ;;折行
       "<f9>"  #'org-capture ;;org抓取器
-      "<f10>"  #'my-gridsome-create-newpost-empty;;建立新博客
-      "<f12>"  #'my-blog-gridsome-deploy ;;发布博客
+      "<f10>"  #'org-agenda
+      ;; "<f11>"  #'my-gridsome-create-newpost-empty;;建立新博客
+      ;; "<f12>"  #'my-blog-gridsome-deploy ;;发布博客
 
       ;; Other sensible, textmate-esque global bindings
       :ne "M-r"   #'+eval/buffer  ;; 运行代码
@@ -790,3 +796,22 @@
 
       (:after view
         (:map view-mode-map "<escape>" #'View-quit-all)))
+
+
+;; ---------------------------------------------------------
+;; System Keybindings
+;; ---------------------------------------------------------
+;; FIXME: let [backspace] key work as it should be for ssh and other environment
+;; NOTE:  \C-h      C must be uppercase
+(global-set-key "\?" 'help-command)
+(global-set-key "\C-h" 'delete-backward-char)
+
+ ;;使用 CTRL-[ 代替 <ESC>，左手小指 CTRL，右手小指 [ 熟练后很方便
+(global-set-key "\C-[" "ESC")
+
+;; TODO: Switch [delete] and [backspace] for ssh and other environment
+;; (keyboard-translate ?\C-h ?\C-?)
+;; (keyboard-translate ?\C-? ?\C-h)
+
+;; Setting the ALT in Terminal
+(set-keyboard-coding-system nil)

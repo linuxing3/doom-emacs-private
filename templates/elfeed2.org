@@ -1,0 +1,19 @@
+* entry-title: \(emacs\|linus\|\) :elfeed:
+** http://www.howardism.org/index.xml
+** http://planet.emacsen.org/atom.xml
+** http://sachachua.com/blog/category/emacs-news/feed
+** http://endlessparentheses.com/atom.xml
+** http://www.masteringemacs.org/feed/
+** http://emacs-fu.blogspot.com/feeds/posts/default
+** http://emacsredux.com/atom.xml
+** http://www.lunaryorn.com/feed.atom
+** http://emacshorrors.com/feed.atom
+** http://swannodette.github.com/atom.xml
+** http://batsov.com/atom.xml
+** https://apod.nasa.gov/apod.rss
+** http://twogreenleaves.org/index.php?feed=rss
+** https://medium.com/feed/@hlship/
+** http://gigasquidsoftware.com/atom.xml
+** http://blog.fogus.me/feed/
+** http://steve-yegge.blogspot.com/atom.xml
+** http://www.rkn.io/feed.xml

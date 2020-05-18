@@ -17,7 +17,6 @@
           "Fira Code-12"
           "Fira Code Nerd-12"
           "JetBrains Nerd Mono-12"
-          "Hack-12"
           "Yahei Consolas Hybrid-12"
           "Microsoft Yahei-12"
           "Courier-12"
@@ -33,7 +32,7 @@
           ))
        ((string-equal system-type "darwin") ; Mac
         '(
-          "Fira Code-12"
+          "IBM Plex Mono-12"
           "Monaco-12"
           "Courier-12"
           "Menlo-12"))))

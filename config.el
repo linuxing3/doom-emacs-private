@@ -31,8 +31,6 @@
 
 (setq bookmark-default-file (dropbox-path "shared/emacs-bookmarks"))
 
-;; FIXME Moved to autoload
-;; (load! "extensions/utils" nil t)
 ;; ---------------------------------------------------------
 ;; UI
 ;; ---------------------------------------------------------
@@ -51,7 +49,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one-light)
+(setq doom-theme 'doom-dracula)
 
 ;; Simple tweaks
 (add-to-list 'default-frame-alist
@@ -65,40 +63,13 @@
       global-auto-revert-mode t
       evil-split-window-below t
       evil-vsplit-window-right t
-      display-line-numbers-type t
       whitespace-line-column 100
       whitespace-style '(face trailing lines-tail)
-
-      ;; FIXME Not enabled
-      dired-hide-details-mode t
-
-      ;; Line numbers are pretty slow all around. The performance boost of
-      ;; disabling them outweighs the utility of always keeping them on.
-      ;; display-line-numbers-type nil
-
-      ;; FIXME On-demand code completion. I don't often need it.
-      ;; if nil, global company mode will disabled, and you need to enable manually
-      ;; (+company/toggle-auto-completion)
-      ;; (global-company-mode +1)
-
-      ;; company-idle-delay nil
-
-      ;; FIXME lsp-ui-sideline is redundant with eldoc and much more invasive, so
-      ;; disable it by default.
-      ;; lsp-ui-sideline-enable nil
-      ;; lsp-enable-indentation nil
-      ;; lsp-enable-on-type-formatting nil
-      ;; lsp-enable-symbol-highlighting nil
-      ;; lsp-enable-file-watchers nil
-
-      ;; FIXME Disable help mouse-overs for mode-line segments (i.e. :help-echo text).
-      ;; They're generally unhelpful and only add confusing visual clutter.
-      ;; mode-line-default-help-echo nil
-      ;; show-help-function nil
-      )
+      display-line-numbers-type nil)
 
 
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+
 ;; FIXME All coding utf-8, but still org date font are wrong
 (set-terminal-coding-system 'utf-8)
 (set-language-environment 'utf-8)
@@ -118,8 +89,15 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'.
 ;; It must be set before org loads!
-(setq org-directory (dropbox-path "org"))
-;; It can be set after org loads!
+;;
+(defvar org-directory-default nil
+  "whether use org directory in default location")
+
+(if org-directory-default
+    (setq org-directory (expand-file-name "~/org"))
+  (setq org-directory (dropbox-path "org")))
+
+;; These can be set after org loads!
 (load! "extensions/org+config" nil t)
 (load! "extensions/org+capture" nil t)
 (load! "extensions/org+agenda" nil t)
@@ -131,12 +109,14 @@
 ;; Languages Support
 ;; ---------------------------------------------------------
 (load! "extensions/lang+python" nil t)
+
 ;; ---------------------------------------------------------
 ;; App
 ;; ---------------------------------------------------------
 (load! "extensions/app+blog" nil t)
 (load! "extensions/app+plantuml" nil t)
 (load! "extensions/feature+magit" nil t)
+(load! "extensions/feature+lsp" nil t)
 
 ;; ---------------------------------------------------------
 ;; Keybindings

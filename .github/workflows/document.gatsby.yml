@@ -1,0 +1,26 @@
+name: Deploy with gatsby client
+
+on: push
+
+jobs:
+  build-gatsby-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/use-node@v2
+      - name: install gastby
+        run: |
+          npm i -g gatsby-cli
+          npm i gatsby
+      - name: Deploy document with gatsby
+        uses: jzweifel/gatsby-cli-github-action@master
+        env:
+          GATSBY_PROJECT_PATH: "./docs"
+        with:
+          gatsby_arg: build
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: be4d2fb7161448bafcb73cad812b12ad0d8dde2b 
+          BRANCH: gh-gastby-pages
+          FOLDER: build

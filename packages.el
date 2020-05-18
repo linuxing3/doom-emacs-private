@@ -73,6 +73,7 @@
 ;;(package! vue-mode)
 ;; (package! kotlin-mode)
 (package! prettier-js)
+(package! evil-commentary)
 ;;(package! origami)
 ;;(package! deadgrep)
 ;;(package! dart-mode)
