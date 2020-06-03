@@ -30,7 +30,7 @@
                if (file-directory-p dir)
                return (setq conda-anaconda-home dir
                             conda-env-home-directory dir))
-      (message "Cannot find Anaconda installation"))
+      (message "Cannot find Anaconda installation")))
 
 (if (and IS-WINDOWS (file-exists-p! "d:/lib/anaconda3"))
     (progn
