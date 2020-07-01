@@ -4,7 +4,7 @@
   :hook (lsp-mode . lsp-ui-mode)
   :config
   (setq lsp-enable-indentation t
-        lsp-enable-on-type-formatting t
+        lsp-enable-on-type-formatting nil
         lsp-enable-symbol-highlighting t
         lsp-enable-file-watchers t
 
@@ -12,9 +12,9 @@
         ;; `+lookup/documentation'
         lsp-ui-doc-max-height 8
         lsp-ui-doc-max-width 35
-        lsp-ui-doc-enable t
+        lsp-ui-doc-enable nil
         lsp-ui-doc-border "green"
-        lsp-ui-doc-header t
+        lsp-ui-doc-header nil
 
         ;; FIXME lsp-ui-sideline is redundant with eldoc and much more invasive, so
         lsp-ui-sideline-enable nil

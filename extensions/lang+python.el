@@ -16,6 +16,7 @@
   ;; explicitly. Afterwards, run M-x `conda-env-activate' to switch between
   ;; environments
   (or (cl-loop for dir in (list conda-anaconda-home
+                                "C:/ProgramData/anaconda3"
                                 "d:/var/anaconda3"
                                 "d:/lib/anaconda3"
                                 "d:/var/anaconda2"
@@ -31,14 +32,6 @@
                return (setq conda-anaconda-home dir
                             conda-env-home-directory dir))
       (message "Cannot find Anaconda installation")))
-
-(if (and IS-WINDOWS (file-exists-p! "d:/lib/anaconda3"))
-    (progn
-      (setq conda-anaconda-home "D:/lib/anaconda3/")
-      (setq conda-env-home-directory (expand-file-name "envs" conda-anaconda-home "envs")))
-  (progn
-    (setq conda-anaconda-home (expand-file-name (or (getenv "ANACONDA_HOME") "~/.anaconda3/")))
-    (setq conda-env-home-directory (expand-file-name "envs" conda-anaconda-home))))
 
 (setq conda-env-autoactivate-mode t)
 
