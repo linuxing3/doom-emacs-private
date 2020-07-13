@@ -16,6 +16,7 @@
   ;; explicitly. Afterwards, run M-x `conda-env-activate' to switch between
   ;; environments
   (or (cl-loop for dir in (list conda-anaconda-home
+                                "C:/ProgramData/anaconda3"
                                 "d:/var/anaconda3"
                                 "d:/lib/anaconda3"
                                 "d:/var/anaconda2"
