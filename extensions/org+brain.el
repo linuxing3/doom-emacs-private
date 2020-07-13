@@ -1,6 +1,6 @@
 ;;; private/org/+brain.el -*- lexical-binding: t; -*-
 
-(def-package! org-brain
+(use-package! org-brain
   :init
   (setq org-brain-path "D:/Dropbox/org/brain")
   ;; For Evil users
