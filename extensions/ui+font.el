@@ -39,10 +39,10 @@
 
 (if (string-equal system-type "windows-nt")
     (setq
-     doom-font (font-spec :family "BlexMono Nerd Font Mono" :size 16)
-     doom-big-font (font-spec :family "BlexMono Nerd Font Mono" :size 18)
-     doom-variable-pitch-font (font-spec :family "BlexMono Nerd Font Mono" :size 16)
-     doom-unicode-font (font-spec :famaly "Yahei Consolas Hybrid" :size 16))
+     doom-font (font-spec :family "BlexMono Nerd Font" :size 16)
+     doom-big-font (font-spec :family "BlexMono Nerd Font" :size 18)
+     doom-variable-pitch-font (font-spec :family "Yahei Consolas Hybrid" :size 16)
+     doom-unicode-font (font-spec :famaly "BlexMono Nerd Font" :size 16))
 	(setq
    doom-font (font-spec :family "IBM Plex Mono" :size 16)
    doom-big-font (font-spec :family "IBM Plex Mono" :size 18)
