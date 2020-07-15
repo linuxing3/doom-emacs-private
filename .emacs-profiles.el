@@ -29,7 +29,6 @@
  ("spacemacs" . ((env . (("HOME" . "D:/Users/root")
                          ("EMACSDIR" . "D:/Users/root/.emacs.d")
                          ("SPACEMACSDIR" . "D:/Users/root/.spacemacs.d")))
-                 (server-name . "D:/Users/root/.emacs.d/.cache/server/server")
                  (user-emacs-directory . "D:/Users/root/.emacs.d")))
 
  ;; Doom to C drive with default home dir
