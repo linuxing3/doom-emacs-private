@@ -4,8 +4,6 @@
 
 ;; Hooks
 (add-hook 'org-mode-hook #'auto-fill-mode)
-(add-hook 'org-mode-hook #'org-fancy-priorities-mode)
-(add-hook 'org-mode-hook #'prettify-symbols-mode)
 
 (after! org
   ;; Add built-in modules of org
