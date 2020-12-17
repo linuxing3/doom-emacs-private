@@ -80,7 +80,17 @@
 (set-terminal-coding-system 'utf-8)
 
 ;; FIXME UI font with unicode error
-(load! "extensions/ui+font" nil t)
+;; ============================================================
+;; Setting English Font
+(setq doom-font (font-spec :family "IBM Plex Mono" :size 16))
+(set-face-attribute
+ 'default nil :font "IBM Plex Mono 16")
+;; Setting Chinese Font
+(dolist (charset '(kana han symbol cjk-misc bopomofo))
+  (set-fontset-font (frame-parameter nil 'font)
+            charset
+            (font-spec :family "Microsoft Yahei" :size 14)))
+;; (load! "extensions/ui+font" nil t)
 
 ;; ---------------------------------------------------------
 ;; Org mode
@@ -102,7 +112,7 @@
 (load! "extensions/org+capture" nil t)
 (load! "extensions/org+agenda" nil t)
 ;; (load! "extensions/org+brain" nil t)
-;; (load! "extensions/org+roam" nil t)
+(load! "extensions/org+roam" nil t)
 (load! "extensions/org+babel" nil t)
 
 ;; ---------------------------------------------------------
