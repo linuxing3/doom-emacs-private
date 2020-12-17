@@ -138,4 +138,4 @@
 ;; ---------------------------------------------------------
 ;; Keybindings
 ;; ---------------------------------------------------------
-(load! "extensions/keybinding+spacemacs" nil t)
+;; (load! "extensions/keybinding+spacemacs" nil t)

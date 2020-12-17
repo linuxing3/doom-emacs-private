@@ -57,8 +57,8 @@
 (package! org-super-agenda)
 (package! org-fancy-priorities)
 (package! org-pretty-tags)
-(package! org-roam
-  :recipe (:host github :repo "jethrokuan/org-roam" :branch "develop"))
+;(package! org-roam
+;  :recipe (:host github :repo "jethrokuan/org-roam" :branch "develop"))
 ;; (package! emacs-easy-hugo
 ;;  :recipe (:host github :repo "masasam/emacs-easy-hugo"))
 
