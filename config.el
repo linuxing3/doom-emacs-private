@@ -44,7 +44,26 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "BlexMono Nerd Font Mono" :size 14))
+;; (add-to-list 'default-frame-alist '(font . "BlexMono Font Mono-14"))
+(setq doom-font (font-spec :family "BlexMono Font Mono" :size 14))
+;; set font for chinese characters
+(set-fontset-font
+ t
+ '(#x4e00 . #x9fff)
+ (cond
+  ((string-equal system-type "windows-nt")
+   (cond
+    ((member "Microsoft YaHei" (font-family-list)) "Microsoft YaHei")
+    ((member "Microsoft JhengHei" (font-family-list)) "Microsoft JhengHei")
+    ((member "SimHei" (font-family-list)) "SimHei")))
+  ((string-equal system-type "darwin")
+   (cond
+    ((member "Hei" (font-family-list)) "Hei")
+    ((member "Heiti SC" (font-family-list)) "Heiti SC")
+    ((member "Heiti TC" (font-family-list)) "Heiti TC")))
+  ((string-equal system-type "gnu/linux")
+   (cond
+    ((member "WenQuanYi Micro Hei" (font-family-list)) "WenQuanYi Micro Hei")))))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -79,18 +98,6 @@
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 
-;; FIXME UI font with unicode error
-;; ============================================================
-;; Setting English Font
-(setq doom-font (font-spec :family "IBM Plex Mono" :size 16))
-(set-face-attribute
- 'default nil :font "IBM Plex Mono 16")
-;; Setting Chinese Font
-(dolist (charset '(kana han symbol cjk-misc bopomofo))
-  (set-fontset-font (frame-parameter nil 'font)
-            charset
-            (font-spec :family "Microsoft Yahei" :size 14)))
-;; (load! "extensions/ui+font" nil t)
 
 ;; ---------------------------------------------------------
 ;; Org mode
