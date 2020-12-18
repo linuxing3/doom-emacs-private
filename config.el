@@ -26,6 +26,18 @@
     ((member "WenQuanYi Micro Hei" (font-family-list)) "WenQuanYi Micro Hei")))))
 
 
+(custom-set-faces!
+  `(doom-modeline-bar-inactive :background ,(face-background 'mode-line-inactive)))
+
+;; (setq +doom-dashboard-banner-file (expand-file-name "logo.png" doom-private-dir))
+(defun linuxing3/dired-mode-setup ()
+  "to be run as hook for `dired-mode'."
+  (dired-hide-details-mode 1))
+(add-hook 'dired-mode-hook 'linuxing3/dired-mode-setup)
+
+(set-popup-rule! "^\\*Org Agenda" :side 'bottom :size 0.90 :select t :ttl nil)
+(set-popup-rule! "^CAPTURE.*\\.org$" :side 'bottom :size 0.90 :select t :ttl nil)
+(set-popup-rule! "^\\*org-brain" :side 'right :size 1.00 :select t :ttl nil)
 ;; ---------------------------------------------------------
 ;; Org mode
 ;; ---------------------------------------------------------
