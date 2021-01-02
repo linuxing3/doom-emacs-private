@@ -1,7 +1,7 @@
 ;;; c:/Users/Administrator/.doom.d/lang+python.el -*- lexical-binding: t; -*-
 ;;;
 ;;;
-;;; FIXME ~/.emacs.d/modules/lang/python.config
+;;; FIXME ~/.doom.d/extensions/lang+python.el
 ;;; Enable anaconda
 ;;;
 (use-package! conda
@@ -20,6 +20,7 @@
                                 "d:/var/anaconda3"
                                 "d:/lib/anaconda3"
                                 "d:/var/anaconda2"
+                                "c:/ProgramData/Anaconda3"
                                 "~/.anaconda"
                                 "~/.miniconda"
                                 "~/.miniconda3"
@@ -37,6 +38,13 @@
 
 (if (file-executable-p (expand-file-name "~/.local/bin/pipenv"))
     (setq pipenv-executable (expand-file-name "~/.local/bin/pipenv"))
-  (setq pipenv-executable "pipenv"))
+  (setq pipenv-executable "~/.pipenv"))
 
-(setq lsp-python-ms-base-url "https://pvsc.azureedge.net")
+
+;; Lsp Server
+;; FIXME 不支持x86系统
+;; (setq lsp-python-ms-base-url "https://pvsc.azureedge.net")
+;; (setq lsp-python-ms-base-url "https://pvsc.blob.core.windows.net")
+;; /python-language-server-stable?restype=container&comp=list&prefix=Python-Language-Server-win-x64"
+;; (setq lsp-python-ms-dir (concat lsp-server-install-dir "mspyls/"))
+;; (setq lsp-python-ms-python-executable (concat lsp-python-ms-dir "Microsoft.Python.LanguageServer" (if (eq system-type "windows-nt") ".exe" "")))

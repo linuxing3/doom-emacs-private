@@ -1,4 +1,4 @@
-;;; org+config.el -*- lexical-binding: t; -*-
+﻿;;; org+config.el -*- lexical-binding: t; -*-
 ;;;
 (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 
@@ -7,36 +7,12 @@
 (add-hook 'org-mode-hook #'org-fancy-priorities-mode)
 (add-hook 'org-mode-hook #'prettify-symbols-mode)
 
-(use-package org-pretty-tags
-  :demand t
-  :config
-  (setq org-pretty-tags-surrogate-strings
-        (quote
-         (("@travel" . "☆")
-          ("@home" . "💡")
-          ("@office" . "✍")
-          ("@errand" . "✍")
-          ("HABIT" . "♬")
-          ("COMPUTER" . "🔥"))))
-  (org-pretty-tags-global-mode))
-
-(use-package org-fancy-priorities
-  :diminish
-  :demand t
-  :defines org-fancy-priorities-list
-  :hook (org-mode . org-fancy-priorities-mode)
-  :config
-  (unless (char-displayable-p ?❗)
-    (setq org-fancy-priorities-list '("⚡" "⬆" "⬇" "☕"))))
-
 (after! org
   ;; Add built-in modules of org
   (setq
    org-modules (quote (org-bibtex org-habit org-protocol org-mac-link))
    org-ellipsis " ▼ "
-   ;;org-bullets-bullet-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")
-   ;;org-bullets-bullet-list '("◉" "☯" "○" "☯" "✸" "☯" "✿" "☯" "✜" "☯" "◆" "☯" "▶")
-   org-bullets-bullet-list '("⁖")
+   org-bullets-bullet-list '(" ○" " ◆")
    org-tags-column -80
    )
 
@@ -113,17 +89,7 @@
                       :foreground "SlateGray1"
                       :background nil
                       :height 1.25
-                      :weight 'bold)
-  (setq-default prettify-symbols-alist '(("#+BEGIN_SRC" . "†")
-                                         ("#+END_SRC" . "†")
-                                         ("#+begin_src" . "†")
-                                         ("#+end_src" . "†")
-                                         (">=" . "≥")
-                                         ("=>" . "⇨")))
-  (setq prettify-symbols-unprettify-at-point 'right-edge)
-  ;; priorities symbols
-  (setq org-fancy-priorities-list '("⚡" "⬆" "⬇" "☕")))
-
+                      :weight 'bold))
 (after! org
 
   ;; template list
