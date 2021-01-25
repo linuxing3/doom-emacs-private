@@ -56,10 +56,3 @@
   ((string-equal system-type "gnu/linux")
    (cond
     ((member "WenQuanYi Micro Hei" (font-family-list)) "WenQuanYi Micro Hei")))))
-
-(custom-set-faces!
-  `(doom-modeline-bar-inactive :background ,(face-background 'mode-line-inactive)))
-
-(set-popup-rule! "^\\*Org Agenda" :side 'bottom :size 0.90 :select t :ttl nil)
-(set-popup-rule! "^CAPTURE.*\\.org$" :side 'bottom :size 0.90 :select t :ttl nil)
-(set-popup-rule! "^\\*org-brain" :side 'right :size 1.00 :select t :ttl nil)
