@@ -4,8 +4,9 @@
 
 (setq bookmark-default-file (dropbox-path "shared/emacs-bookmarks"))
 (setq doom-theme 'doom-dracula)
-(setq doom-font (font-spec :family "IBM Plex Mono" :size 14))
+
 ;; set font for chinese characters
+(setq doom-font (font-spec :family "IBM Plex Mono" :size 14))
 (set-fontset-font
  t
  '(#x4e00 . #x9fff)
@@ -25,6 +26,18 @@
     ((member "WenQuanYi Micro Hei" (font-family-list)) "WenQuanYi Micro Hei")))))
 
 
+(custom-set-faces!
+  `(doom-modeline-bar-inactive :background ,(face-background 'mode-line-inactive)))
+
+;; (setq +doom-dashboard-banner-file (expand-file-name "logo.png" doom-private-dir))
+(defun linuxing3/dired-mode-setup ()
+  "to be run as hook for `dired-mode'."
+  (dired-hide-details-mode 1))
+(add-hook 'dired-mode-hook 'linuxing3/dired-mode-setup)
+
+(set-popup-rule! "^\\*Org Agenda" :side 'bottom :size 0.90 :select t :ttl nil)
+(set-popup-rule! "^CAPTURE.*\\.org$" :side 'bottom :size 0.90 :select t :ttl nil)
+(set-popup-rule! "^\\*org-brain" :side 'right :size 1.00 :select t :ttl nil)
 ;; ---------------------------------------------------------
 ;; Org mode
 ;; ---------------------------------------------------------
@@ -42,8 +55,9 @@
 
 ;; These can be set after org loads!
 (load! "extensions/org+config" nil t)
+(load! "extensions/org+pretty" nil t)
 (load! "extensions/org+capture" nil t)
-;; (load! "extensions/org+agenda" nil t)
+(load! "extensions/org+agenda" nil t)
 (load! "extensions/org+brain" nil t)
 (load! "extensions/org+roam" nil t)
 ;; (load! "extensions/org+babel" nil t)
