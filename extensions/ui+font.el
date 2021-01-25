@@ -9,6 +9,7 @@
       (cond
        ((string-equal system-type "windows-nt")
         '(
+          "Sanara Mono Font-12"
           "BlexMono Nerd Font-12"
           "Hack-12"
           "Hack Nerd-12"
@@ -37,15 +38,21 @@
           "Courier-12"
           "Menlo-12"))))
 
-(if (string-equal system-type "windows-nt")
-    (setq
-     doom-font (font-spec :family "IBM Plex Mono" :size 16)
-     doom-big-font (font-spec :family "IBM Plex Mono" :size 18)
-     doom-variable-pitch-font (font-spec :family "Microsoft Yahei" :size 16)
-     doom-unicode-font (font-spec :famaly "Microsoft Yehei" :size 16))
-	(setq
-   doom-font (font-spec :family "IBM Plex Mono" :size 16)
-   doom-big-font (font-spec :family "IBM Plex Mono" :size 18)
-   doom-variable-pitch-font (font-spec :family "IBM Plex Mono" :size 16)
-   doom-unicode-font (font-spec :family "IBM Plex Mono" :size 16)))
-
+(set-fontset-font
+ t
+ '(#x4e00 . #x9fff)
+ (cond
+  ((string-equal system-type "windows-nt")
+   (cond
+    ((member "YaHei Consolas Hybrid" (font-family-list)) "Yahei Consolas Hybrid")
+    ((member "Microsoft YaHei" (font-family-list)) "Microsoft YaHei")
+    ((member "Microsoft JhengHei" (font-family-list)) "Microsoft JhengHei")
+    ((member "SimHei" (font-family-list)) "SimHei")))
+  ((string-equal system-type "darwin")
+   (cond
+    ((member "Hei" (font-family-list)) "Hei")
+    ((member "Heiti SC" (font-family-list)) "Heiti SC")
+    ((member "Heiti TC" (font-family-list)) "Heiti TC")))
+  ((string-equal system-type "gnu/linux")
+   (cond
+    ((member "WenQuanYi Micro Hei" (font-family-list)) "WenQuanYi Micro Hei")))))

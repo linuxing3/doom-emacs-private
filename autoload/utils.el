@@ -1,18 +1,29 @@
 ;;; ~/.doom.d/autoload/utils.el -*- lexical-binding: t; -*-
 ;;;
 
+;; Setting directories
 (defvar home-directory ""
   "Home directory")
 
-(defvar home-real-directory ""
-  "Home real directory")
+(defvar data-drive "")
 
-(setq home-real-directory
-      (if IS-WINDOWS (concat "C:/Users/" user-login-name)
-        (if (string= user-login-name "root") "/root"
-          (concat "/home/" user-login-name))))
+(defvar cloud-service-provider "")
 
-(setq home-directory (expand-file-name "~/"))
+;; (setenv "CLOUD_SERVICE_PROVIDER" "Dropbox/")
+(if (equal nil (getenv "CLOUD_SERVICE_PROVIDER"))
+    (setq cloud-service-provider "Dropbox/")
+  (setq cloud-service-provider (getenv "CLOUD_SERVICE_PROVIDER")))
+
+;; (setenv "DATA_DRIVE" "D:/")
+(if (equal nil (getenv "DATA_DRIVE"))
+    (if IS-WINDOWS (setq data-drive "D:/")
+      (setq data-drive "/"))
+  (setq data-drive (expand-file-name (getenv "DATA_DRIVE"))))
+
+;; (setenv "HOME_DIRECTORY" "D:/home/vagrant")
+(if (equal nil (getenv "HOME"))
+    (setq home-directory "~/")
+  (setq home-directory (expand-file-name (getenv "HOME"))))
 
 ;;;###autoload
 (defun os-path (path)
@@ -25,14 +36,14 @@
 (defun dropbox-path (path)
   "Prepend drive label to PATH."
   (if IS-WINDOWS
-      (concat "D:/Dropbox/" path)
-    (concat home-directory "Dropbox/" path)))
+      (concat data-drive cloud-service-provider path)
+    (concat home-directory cloud-service-provider path)))
 
 ;;;###autoload
 (defun workspace-path (path)
   "Prepend drive label to PATH."
   (if IS-WINDOWS
-      (concat "D:/workspace/" path)
+      (concat data-drive "workspace/" path)
     (concat home-directory "workspace/" path)))
 
 ;;;###autoload

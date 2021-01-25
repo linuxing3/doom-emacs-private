@@ -1,30 +1,21 @@
-
+;; ---------------------------------------------------------
+;; Basic configuration
+;; ---------------------------------------------------------
 (setq user-full-name "Xing Wenju"
       user-mail-address "linuxing3@qq.com")
 
 (setq bookmark-default-file (dropbox-path "shared/emacs-bookmarks"))
+
+;; ---------------------------------------------------------
+;; set theme
+;; ---------------------------------------------------------
 (setq doom-theme 'doom-dracula)
+(setq doom-font (font-spec :family "BlexMono NF" :size 18))
 
-;; set font for chinese characters
-(setq doom-font (font-spec :family "IBM Plex Mono" :size 14))
-(set-fontset-font
- t
- '(#x4e00 . #x9fff)
- (cond
-  ((string-equal system-type "windows-nt")
-   (cond
-    ((member "Microsoft YaHei" (font-family-list)) "Microsoft YaHei")
-    ((member "Microsoft JhengHei" (font-family-list)) "Microsoft JhengHei")
-    ((member "SimHei" (font-family-list)) "SimHei")))
-  ((string-equal system-type "darwin")
-   (cond
-    ((member "Hei" (font-family-list)) "Hei")
-    ((member "Heiti SC" (font-family-list)) "Heiti SC")
-    ((member "Heiti TC" (font-family-list)) "Heiti TC")))
-  ((string-equal system-type "gnu/linux")
-   (cond
-    ((member "WenQuanYi Micro Hei" (font-family-list)) "WenQuanYi Micro Hei")))))
-
+(defun linuxing3/dired-mode-setup ()
+  "to be run as hook for `dired-mode'."
+  (dired-hide-details-mode 1))
+(add-hook 'dired-mode-hook 'linuxing3/dired-mode-setup)
 
 (custom-set-faces!
   `(doom-modeline-bar-inactive :background ,(face-background 'mode-line-inactive)))
@@ -45,12 +36,11 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'.
 ;; It must be set before org loads!
-;;
-(defvar org-directory-default t
+(defvar org-directory-default nil
   "whether use org directory in default location")
 
 (if org-directory-default
-    (setq org-directory (expand-file-name "~/org"))
+    (setq org-directory (expand-file-name "org" home-directory))
   (setq org-directory (dropbox-path "org")))
 
 ;; These can be set after org loads!
@@ -58,9 +48,6 @@
 (load! "extensions/org+pretty" nil t)
 (load! "extensions/org+capture" nil t)
 (load! "extensions/org+agenda" nil t)
-(load! "extensions/org+brain" nil t)
-(load! "extensions/org+roam" nil t)
-;; (load! "extensions/org+babel" nil t)
 
 ;; ---------------------------------------------------------
 ;; Keybindings

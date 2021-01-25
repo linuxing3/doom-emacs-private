@@ -9,3 +9,5 @@ build
 htmlcov
 
 flycheck_*.*
+.env
+.env.local
