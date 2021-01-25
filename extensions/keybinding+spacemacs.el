@@ -57,15 +57,15 @@
       ;; "<f1>"  #'help
       "<f2>"  #'previous-buffer
       "<f3>"  #'next-buffer
-      "<f4>"  #'+treemacs/toggle ;;explore
+      "<f4>"  #'dired ;;explore
       "<f5>"  #'+eval/buffer
-      "<f6>"  #'+workspace/new ;;explore
-      "<f7>"  #'+workspace/display ;;explore
-      "<f8>"  #'fill-paragraph ;;折行
-      "<f9>"  #'org-capture ;;org抓取器
+      "<f6>"  #'kill-buffer-and-window
+      "<f7>"  #'split-window-right
+      "<f8>"  #'fill-paragraph
+      "<f9>"  #'org-capture
       "<f10>"  #'org-agenda
-      ;; "<f11>"  #'my-gridsome-create-newpost-empty;;建立新博客
-      ;; "<f12>"  #'my-blog-gridsome-deploy ;;发布博客
+      "<f11>"  #'new-frame
+      "<f12>"  #'+lookup/definition
 
       ;; Other sensible, textmate-esque global bindings
       :ne "M-r"   #'+eval/buffer  ;; 运行代码
@@ -189,7 +189,7 @@
 
         ;; 代码 c
         (:desc "code" :prefix "c"
-          :desc "创建项目标签"               :n  "t" (lambda! (my-setup-develop-environment "workspace" (read-from-minibuffer "FileName:")))
+          :desc "创建项目标签"               :n  "t" (cmd! (my-setup-develop-environment "workspace" (read-from-minibuffer "FileName:")))
           :desc "显示错误信息"               :n  "x" #'flycheck-list-errors
           :desc "扩展宏的内容"               :n  "X" #'macrostep-expand
           :desc "执行缓冲内容"               :n  "e" #'+eval/buffer
@@ -197,8 +197,7 @@
           :v  "e" #'+eval/region
           :desc "执行替换区域"               :nv "E" #'+eval:replace-region
           :desc "执行构建任务"               :nv "b" #'+eval/build
-          :desc "跳转查找定义"               :n  "d" #'+lookup/definition
-          :desc "跳转查找引用"               :n  "D" #'+lookup/references
+          :desc "跳转查找定义"               :n  "d" #'evil-goto-definition
           :desc "打开交互环境"               :n  "r" #'+eval/open-repl
           :v  "r" #'+eval:repl)
         ;;  文件 f

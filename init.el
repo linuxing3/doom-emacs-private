@@ -3,34 +3,55 @@
 
 (doom!
        :completion
-       company           ; the ultimate code completion backendne...
-       ivy               ; a search engine for love and life
+       company           
+       ivy               
 
        :ui
-       doom              ; what makes DOOM look the way it does
-       hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+       doom              
+       fill-column       
+       hl-todo           
+       modeline          
+       treemacs          
+       workspaces        
 
        :editor
-       (evil +everywhere); come to the dark side, we have cookies
-       file-templates    ; auto-snippets for empty files
-       fold              ; (nigh) universal code folding
-       format           ; automated prettiness
+       (evil +everywhere)
+       file-templates    
+       fold
+       multiple-cursors
+       format
+       snippets
+       word-wrap
 
        :emacs
-       dired             ; making dired pretty [functional]
-       electric          ; smarter, keyword-based electric-indent
-       ibuffer           ; interactive buffer management
+       dired             
+       electric          
+       ibuffer           
 
        :checkers
-       syntax              ; tasing you for every semicolon you forget
+       syntax              
 
        :tools
        (eval +overlay)
        magit
+       (lsp +eglot)
+       lookup              
        gist
+       
 
        :lang
-       emacs-lisp
        markdown
        (org +pandoc +journal +brain +present)
-)
+       ;; (python +lsp)
+       ;; (go +lsp)
+       ;; (cc +lsp)
+       ;; (java +lsp)
+       ;; (javascript +lsp)
+       ;; (web +lsp)
+       ;; (sh +lsp)
+       ;; rest
+       ;; plantuml
+       ;; (rust +lsp)
+       ;; (dart +lsp)
+       ;; (json +lsp)
+       emacs-lisp)

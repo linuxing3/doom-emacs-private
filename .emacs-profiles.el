@@ -26,23 +26,7 @@
                (doom-private-dir . "~/.doom.d")))
 
  ;; Spacemacs to other dir
- ("spacemacs" . ((env . (("HOME" . "D:/Users/root")
-                         ("EMACSDIR" . "D:/Users/root/.emacs.d")
-                         ("SPACEMACSDIR" . "D:/Users/root/.spacemacs.d")))
-                 (user-emacs-directory . "D:/Users/root/.emacs.d")))
-
- ;; Doom to C drive with default home dir
- ("doom" . ((env . (("HOME" . "C:/Users/Wjb")
-                    ("EMACSDIR" . "C:/Users/Wjb/.emacs.d")
-                    ("DOOMDIR" . "C:/Users/Wjb/.doom.d")))
-            (user-emacs-directory . "C:/Users/Wjb/.emacs.d")
-            (doom-private-dir . "C:/Users/wjb/.doom.d")))
-
- ;; Simplified Doom to D drive with customized home dir
- ("cleandoom" . (
-                 (env . (("HOME" . "D:/Users/xingwenju")
-                         ("EMACSDIR" . "D:/Users/xingwenju/.emacs.d")
-                         ("DOOMDIR" . "D:/Users/xingwenju/.doom.d")))
-                 (user-emacs-directory . "D:/Users/xingwenju/.emacs.d")
-                 (doom-private-dir . "D:/Users/xingwenju/.doom.d")))
- )
+ ("spacemacs" . ((env . (("HOME" . "D:/Users/vagrant")
+                         ("EMACSDIR" . "D:/Users/vagrant/.emacs.d")
+                         ("SPACEMACSDIR" . "D:/Users/vagrant/.spacemacs.d")))
+                 (user-emacs-directory . "D:/Users/vagrant/.emacs.d")))

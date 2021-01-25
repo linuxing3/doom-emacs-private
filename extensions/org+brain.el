@@ -2,7 +2,7 @@
 
 (use-package! org-brain
   :init
-  (setq org-brain-path "D:/Dropbox/org/brain")
+  (setq org-brain-path (expand-file-name (dropbox-path "org/brain/")))
   ;; For Evil users
   (after! evil
    (evil-set-initial-state 'org-brain-visualize-mode 'emacs))
