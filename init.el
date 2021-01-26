@@ -37,6 +37,7 @@
        (lsp +eglot)
        lookup              
        gist
+       upload
        
 
        :lang

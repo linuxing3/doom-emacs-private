@@ -10,7 +10,7 @@
 ;; set theme
 ;; ---------------------------------------------------------
 (setq doom-theme 'doom-dracula)
-(setq doom-font (font-spec :family "BlexMono NF" :size 18))
+(setq doom-font (font-spec :family "IBM Plex Mono" :size 18))
 
 (defun linuxing3/dired-mode-setup ()
   "to be run as hook for `dired-mode'."

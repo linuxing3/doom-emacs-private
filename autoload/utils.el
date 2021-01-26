@@ -36,7 +36,7 @@
 (defun dropbox-path (path)
   "Prepend drive label to PATH."
   (if IS-WINDOWS
-      (concat data-drive cloud-service-provider path)
+      (concat data-drive cloud-service-provider "/" path)
     (concat home-directory cloud-service-provider path)))
 
 ;;;###autoload
@@ -98,6 +98,14 @@
   (interactive)
   (let ((shell-file-name "cmd.exe"))
     (shell "*cmd.exe*")))
+
+;;;###autoload
+(defun my-server ()
+  "SSH to my.server.com in `shell' buffer."
+  (interactive)
+  (comint-send-string
+   (get-buffer-process (shell))
+   "ssh root@dongxishijie.xyz\n"))
 
 (defun run-powershell ()
   "Run powershell"
