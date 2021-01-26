@@ -11,8 +11,7 @@
        fill-column       
        hl-todo           
        modeline          
-       treemacs          
-       workspaces        
+       workspaces
 
        :editor
        (evil +everywhere)
@@ -42,17 +41,17 @@
 
        :lang
        markdown
-       (org +pandoc +journal +brain +present)
-       ;; (python +lsp)
-       ;; (go +lsp)
-       ;; (cc +lsp)
+       (org +pandoc +journal +brain +present +hugo)
+       (python +lsp)
+       (go +lsp)
+       (cc +lsp)
        ;; (java +lsp)
        ;; (javascript +lsp)
        ;; (web +lsp)
        ;; (sh +lsp)
        ;; rest
-       ;; plantuml
+       plantuml
        ;; (rust +lsp)
        ;; (dart +lsp)
-       ;; (json +lsp)
+       (json +lsp)
        emacs-lisp)

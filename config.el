@@ -48,6 +48,10 @@
 (load! "extensions/org+pretty" nil t)
 (load! "extensions/org+capture" nil t)
 (load! "extensions/org+agenda" nil t)
+(load! "extensions/app+plantuml" nil t)
+
+;; Writing blogs
+(load! "extensions/app+blog" nil t)
 
 ;; ---------------------------------------------------------
 ;; Keybindings

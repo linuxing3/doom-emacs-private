@@ -14,6 +14,8 @@
         ("javascript" . javascript)
         ("plantuml" . plantuml)
         ("R" . R)
+        ("go" . go)
+        ("c" . c)
         ("clojure" . clojure)
         ("jupyter-r"  . ipython)
         ("dot" . dot)

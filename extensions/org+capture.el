@@ -45,12 +45,12 @@
                  ;; "* %^{姓名} %^{手机号}p %^{邮箱}p %^{住址}p %^{微信}p %^{微博}p %^{whatsapp}p\n\n  %?"
                  :empty-lines 1 :kill-buffer t))
 
-  (setq password-org-file (dropbox-path "org/password.org.cpt"))
+  (setq password-org-file (dropbox-path "org/password.cpt.org"))
   (add-to-list 'org-capture-templates
                '("xp"
                  "Passwords"
                  entry
-                 (file "D:/Dropbox/passwords.org.cpt")
+                 (file "D:/Dropbox/passwords.cpt.org")
                  "* %U - %^{title} %^G\n\n  - 用户名: %^{用户名}\n  - 密码: %(get-or-create-password)"
                  :empty-lines 1 :kill-buffer t))
 
@@ -94,7 +94,7 @@
   ;; Task Group
   (add-to-list 'org-capture-templates '("t" "Tasks"))
 
-  (setq daniel-org-file (dropbox-path "org/daniel.org"))
+  (setq daniel-org-file (dropbox-path "org/daniel.agenda.org"))
   (add-to-list 'org-capture-templates
                '("ts"                                              ; hotkey
                  "Son Daniel's Task"                               ; title
@@ -103,7 +103,7 @@
                  "** TODO %^{任务}\n%u\n%a\n"                      ; template
                  :clock-in t
                  :clock-resume t))
-  (setq lulu-org-file (dropbox-path "org/lulu.org"))
+  (setq lulu-org-file (dropbox-path "org/lulu.agenda.org"))
   (add-to-list 'org-capture-templates
                '("tl"
                  "Wife Lulu's Task"
@@ -112,7 +112,7 @@
                  "** TODO %^{任务}\n%u\n%a\n"
                  :clock-in t
                  :clock-resume t))
-  (setq my-org-file (dropbox-path "org/xingwenju.org"))
+  (setq my-org-file (dropbox-path "org/xingwenju.agenda.org"))
   (add-to-list 'org-capture-templates
                '("tr"
                  "My Book Reading Task"
@@ -122,7 +122,7 @@
                  :clock-in t
                  :immediate-finish t
                  :clock-resume t))
-  (setq projects-org-file (dropbox-path "org/projects.org"))
+  (setq projects-org-file (dropbox-path "org/projects.agenda.org"))
   (add-to-list 'org-capture-templates
                '("tp"
                  "My Work Projects"
@@ -131,7 +131,7 @@
                  (file "~/.doom.d/templates/capture-template/project.template")
                  :empty-line 1
                  :clock-resume t))
-  (setq works-org-file (dropbox-path "org/works.org"))
+  (setq works-org-file (dropbox-path "org/works.agenda.org"))
   (add-to-list 'org-capture-templates
                '("tw"
                  "My Work Task"
@@ -142,7 +142,7 @@
                  :clock-in t :clock-resume t))
 
   ;; Most often used"
-  (setq phone-org-file (dropbox-path "org/inbox.org"))
+  (setq phone-org-file (dropbox-path "org/phone.org"))
   (add-to-list 'org-capture-templates
                '("P"
                  "My Phone calls"
@@ -175,7 +175,7 @@
                  :immediate-finish t
                  :new-line 1))
 
-  (setq inbox-org-file (dropbox-path "org/inbox.org"))
+  (setq inbox-org-file (dropbox-path "org/inbox.agenda.org"))
   (add-to-list 'org-capture-templates
                '("i"
                  "My GTD Inbox"

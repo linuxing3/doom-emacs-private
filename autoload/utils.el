@@ -215,3 +215,18 @@ you're done. This can be called from an external shell script."
           (set-frame-parameter frame 'old-fallback-buffer doom-fallback-buffer-name)
           (setq doom-fallback-buffer-name "*scratch*")
           (add-hook 'delete-frame-functions #'cleanup-scratch-frame))))))
+
+(defun dired-open()
+  (interactive)
+  (setq file (dired-get-file-for-visit))
+  (setq ext (file-name-extension file))
+  (setenv "PATH"
+          (concat
+           (getenv "PATH")
+           ";" "C:/Program Files/Microsoft/Edge Beta/Application"))
+  (cond ((string= ext "pdf")
+         ;; shell-quote-argument escapes white spaces on the file name
+         (async-shell-command (concat "msedge " (shell-quote-argument file))))
+        ((string= ext "epub")
+         (async-shell-command (concat "msedge " (shell-quote-argument file))))
+        (t (dired-find-file))))
