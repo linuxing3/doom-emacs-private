@@ -15,7 +15,7 @@
 ;; change `org-directory'.
 ;; It must be set before org loads!
 ;;
-(defvar org-directory-default t
+(defvar org-directory-default nil
   "whether use org directory in default location")
 
 (if org-directory-default

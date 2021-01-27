@@ -57,4 +57,7 @@
        (java +lsp +meghanada) ; the poster child for carpal tunnel syndrome
        (rust +lsp)
        (org +pandoc +journal +brain +present)
+
+       :config
+       literate
 )
