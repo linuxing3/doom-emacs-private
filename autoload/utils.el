@@ -9,9 +9,9 @@
 
 (defvar cloud-service-provider "")
 
-;; (setenv "CLOUD_SERVICE_PROVIDER" "Dropbox/")
+;; (setenv "CLOUD_SERVICE_PROVIDER" "Dropbox")
 (if (equal nil (getenv "CLOUD_SERVICE_PROVIDER"))
-    (setq cloud-service-provider "Dropbox/")
+    (setq cloud-service-provider "Dropbox")
   (setq cloud-service-provider (getenv "CLOUD_SERVICE_PROVIDER")))
 
 ;; (setenv "DATA_DRIVE" "D:/")
