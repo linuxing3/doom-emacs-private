@@ -4,7 +4,6 @@
 
 ;; Hooks
 (add-hook 'org-mode-hook #'auto-fill-mode)
-(add-hook 'org-mode-hook #'org-fancy-priorities-mode)
 (add-hook 'org-mode-hook #'prettify-symbols-mode)
 
 (after! org
@@ -21,7 +20,7 @@
   ;; Add all files under org-directory folder to agenda
   (setq
    org-agenda-diary-file (dropbox-path "org/diary")
-   org-agenda-files (directory-files org-directory t "\\.org$" t))
+   org-agenda-files (directory-files org-directory t "\\.agenda\\.org$" t))
 
   ;; Customize archived location
   (setq org-archive-location (dropbox-path "org/archived/%s_archive::"))

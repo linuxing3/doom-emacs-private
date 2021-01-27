@@ -25,7 +25,7 @@
 ;; These can be set after org loads!
 (load! "extensions/org+config" nil t)
 (load! "extensions/org+capture" nil t)
-;; (load! "extensions/org+agenda" nil t)
+(load! "extensions/org+agenda" nil t)
 (load! "extensions/org+brain" nil t)
 (load! "extensions/org+roam" nil t)
 ;; (load! "extensions/org+babel" nil t)
