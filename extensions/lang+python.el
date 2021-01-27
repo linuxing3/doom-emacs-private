@@ -22,6 +22,7 @@
                                 "d:/var/anaconda2"
                                 "c:/ProgramData/Anaconda3"
                                 "~/.anaconda"
+                                "~/.anaconda3"
                                 "~/.miniconda"
                                 "~/.miniconda3"
                                 "~/miniconda3"

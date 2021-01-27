@@ -65,7 +65,7 @@
       "<f9>"  #'org-capture ;;org抓取器
       "<f10>"  #'org-agenda
       ;; "<f11>"  #'my-gridsome-create-newpost-empty;;建立新博客
-      ;; "<f12>"  #'my-blog-gridsome-deploy ;;发布博客
+      "<f12>"  #'+lookup/definition ;;查找定义
 
       ;; Other sensible, textmate-esque global bindings
       :ne "M-r"   #'+eval/buffer  ;; 运行代码
