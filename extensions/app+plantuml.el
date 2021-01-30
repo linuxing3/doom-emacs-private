@@ -4,3 +4,5 @@
       org-plantuml-jar-path plantuml-jar-path)
 
 (setq org-ditaa-jar-path (concat doom-private-dir "bin/ditaa.jar"))
+
+(use-package! fzf)

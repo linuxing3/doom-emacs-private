@@ -2,5 +2,6 @@
 ;;; $DOOMDIR/packages.el
 
 (package! org-super-agenda)
-(package! fzf 
-	:recipe (:host github :rep "seenaburns/fzf.el"))
+;;(package! fzf
+;;	:recipe (:host github :repo "seenaburns/fzf.el"))
+(package! fzf)
