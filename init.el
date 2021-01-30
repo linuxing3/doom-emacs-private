@@ -33,7 +33,7 @@
        :tools
        (eval +overlay)
        magit
-       (lsp +eglot)
+       lsp
        lookup              
        gist
        upload
@@ -45,13 +45,13 @@
        (python +lsp)
        (go +lsp)
        (cc +lsp)
-       ;; (java +lsp)
-       ;; (javascript +lsp)
-       ;; (web +lsp)
-       ;; (sh +lsp)
+       (java +lsp)
+       (javascript +lsp)
+       (web +lsp)
+       ; (sh +lsp)
        ;; rest
        plantuml
-       ;; (rust +lsp)
-       ;; (dart +lsp)
+       (rust +lsp)
+       (dart +lsp)
        (json +lsp)
        emacs-lisp)

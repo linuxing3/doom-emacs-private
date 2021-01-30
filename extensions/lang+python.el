@@ -17,11 +17,13 @@
   ;; environments
   (or (cl-loop for dir in (list conda-anaconda-home
                                 "C:/ProgramData/anaconda3"
-                                "d:/var/anaconda3"
-                                "d:/lib/anaconda3"
-                                "d:/var/anaconda2"
-                                "c:/ProgramData/Anaconda3"
+                                "D:/var/anaconda3"
+                                "D:/lib/anaconda3"
+                                "I:/lib/anaconda3"
+                                "D:/var/anaconda2"
+                                "C:/ProgramData/Anaconda3"
                                 "~/.anaconda"
+                                "~/.anaconda3"
                                 "~/.miniconda"
                                 "~/.miniconda3"
                                 "~/miniconda3"
