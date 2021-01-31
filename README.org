@@ -1,0 +1,77 @@
+#+TITLE: Doom Private Settings
+#+AUTHOR: linuxing3<linuxing3@qq.com>
+#+OPTIONS:
+
+精致的emacs配置文件
+A optionated and deemed configuration of =emacs= based on =doom-emacs= with =profile= support
+
+* 配置需要 Prerequisites
+
+=Emacs26= recommended
+
+=Git= for version control
+
+=sh= and =make=, in windows with =ming32=
+
+Optional: Needs the =chemacs= for profile support.
+
+* TODO 功能 Features
+
+  Editor for stuborn vimmer and emacser fans for life time.
+
+* 安装，使用配置文件 Installtion (with profile)
+
+- Make a =minecraft= directory under you =HOME=
+
+- create =doom= directory under =minecraft= and change to it
+
+#+BEGIN_SRC bash
+mkdir doom && cd doom
+#+END_SRC
+
+- clone =doom-emacs= from =hlissner/doom-emacs= with =develop= branch into =.emacs.d=
+
+#+BEGIN_SRC sh
+git clone https://github.com/hlissner/doom-emacs .emacs.d -b develop
+#+END_SRC
+
+- Using private configuration
+
++ 克隆代码库 clone this =repository= to the =.doom.d=
+
+#+BEGIN_SRC sh
+git clone https://github.com/linuxing3/doom-emacs-private .doom.d
+#+END_SRC
+
++ 可选 Optional: If you want to have your own private configuration
+
+#+BEGIN_SRC sh
+.emacs.d/bin/doom -p .doom.d quickstart
+#+END_SRC
+
+- copy the =.emacs-profiles= to the home directory and a =.emacs= file
+
+#+BEGIN_SRC sh
+make copy-profile
+#+END_SRC
+
+- 测试安装 Test and install packages
+
+#+BEGIN_SRC sh
+.emacs.d/bin/doom -p .doom.d doctor
+.emacs.d/bin/doom -p .doom.d test
+.emacs.d/bin/doom -p .doom.d refresh
+#+END_SRC
+
+- Run =emacs= with =profile=
+
+#+BEGIN_SRC sh
+emacs --with-profile doom &
+#+END_SRC
+
+
+享受配置体验 Enjoy hacking =emacs= ~!~
+
+* 附件 Appendix
+** 命令 Commands
+** 骇客 Hacks
