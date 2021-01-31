@@ -32,7 +32,7 @@ mkdir doom && cd doom
 - clone =doom-emacs= from =hlissner/doom-emacs= with =develop= branch into =.emacs.d=
 
 #+BEGIN_SRC sh
-git clone https://github.com/hlissner/doom-emacs .emacs.d -b develop
+git clone https://github.com/hlissner/doom-emacs .emacs.d
 #+END_SRC
 
 - Using private configuration
@@ -46,21 +46,13 @@ git clone https://github.com/linuxing3/doom-emacs-private .doom.d
 + 可选 Optional: If you want to have your own private configuration
 
 #+BEGIN_SRC sh
-.emacs.d/bin/doom -p .doom.d quickstart
+.emacs.d/bin/doom sync
 #+END_SRC
 
 - copy the =.emacs-profiles= to the home directory and a =.emacs= file
 
 #+BEGIN_SRC sh
 make copy-profile
-#+END_SRC
-
-- 测试安装 Test and install packages
-
-#+BEGIN_SRC sh
-.emacs.d/bin/doom -p .doom.d doctor
-.emacs.d/bin/doom -p .doom.d test
-.emacs.d/bin/doom -p .doom.d refresh
 #+END_SRC
 
 - Run =emacs= with =profile=
