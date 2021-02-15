@@ -2,6 +2,8 @@
 ;;;
 ;;;
 ;;; FIXME ~/.doom.d/extensions/lang+python.el
+;;(after! lsp-python-ms
+;;  (set-lsp-priority! 'mspyls 1))
 ;;; Enable anaconda
 ;;;
 (use-package! conda
@@ -42,11 +44,5 @@
     (setq pipenv-executable (expand-file-name "~/.local/bin/pipenv"))
   (setq pipenv-executable "~/.pipenv"))
 
-
-;; Lsp Server
-;; FIXME 不支持x86系统
-;; (setq lsp-python-ms-base-url "https://pvsc.azureedge.net")
-;; (setq lsp-python-ms-base-url "https://pvsc.blob.core.windows.net")
-;; /python-language-server-stable?restype=container&comp=list&prefix=Python-Language-Server-win-x64"
-;; (setq lsp-python-ms-dir (concat lsp-server-install-dir "mspyls/"))
-;; (setq lsp-python-ms-python-executable (concat lsp-python-ms-dir "Microsoft.Python.LanguageServer" (if (eq system-type "windows-nt") ".exe" "")))
+(after! lsp-python-ms
+  (set-lsp-priority! 'mspyls 1))

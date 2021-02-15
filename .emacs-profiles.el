@@ -16,17 +16,20 @@
 ;; ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 ;;
 ;; Chemacs - Emacs Profile
+;; https://github.com/plexus/chemacs2
+;;
+;; Usage:
+;; git clone https://github.com/plexus/chemacs2.git ~/.emacs.d
+;; echo 'doom' > ~/.emacs-profile
+;;
+;; Put this file in ~/.emacs.profiles.el
 ;;
 ;; ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-(
- ;; Doom as Default to WINDOWS HOME
- ("default" . ((env . (("DOOMDIR" . "~/.doom.d")))
-               (user-emacs-directory . "~/.emacs.d")
-               (doom-private-dir . "~/.doom.d")))
-
- ;; Spacemacs to other dir
- ("spacemacs" . ((env . (("HOME" . "D:/Users/vagrant")
-                         ("EMACSDIR" . "D:/Users/vagrant/.emacs.d")
-                         ("SPACEMACSDIR" . "D:/Users/vagrant/.spacemacs.d")))
-                 (user-emacs-directory . "D:/Users/vagrant/.emacs.d")))
+(("default" . ((user-emacs-directory . "c:/Users/Administrator/.emacs.d")
+            (env . (("DOOMDIR" . "c:/Users/Administrator/.doom.d")))))
+ ("spacemacs" . ((user-emacs-directory . "c:/Users/Administrator/.spacemacs")
+                 (env . (("SPACEMACSDIR" . "~/.spacemacs.d")))))
+ ("doom" . ((user-emacs-directory . "c:/Users/Administrator/.emacs.d")
+           (env . (("DOOMDIR" . "c:/Users/Administrator/.doom.d")))))
+ ("prelude" . ((user-emacs-directory . "c:/Users/Administrator/.prelude"))))
