@@ -6,9 +6,9 @@
 ;;(setq doom-theme 'doom-dracula)
 (setq doom-theme 'doom-one-light)
 (setq doom-font (font-spec :family "IBM Plex Mono" :size 16))
-(setq doom-variable-pitch-font (font-spec :family "Overpass" :size 18))
+(setq doom-variable-pitch-font (font-spec :family "Overpass" :size 16))
 (setq doom-big-font (font-spec :family "IBM Plex Mono" :size 24))
-(setq doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light :size 18))
+(setq doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light :size 16))
 ;;(delq! t custom-theme-load-path)
 
 (custom-set-faces!

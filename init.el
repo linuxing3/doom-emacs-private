@@ -10,7 +10,9 @@
        doom
        doom-dashboard
        fill-column       
-       hl-todo           
+       hl-todo
+       indent-guides
+       nav-flash
        modeline          
        workspaces
        (ligatures +extra)
@@ -42,7 +44,9 @@
        
 
        :lang
+       ;; rest
        markdown
+       plantuml
        (org +pandoc +journal +brain +present +hugo)
        (python +lsp)
        (go +lsp)
@@ -50,9 +54,7 @@
        (java +lsp)
        (javascript +lsp)
        (web +lsp)
-       ; (sh +lsp)
-       ;; rest
-       plantuml
+       (sh +lsp)
        (rust +lsp)
        (dart +lsp)
        (json +lsp)

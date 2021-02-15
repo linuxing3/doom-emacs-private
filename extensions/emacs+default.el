@@ -18,8 +18,8 @@
 
 (global-subword-mode 1)                           ; Iterate through CamelCase words
 
-(add-to-list 'default-frame-alist '(height . 24)) ;windows height
-(add-to-list 'default-frame-alist '(width . 80))  ;windows width
+(add-to-list 'default-frame-alist '(height . 36)) ;windows height
+(add-to-list 'default-frame-alist '(width . 180))  ;windows width
 
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
@@ -27,3 +27,8 @@
   :after '(evil-window-split evil-window-vsplit)
   (+ivy/switch-buffer))
 (setq +ivy-buffer-preview t)
+
+(setq-default wttrin-default-cities '("Beijing"
+                                      "Caracas"))
+
+(add-hook 'Info-selection-hook 'info-colors-fontify-node)

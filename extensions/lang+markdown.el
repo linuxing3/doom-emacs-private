@@ -47,3 +47,9 @@
              (read-string "Look up in dictionary: "))
          current-prefix-arg))
   (lexic-search identifier nil nil t))
+
+;; 有道词典
+;; Enable Cache
+(setq url-automatic-caching t)
+;; Example Key binding
+(global-set-key (kbd "C-c y") 'youdao-dictionary-search-at-point)
