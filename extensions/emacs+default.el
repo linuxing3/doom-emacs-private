@@ -1,6 +1,6 @@
 ;;; extensions/emacs-default.el -*- lexical-binding: t; -*-
 
-(setq-default delete-by-moving-to-trash t         ; Delete files to trash
+(setq-default delete-by-moving-to-trash nil        ; Delete files to trash
               window-combination-resize t         ; take new window space from all other windows (not just current)
               x-stretch-cursor t)                 ; Stretch cursor to the glyph width
 
@@ -19,7 +19,7 @@
 (global-subword-mode 1)                           ; Iterate through CamelCase words
 
 (add-to-list 'default-frame-alist '(height . 36)) ;windows height
-(add-to-list 'default-frame-alist '(width . 180))  ;windows width
+(add-to-list 'default-frame-alist '(width . 160))  ;windows width
 
 (setq evil-vsplit-window-right t
       evil-split-window-below t)

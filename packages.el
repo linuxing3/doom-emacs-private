@@ -49,3 +49,5 @@
 ;; 录屏
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
 
+;; 本地仓库
+(package! elpa-mirror :recipe (:host github :repo "redguardtoo/elpa-mirror"))

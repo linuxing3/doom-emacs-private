@@ -6,7 +6,6 @@
 
 (setq bookmark-default-file (dropbox-path "shared/emacs-bookmarks"))
 
-(load! "extensions/emacs+default" nil t)
 ;; ---------------------------------------------------------
 ;; set theme
 ;; ---------------------------------------------------------
@@ -40,3 +39,9 @@
 ;; Keybindings
 ;; ---------------------------------------------------------
 (load! "extensions/keybinding+spacemacs" nil t)
+
+;; ---------------------------------------------------------
+;; Better Defaults
+;; ---------------------------------------------------------
+(load! "extensions/emacs+default" nil t)
+(load! "extensions/feature+packages" nil t)

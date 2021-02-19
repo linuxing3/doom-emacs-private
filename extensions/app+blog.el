@@ -2,6 +2,13 @@
 
 (require 'cl)
 
+(defvar blog-hugo-base-dir nil
+  "Github hugo base directory")
+
+(defvar blog-hugo-process "Hugo Server"
+  "Name of 'gridsome develop' process process")
+
+
 (defvar blog-gridsome-base-dir nil
   "Netlify gridsome base directory")
 
@@ -11,11 +18,46 @@
 (defvar blog-gridsome-process "Gridsome Develop"
   "Name of 'gridsome develop' process process")
 
+;; Init folders
+(setq blog-hugo-base-dir (workspace-path "awesome-hugo-blog"))
 (setq blog-gridsome-base-dir (workspace-path "gridsome.org"))
 (setq org-journal-base-dir (workspace-path "org/journal"))
 
+;; for Hugo
+(defun my-blog-hugo-find-dir ()
+  "Open hugo blog files"
+  (interactive)
+  (find-file (workspace-path "awesome-hugo-blog/content/posts")))
+
+(defun my-blog-hugo-deploy ()
+  "Run gridsome cli and push changes upstream."
+  (interactive)
+  (with-dir blog-hugo-base-dir
+            ;; deploy to github for ci
+            (shell-command "cd " blog-hugo-base-dir)
+            (shell-command "git add .")
+            (--> (current-time-string)
+                 (concat "git commit -m \"" it "\"")
+                 (shell-command it))
+            (shell-command "git push -u origin master")))
+
+(defun my-blog-hugo-start-server ()
+  "Run gridsome server if not already running and open its webpage."
+  (interactive)
+  (with-dir blog-hugo-base-dir
+            (shell-command "cd " blog-hugo-base-dir)
+            (unless (get-process blog-hugo-process)
+              (start-process blog-hugo-process nil "hugo" "server"))))
+
+(defun my-blog-hugo-end-server ()
+  "End gridsome server process if running."
+  (interactive)
+  (--when-let (get-process blog-hugo-process)
+    (delete-process it)))
+
+;; For gridsome
 (defun my-blog-gridsome-find-dir ()
-  "Open gatsby blog files"
+  "Open gridsome blog files"
   (interactive)
   (find-file (workspace-path "gridsome.org/blog")))
 
@@ -24,6 +66,7 @@
   (interactive)
   (with-dir blog-gridsome-base-dir
             ;; deploy to github for ci
+            (shell-command "cd " blog-gridsome-base-dir)
             (shell-command "git add .")
             (--> (current-time-string)
                  (concat "git commit -m \"" it "\"")
@@ -34,7 +77,7 @@
 (defun my-blog-gridsome-start-server ()
   "Run gridsome server if not already running and open its webpage."
   (interactive)
-  (with-dir blog-gatsby-base-dir
+  (with-dir blog-gridsome-base-dir
             (unless (get-process blog-gridsome-process)
               (start-process blog-gridsome-process nil "gridsome" "develop" "-H" "0.0.0.0"))
             ))
