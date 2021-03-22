@@ -51,7 +51,7 @@
        ; (sh +lsp)
        ;; rest
        plantuml
-       (rust +lsp)
-       (dart +lsp)
+       ;;(rust +lsp)
+       ;;(dart +lsp)
        (json +lsp)
        emacs-lisp)

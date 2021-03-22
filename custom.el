@@ -5,7 +5,10 @@
  ;; If there is more than one, they won't work right.
  '(blink-cursor-mode nil)
  '(menu-bar-mode nil)
- '(package-selected-packages '(fzf))
+ '(package-selected-packages (quote (fzf)))
+ '(safe-local-variable-values
+   (quote
+    ((git-commit-major-mode . git-commit-elisp-text-mode))))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces

@@ -20,6 +20,8 @@
 (custom-set-faces!
   `(doom-modeline-bar-inactive :background ,(face-background 'mode-line-inactive)))
 
+(setq initial-major-mode 'lisp-interaction-mode)
+
 ;; (setq +doom-dashboard-banner-file (expand-file-name "logo.png" doom-private-dir))
 (defun linuxing3/dired-mode-setup ()
   "to be run as hook for `dired-mode'."

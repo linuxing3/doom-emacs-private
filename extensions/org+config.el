@@ -14,6 +14,9 @@
    org-tags-column -80
    )
 
+  (setq-default org-display-custom-times t)
+  (setq org-time-stamp-custom-formats '("<%a %b %e %Y>" . "<%a %b %e %Y %H:%M>"))
+
   ;; Some directories' location
   (setq diary-file (dropbox-path "org/diary"))
   ;; Add all files under org-directory folder to agenda
