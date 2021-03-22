@@ -9,14 +9,14 @@
 
 (defvar cloud-service-provider "")
 
-;; (setenv "CLOUD_SERVICE_PROVIDER" "Dropbox")
+;; (setenv "CLOUD_SERVICE_PROVIDER" "OneDrive")
 (if (equal nil (getenv "CLOUD_SERVICE_PROVIDER"))
-    (setq cloud-service-provider "Dropbox")
+    (setq cloud-service-provider "OneDrive")
   (setq cloud-service-provider (getenv "CLOUD_SERVICE_PROVIDER")))
 
-;; (setenv "DATA_DRIVE" "D:/")
+;; (setenv "DATA_DRIVE" "C:/Users/Administrator")
 (if (equal nil (getenv "DATA_DRIVE"))
-    (if IS-WINDOWS (setq data-drive "D:/")
+    (if IS-WINDOWS (setq data-drive "C:/Users/Administrator")
       (setq data-drive "/"))
   (setq data-drive (expand-file-name (getenv "DATA_DRIVE"))))
 
