@@ -54,8 +54,10 @@
        (java +lsp)
        (javascript +lsp)
        (web +lsp)
-       (sh +lsp)
-       (rust +lsp)
-       (dart +lsp)
+       ; (sh +lsp)
+       ;; rest
+       plantuml
+       ;;(rust +lsp)
+       ;;(dart +lsp)
        (json +lsp)
        emacs-lisp)

@@ -36,15 +36,15 @@
 (defun dropbox-path (path)
   "Prepend drive label to PATH."
   (if IS-WINDOWS
-      (concat data-drive cloud-service-provider "/" path)
-    (concat home-directory cloud-service-provider path)))
+      (concat data-drive "/" cloud-service-provider "/" path)
+    (concat home-directory "/" cloud-service-provider path)))
 
 ;;;###autoload
 (defun workspace-path (path)
   "Prepend drive label to PATH."
   (if IS-WINDOWS
-      (concat data-drive "workspace/" path)
-    (concat home-directory "workspace/" path)))
+      (concat data-drive "/workspace/" path)
+    (concat home-directory "/workspace/" path)))
 
 ;;;###autoload
 (defmacro with-dir (DIR &rest FORMS)
