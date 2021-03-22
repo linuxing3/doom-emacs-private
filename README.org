@@ -29,10 +29,10 @@ Optional: Needs the =chemacs= for profile support.
 mkdir doom && cd doom
 #+END_SRC
 
-- clone =doom-emacs= from =hlissner/doom-emacs= with =develop= branch into =.emacs.d=
+- clone =doom-emacs= from =hlissner/doom-emacs= with =master= branch into =.emacs.d=
 
 #+BEGIN_SRC sh
-git clone https://github.com/hlissner/doom-emacs .emacs.d -b develop
+git clone https://github.com/hlissner/doom-emacs .emacs.d
 #+END_SRC
 
 - Using private configuration
@@ -43,10 +43,16 @@ git clone https://github.com/hlissner/doom-emacs .emacs.d -b develop
 git clone https://github.com/linuxing3/doom-emacs-private .doom.d
 #+END_SRC
 
-+ 可选 Optional: If you want to have your own private configuration
++ 可选 Optional: 如果是windows，请使用windows分支
+#+BEGIN_SRC sh
+git clone https://github.com/linuxing3/doom-emacs-private .doom.d -b windows
+#+END_SRC
+
++ 可选 Optional:
 
 #+BEGIN_SRC sh
-.emacs.d/bin/doom -p .doom.d quickstart
+git submodule update --init --recursive
+git submodule update --remote --merge
 #+END_SRC
 
 - copy the =.emacs-profiles= to the home directory and a =.emacs= file
@@ -58,9 +64,7 @@ make copy-profile
 - 测试安装 Test and install packages
 
 #+BEGIN_SRC sh
-.emacs.d/bin/doom -p .doom.d doctor
-.emacs.d/bin/doom -p .doom.d test
-.emacs.d/bin/doom -p .doom.d refresh
+.emacs.d/bin/doom -p .doom.d sync
 #+END_SRC
 
 - Run =emacs= with =profile=

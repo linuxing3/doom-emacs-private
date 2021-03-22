@@ -3,19 +3,23 @@
 
 (doom!
        :completion
-       company           
-       ivy               
+       (company +childframe)
+       (ivy +icons +presscient)
 
        :ui
-       doom              
+       doom
+       doom-dashboard
        fill-column       
-       hl-todo           
+       hl-todo
+       indent-guides
+       nav-flash
        modeline          
        workspaces
+       (ligatures +extra)
 
        :editor
        (evil +everywhere)
-       file-templates    
+       file-templates
        fold
        multiple-cursors
        format
@@ -23,7 +27,7 @@
        word-wrap
 
        :emacs
-       dired             
+       (dired +icons)
        electric          
        ibuffer           
 
@@ -40,7 +44,9 @@
        
 
        :lang
+       ;; rest
        markdown
+       plantuml
        (org +pandoc +journal +brain +present +hugo)
        (python +lsp)
        (go +lsp)
