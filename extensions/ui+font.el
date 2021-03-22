@@ -4,12 +4,51 @@
 ;; Font
 ;;
 ;;(setq doom-theme 'doom-dracula)
-(setq doom-theme 'doom-one-light)
-(setq doom-font (font-spec :family "IBM Plex Mono" :size 16))
-(setq doom-variable-pitch-font (font-spec :family "Overpass" :size 16))
-(setq doom-big-font (font-spec :family "IBM Plex Mono" :size 24))
-(setq doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light :size 16))
+(setq doom-theme 'doom-one)
+(setq doom-font (font-spec :family "BlexMono Nerd Font" :size 20))
+(setq doom-variable-pitch-font (font-spec :family "BlexMono Nerd Font" :size 20))
+(setq doom-big-font (font-spec :family "BlexMono Nerd Font" :size 24))
+(setq doom-serif-font (font-spec :family "BlexMono Nerd Font" :weight 'light :size 20))
 ;;(delq! t custom-theme-load-path)
+
+(setq +ligatures-extra-symbols
+  '(;; org
+    :name          "»"
+    :src_block     "»"
+    :src_block_end "«"
+    :quote         "“"
+    :quote_end     "”"
+    ;; Functional
+    :lambda        "λ"
+    :def           "ƒ"
+    :composition   "∘"
+    :map           "↦"
+    ;; Types
+    :null          "∅"
+    :true          "true"
+    :false         "false"
+    :int           "ℤ"
+    :float         "ℝ"
+    :str           "string"
+    :bool          "bool"
+    :list          "list"
+    ;; Flow
+    :not           "￢"
+    :in            "∈"
+    :not-in        "∉"
+    :and           "∧"
+    :or            "∨"
+    :for           "∀"
+    :some          "∃"
+    :return        "⟼"
+    :yield         "⟻"
+    ;; Other
+    :union         "⋃"
+    :intersect     "∩"
+    :diff          "∖"
+    :tuple         "⨂"
+    :pipe          "pipe"
+    :dot           "•"))
 
 (custom-set-faces!
   '(doom-modeline-buffer-modified :foreground "orange"))
