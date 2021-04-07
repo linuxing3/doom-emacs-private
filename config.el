@@ -44,4 +44,4 @@
 ;; Better Defaults
 ;; ---------------------------------------------------------
 (load! "extensions/emacs+default" nil t)
-(load! "extensions/feature+packages" nil t)
+;; (load! "extensions/feature+packages" nil t)
