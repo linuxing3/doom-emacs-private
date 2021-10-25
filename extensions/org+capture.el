@@ -2,6 +2,83 @@
 
 (after! org
 
+  (defun get-year-and-month ()
+    (list (format-time-string "%Y") (format-time-string "%m")))
+
+
+  (defun find-month-tree ()
+    (let* ((path (get-year-and-month))
+           (level 1)
+           end)
+      (unless (derived-mode-p 'org-mode)
+        (error "Target buffer \"%s\" should be in Org mode" (current-buffer)))
+      (goto-char (point-min))           ;移动到 buffer 的开始位置
+      ;; 先定位表示年份的 headline，再定位表示月份的 headline
+      (dolist (heading path)
+        (let ((re (format org-complex-heading-regexp-format
+                          (regexp-quote heading)))
+              (cnt 0))
+          (if (re-search-forward re end t)
+              (goto-char (point-at-bol)) ;如果找到了 headline 就移动到对应的位置
+            (progn                       ;否则就新建一个 headline
+              (or (bolp) (insert "\n"))
+              (if (/= (point) (point-min)) (org-end-of-subtree t t))
+              (insert (make-string level ?*) " " heading "\n"))))
+        (setq level (1+ level))
+        (setq end (save-excursion (org-end-of-subtree t t))))
+      (org-end-of-subtree)))
+
+
+  (defun random-alphanum ()
+    (let* ((charset "abcdefghijklmnopqrstuvwxyz0123456789")
+           (x (random 36)))
+      (char-to-string (elt charset x))))
+
+  (defun create-password ()
+    (let ((value ""))
+      (dotimes (number 16 value)
+        (setq value (concat value (random-alphanum))))))
+
+
+  (defun get-or-create-password ()
+    (setq password (read-string "Password: "))
+    (if (string= password "")
+        (create-password)
+      password))
+
+  (defun org-capture-template-goto-link ()
+    (org-capture-put :target (list 'file+headline
+                                   (nth 1 (org-capture-get :target))
+                                   (org-capture-get :annotation)))
+    (org-capture-put-target-region-and-position)
+    (widen)
+    (let ((hd (nth 2 (org-capture-get :target))))
+      (goto-char (point-min))
+      (if (re-search-forward
+           (format org-complex-heading-regexp-format (regexp-quote hd)) nil t)
+          (org-end-of-subtree)
+        (goto-char (point-max))
+        (or (bolp) (insert "\n"))
+        (insert "* " hd "\n"))))
+
+  (defun generate-anki-note-body ()
+    (interactive)
+    (message "Fetching note types...")
+    (let ((note-types
+           (sort (anki-editor--anki-connect-invoke-result "modelNames" 5)
+                 #'string-lessp))
+          note-type fields)
+      (setq note-type (completing-read "Choose a note type: " note-types))
+      (message "Fetching note fields...")
+      (setq fields (anki-editor--anki-connect-invoke-result
+                    "modelFieldNames" 5
+                    `((modelName . ,note-type))))
+      (concat "  :PROPERTIES:\n"
+              "  :ANKI_NOTE_TYPE: " note-type "\n"
+              "  :END:\n\n"
+              (mapconcat (lambda (str) (concat "** " str))
+                         fields
+                         "\n\n"))))
   ;; Capture template
 
   (setq org-capture-templates nil)

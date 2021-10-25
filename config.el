@@ -11,9 +11,12 @@
 ;; ---------------------------------------------------------
 (load! "extensions/ui+font" nil t)
 
+
 ;; ---------------------------------------------------------
-;; Org mode
+;; set encoding
 ;; ---------------------------------------------------------
+(setq system-time-locale "C")
+
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'.
@@ -31,6 +34,7 @@
 (load! "extensions/org+capture" nil t)
 (load! "extensions/org+agenda" nil t)
 (load! "extensions/app+plantuml" nil t)
+
 
 ;; Writing blogs
 (load! "extensions/app+blog" nil t)

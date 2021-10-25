@@ -5,10 +5,10 @@
 ;;
 ;;(setq doom-theme 'doom-dracula)
 (setq doom-theme 'doom-one)
-(setq doom-font (font-spec :family "BlexMono Nerd Font" :size 20))
-(setq doom-variable-pitch-font (font-spec :family "BlexMono Nerd Font" :size 20))
-(setq doom-big-font (font-spec :family "BlexMono Nerd Font" :size 24))
-(setq doom-serif-font (font-spec :family "BlexMono Nerd Font" :weight 'light :size 20))
+(setq doom-font (font-spec :family "BlexMono Nerd Font" :size 18))
+(setq doom-variable-pitch-font (font-spec :family "BlexMono Nerd Font" :size 18))
+(setq doom-big-font (font-spec :family "BlexMono Nerd Font" :size 22))
+(setq doom-serif-font (font-spec :family "BlexMono Nerd Font" :weight 'light :size 18))
 ;;(delq! t custom-theme-load-path)
 
 (setq +ligatures-extra-symbols
@@ -61,8 +61,8 @@
 
 (add-hook 'after-change-major-mode-hook #'doom-modeline-conditional-buffer-encoding)
 
-(setq doom-fallback-buffer-name "► Doom"
-      +doom-dashboard-name "► Doom")
+(setq doom-fallback-buffer-name "Doom"
+      +doom-dashboard-name "Doom")
 (custom-set-faces! '(doom-modeline-evil-insert-state :weight bold :foreground "#339CDB"))
 
 (defun linuxing3/dired-mode-setup ()
