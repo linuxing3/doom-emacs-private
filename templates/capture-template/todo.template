@@ -1,2 +1,4 @@
-* TODO %i
- %？
+** TODO [#%^{Priority}] %^{Title} %^g
+SCHEDULED: %U
+%?
+%i
