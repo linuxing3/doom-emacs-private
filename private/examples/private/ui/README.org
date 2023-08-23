@@ -1,0 +1,71 @@
+# TITLE: Org个性化设置
+# AUTHOR: 邢文聚
+
+* Evil风格键设置
+
+#+BEGIN_SRC emacs-lisp
+(defun +org|setup-evil ()
+  (require 'evil-org)
+
+  (add-hook 'org-tab-first-hook #'+org|toggle-only-current-fold t)
+
+  ;; Fix newline-and-indent behavior in src blocks
+  (advice-add #'org-return-indent :after #'+org*return-indent-in-src-blocks)
+
+  (map! :map outline-mode-map
+        :n "^" nil
+        :n [backtab] nil
+        :n "C-j" nil
+        :n "C-k" nil
+        :n "]" nil
+        :n "[" nil
+
+        :map evil-org-mode-map
+        :i [backtab] #'+org/dedent
+        ;; 插入模式下单元格跳转
+        :i  "C-l"   #'+org/table-next-field
+        :i  "C-h"   #'+org/table-previous-field
+        :i  "C-k"   #'+org/table-previous-row
+        :i  "C-j"   #'+org/table-next-row
+        ;; 扩展表格
+        :ni "C-S-l" #'+org/table-append-field-or-shift-right
+        :ni "C-S-h" #'+org/table-prepend-field-or-shift-left
+        :ni "C-S-k" #'org-metaup
+        :ni "C-S-j" #'org-metadown
+        ;; 回车键缩进
+        :i  "RET"   #'org-return-indent
+        :n  "RET"   #'+org/dwim-at-point
+        :ni [M-return]   (λ! (+org/insert-item 'below))
+        :ni [S-M-return] (λ! (+org/insert-item 'above))
+        ;; org风格vim移动
+        :n  "]]"  (λ! (org-forward-heading-same-level nil) (org-beginning-of-line))
+        :n  "[["  (λ! (org-backward-heading-same-level nil) (org-beginning-of-line))
+        :n  "]l"  #'org-next-link
+        :n  "[l"  #'org-previous-link
+        :n  "]s"  #'org-babel-next-src-block
+        :n  "[s"  #'org-babel-previous-src-block
+        :m  "^"   #'evil-org-beginning-of-line
+        :m  "0"   (λ! (let ((visual-line-mode)) (org-beginning-of-line)))
+        :n  "gQ"  #'org-fill-paragraph
+        ;; Vim风格代码折叠
+        :n  "za"  #'+org/toggle-fold
+        :n  "zA"  #'org-shifttab
+        :n  "zc"  #'outline-hide-subtree
+        :n  "zC"  (λ! (outline-hide-sublevels 1))
+        :n  "zd"  (lambda (&optional arg) (interactive "p") (outline-hide-sublevels (or arg 3)))
+        :n  "zm"  (λ! (outline-hide-sublevels 1))
+        :n  "zo"  #'outline-show-subtree
+        :n  "zO"  #'outline-show-all
+        :n  "zr"  #'outline-show-all
+
+        :localleader ;; m is the localleader
+        :n "d" #'org-deadline
+        :n "t" #'org-todo
+        (:desc "clock" :prefix "c"
+          :n "c" #'org-clock-in
+          :n "C" #'org-clock-out
+          :n "g" #'org-clock-goto
+          :n "G" (λ! (org-clock-goto 'select))
+          :n "x" #'org-clock-cancel))
+
+#+END_SRC

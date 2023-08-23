@@ -1,0 +1,7 @@
+** TODO [#B] %^{Issue}                                                :PHONE:
+:SCHEDULES: %U
+%^{Number}p
+%^{From}p
+%^{To}p
+
+%?

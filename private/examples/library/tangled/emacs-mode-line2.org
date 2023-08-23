@@ -1,0 +1,109 @@
+#+TITLE:  Emacs Smart Mode Line
+#+AUTHOR: Howard Abrams
+#+EMAIL:  howard.abrams@gmail.com
+#+DATE:   2014 Sep 02
+#+TAGS:   emacs
+
+This literate programming file tangles out the configuration for
+creating a better mode line in Emacs.
+
+* General Settings
+
+  Much of what is on the mode line isn't helpful:
+
+  #+BEGIN_SRC elisp
+    (setq size-indication-mode nil
+          column-number-mode nil
+          line-number-mode nil)
+  #+END_SRC
+
+  I normally just use =diminish= in the =use-package= declaration to hide
+  some minor modes, but let's use the magic of =setf=, to /trim/ a mode's
+  display to a unicode icon:
+
+  #+BEGIN_SRC elisp
+    (dolist (mm '((auto-revert-mode   . "♺")
+                  (auto-fill-function . "⤶")
+                  (visual-line-mode   . "⤵")
+                  (isearch-mode       . "⁇")
+                  (paredit-mode       . "⁐")
+                  (smartparens-mode   . "⦅⦆")))
+
+      (let ((mode (car mm))
+            (repl (list (concat " " (cdr mm)))))
+
+        (when (assq (car mm) minor-mode-alist)
+          (setf (cdr (assq (car mm) minor-mode-alist)) repl))))
+  #+END_SRC
+
+* Smart Mode Line
+
+  While I like the cleanliness of the [[https://github.com/Bruce-Connor/smart-mode-line][Smart Mode Line]], I actually feel
+  that I get cleaner mode-lines with [[PowerLine][PowerLine]], so while I'm leaving
+  this configuration code here, I'm actually not tangling it.
+
+  #+BEGIN_SRC elisp
+    (use-package smart-mode-line
+      :ensure t
+      :init (add-hook 'after-init-hook 'sml/setup)
+      :config
+      ;; Fix a couple of long project names with an icon:
+      (add-to-list 'sml/replacer-regexp-list '("^~/website/" "[]"))
+      (add-to-list 'sml/replacer-regexp-list '("^~/Google Drive/technical/" "[⎙]"))
+      (add-to-list 'sml/replacer-regexp-list '("^~/Google/technical/" "[⎙]"))
+      (add-to-list 'sml/replacer-regexp-list '("^~/technical/" "[τεκ]"))
+
+      (add-to-list 'sml/replacer-regexp-list '("^~/Google Drive/Notes/" "[✎]"))
+      (add-to-list 'sml/replacer-regexp-list '("^~/Google/Notes/" "[✎]"))
+      (add-to-list 'sml/replacer-regexp-list '("^~/Notes/" "[✎]"))
+
+      (add-to-list 'sml/replacer-regexp-list '("^~/Other/dot-files/" "[◕]"))
+      (add-to-list 'sml/replacer-regexp-list '("^~/Work/dot-files/" "[◕]"))
+
+      ;; Shorten a couple of well-known directories ... these need to be first:
+      ;; (add-to-list 'sml/replacer-regexp-list '("^~/Google Drive/" "𝔾:") t)
+      ;; (add-to-list 'sml/replacer-regexp-list '("^~/Google/" "𝔾:") t)
+      ;; (add-to-list 'sml/replacer-regexp-list '("^~/google/" "𝔾:") t)
+      ;; (add-to-list 'sml/replacer-regexp-list '("^~/Dropbox/" "◰:") t)
+      ;; (add-to-list 'sml/replacer-regexp-list '("^~/Work/" "♨:") t)
+      ;; (add-to-list 'sml/replacer-regexp-list '("^~/Workspace/" "♨:"))
+
+      (sml/apply-theme 'dark)
+
+      ;; Since I almost always use Git, let's shorten its display:
+      (setcdr (assq 'vc-mode mode-line-format)
+        '((:eval (replace-regexp-in-string "^ Git" "\xe0a0" vc-mode)))))
+  #+END_SRC
+
+  Hiding some Minor modes in the mode line is real swell, the
+  =use-package= does most of this, but a few it doesn't.
+
+  #+BEGIN_SRC elisp :tangle no
+  (setq useless-minor-modes '(" Fill"   ;; First entry must have a space.
+                              "wg"
+                              "Projectile.*"))
+  (setq rm-blacklist (mapconcat 'identity useless-minor-modes "\\| "))
+  #+END_SRC
+
+* Technical Artifacts
+
+  Make sure that we can simply =require= this library.
+
+#+BEGIN_SRC elisp
+  (provide 'init-mode-line2)
+#+END_SRC
+
+  Before you can build this on a new system, make sure that you put
+  the cursor over any of these properties, and hit: =C-c C-c=
+
+  *Note:*: We are not using this file. If I want to switch, change the
+  =tangle= line below to: =~/.emacs.d/elisp/init-mode-line.el=
+
+#+DESCRIPTION: A literate programming version of my Emacs ModeLine Initialization
+
+#+PROPERTY:    header-args:elisp  :tangle ~/.emacs.d/elisp/init-mode-line2.el
+#+PROPERTY:    header-args:       :results silent   :eval no-export   :comments org
+
+#+OPTIONS:     num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS:     skip:nil author:nil email:nil creator:nil timestamp:nil
+#+INFOJS_OPT:  view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js

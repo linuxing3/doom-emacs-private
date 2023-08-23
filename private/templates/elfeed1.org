@@ -1,0 +1,21 @@
+* Emacs                                                         :elfeed:@office:
+** http://www.terminally-incoherent.com/blog/feed
+** http://nullprogram.com/feed
+** http://planet.emacsen.org/atom.xml
+** [[http://blog.binchen.org/rss.xml][Chen's blog]]
+** [[http://feeds.feedburner.com/XahsEmacsBlog][Xah Emacs Blog]]
+** [[https://emacs.cafe/feed.xml][Emacs café]]
+** [[http://pragmaticemacs.com/feed/][Pragmatic Emacs]]
+** [[http://sachachua.com/wp/category/emacs/feed/][Emacs - Sacha Chua]]
+** [[https://ekaschalk.github.io/index.xml][Modern Emacs on Modern Emacs]]
+* Web Development                                               :elfeed:@office:
+** http://planet.phpunit.de/atom.xml
+** http://feeds.feedburner.com/symfony/blog
+** http://feeds.feedburner.com/qooxdoo/blog/content
+* Venezuela
+** [[https://www.youtube.com/feeds/videos.xml?channel_id=UCFK38lePM6zqQ2CYfQyqdHA][NTN24 Venezuela]]
+** [[http://globovision.com/feed][Globovisión]]
+** [[http://www.guardian.co.uk/world/venezuela/rss][Venezuela | The Guardian]]
+** [[http://noticiasvenezuela.org/?feed=rss2][Noticias de Venezuela]]
+** [[http://www.correodelorinoco.gob.ve/feed/][Correo del Orinoco]]
+** [[http://www.ultimasnoticias.com.ve/feed/][Últimas Noticias]]

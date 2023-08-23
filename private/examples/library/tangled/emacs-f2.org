@@ -1,0 +1,100 @@
+#+TITLE:  F2 Keybindings for Emacs
+#+AUTHOR: Howard
+#+EMAIL:  howard.abrams@gmail.com
+#+DATE:   2015 Jan 04
+#+TAGS:   technical emacs
+
+* Pairs
+
+  While ~M-'~ inserts a pair of single quotes, I would also like to
+  insert a pair of unicode quotes:
+
+  #+BEGIN_SRC elisp
+    (defun insert-single-quotes (p)
+      "Inserts a pair of unicode rounded quotes, `SINGLE TURNED COMMA
+    QUOTATION MARK' and `SINGLE COMMA QUOTATION MARK'."
+      (interactive "P")
+      (insert-pair p 8216 8217))
+
+    (defun insert-double-quotes (p)
+      "Inserts a pair of unicode double rounded quotes."
+      (interactive "P")
+      (insert-pair p 8220 8221))
+
+    (bind-key "M-C-'"  #'insert-single-quotes)  ; ‘Nice!’
+    (bind-key "M-C-\"" #'insert-double-quotes)  ; “Goody”
+  #+END_SRC
+
+* Unicode Characters
+
+  The *F2* is used to enter odd characters not normally available or
+  phrases I want to type a bit too often.
+
+  #+BEGIN_SRC elisp
+    (mapc (lambda (tuple)
+            (define-key key-translation-map
+                (kbd (concat "<f2> " (nth 0 tuple))) ; Keybinding
+                (kbd (nth 1 tuple))))                ; Character to insert
+          '(("<up>" "↑")
+            ("<down>" "↓")
+            ("<left>" "←")
+            ("<right>" "→")
+            ("S-<up>" "⇑")
+            ("S-<down>" "⇓")
+            ("S-<left>" "⇐")
+            ("S-<right>" "⇒")
+
+            ("p" "▯")   ;; Representation of a cursor
+            ("'" "’")
+            ("\"" "‘")
+
+            ("8" "•")
+            ("*" "°")
+            ("d" "†")
+            ("D" "‡")
+            ("-" "—")
+            ("." "…")
+            (";" "😉")
+            (")" "☺")
+
+            ("a" "α")   ;; Lowercase Greek is uppercase
+            ("b" "β")
+            ("e" "ε")
+            ("l" "λ")
+            ("p" "π")
+            ("m" "μ")
+            ("t" "θ")
+
+            ("!" "¹")   ; For footnotes and things
+            ("@" "²")
+            ("#" "³")
+            ("$" "⁴")
+
+            ("2" "½")   ; Fractions
+            ("3" "⅓")
+            ("4" "¼")))
+#+END_SRC
+
+#+RESULTS:
+| ¼ |
+
+* Technical Artifacts
+
+  Make sure that we can simply =require= this library.
+
+#+BEGIN_SRC elisp
+  (provide 'init-f2)
+#+END_SRC
+
+  Before you can build this on a new system, make sure that you put
+  the cursor over any of these properties, and hit: =C-c C-c=
+
+#+DESCRIPTION: A literate programming version of my Emacs Initialization for Graphical Clients
+
+#+PROPERTY:    header-args:sh     :tangle no
+#+PROPERTY:    header-args:elisp  :tangle ~/.emacs.d/elisp/init-f2.el
+#+PROPERTY:    header-args:       :results silent   :eval no-export   :comments org
+
+#+OPTIONS:     num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS:     skip:nil author:nil email:nil creator:nil timestamp:nil
+#+INFOJS_OPT:  view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js

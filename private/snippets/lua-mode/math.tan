@@ -1,0 +1,2 @@
+# -*- mode: snippet -*-
+math.tan($0)

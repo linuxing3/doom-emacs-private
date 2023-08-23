@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: @include mixin
+# key: inc
+# uuid: inc
+# --
+@include `(doom-snippets-text nil t)`${1:mixin-name};

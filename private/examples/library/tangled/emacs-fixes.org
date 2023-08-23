@@ -1,0 +1,420 @@
+#+TITLE:  Functional Fixes for Emacs
+#+AUTHOR: Howard Abrams
+#+EMAIL:  howard.abrams@gmail.com
+#+DATE:   2014 Sep 16
+#+TAGS:   emacs
+
+Yeah, yeah, yeah...I love Emacs, but some functions could make better
+assumptions to what you want, and of course, we can waste any good
+bindings. For instance, a function may require a region to be selected
+before working, but a keybinding shouldn't. It should make good
+assumptions, where the 'region' would simply override those assumptions.
+
+Case in point, is the 'line' work bound to =Ctrl-k= ... cut to the end
+of the line, fine, but giving it a prefixed number will cut multiple
+lines, but not the full text of the current line...like why would you
+ever do that?
+
+*Note:* I want to look at the old Tiny Tools project and steal their
+ deletion code.
+
+* Aligning Variables
+
+  I like the =align-= collection of functions, however, setting the
+  regular expression for =align-regexp= can be daunting to remember
+  for some tasks.
+
+  For instance, I like to have my maps and hashtables and other
+  variable assignments aligned, but calling =align-regexp=
+  interactively leaves a bit to be desired.
+
+  This amounts to two primary steps:
+
+  1. Move each line in the region to the column specified by the first
+     line
+  2. Increase the spaces (after the initial indention) so that this
+     “second column” lines up (done with =align-regexp=).
+
+  #+BEGIN_SRC elisp
+    (defun align-variables (start end)
+      "Attempts to align all variables in an assignment list or keys
+    in a hash table. For instance:
+
+      (\"org-mode\"
+       :base-extension \"org\"
+       :recursive t
+       :headline-levels 4  ; Just the default for this project.
+       :auto-sitemap t     ; Generate sitemap.org automagically
+      )
+
+    Turns into the following if the region begins on the first line
+    with the colon:
+
+      (\"org-mode\"
+        :base-extension  \"org\"
+        :recursive       t
+        :headline-levels 4  ; Just the default for this project.
+        :auto-sitemap    t     ; Generate sitemap.org automagically
+      )
+
+    Note: This currently does not align the comments.
+
+    All lines in region will be indented to the position of the first
+    line. For most languages/modes, this should be sufficient, but if
+    it doesn't work, start the region as the column they should all
+    be indented. For instance:
+
+       var x = 10,
+           start = beginningOfFile,
+           end = File.end();
+
+    Start the region at the x, to achieve:
+
+       var x     = 10,
+           start = beginningOfFile,
+           end   = File.end();"
+      (interactive "r")
+      (save-excursion
+        (goto-char start)
+        (let* ((times (count-lines start end))
+               (real-start (if (looking-at-p "[ \\t(]")
+                               (1- (search-forward-regexp "[^ \\t(]" end t))
+                             start))
+               (real-end nil)  ;; Will be set later
+               (dest-column (progn
+                              (goto-char real-start)
+                              (current-column))))
+
+          ;; Step 1. Align all lines to the column of the text in the first line
+          (dotimes (line times)
+            (forward-line)
+            (indent-line-to dest-column))
+          (setq real-end (point))
+
+          ;; Step 2. Align all the values in a second column
+          (align-regexp real-start real-end "\\(\\s-*\\)\\(\\S-*\\)\\(\\s-*\\)" 3 1 nil))))
+  #+END_SRC
+
+* Kill Entire Lines
+
+  According to [[http://endlessparentheses.com/kill-entire-line-with-prefix-argument.html][this article]], killing the rest of the line is fine,
+  but =C-3 C-k= kills only 2½ lines. Not so useful.
+
+  This creates a macro that moves to the beginning of the line and
+  then calls a function given to it. Quite an interesting approach:
+
+  #+BEGIN_SRC elisp
+    (defmacro bol-with-prefix (function)
+      "Define a new function which calls FUNCTION.
+    Except it moves to beginning of line before calling FUNCTION when
+    called with a prefix argument. The FUNCTION still receives the
+    prefix argument."
+      (let ((name (intern (format "ha/%s-BOL" function))))
+        `(progn
+           (defun ,name (p)
+             ,(format
+               "Call `%s', but move to the beginning of the line when called with a prefix argument."
+               function)
+             (interactive "P")
+             (when p
+               (forward-line 0))
+             (call-interactively ',function))
+           ',name)))
+  #+END_SRC
+
+  And we re-bind them to functions that use them.
+
+  #+BEGIN_SRC elisp
+    (global-set-key [remap paredit-kill] (bol-with-prefix paredit-kill))
+    (global-set-key [remap sp-kill-hybrid-sexp] (bol-with-prefix sp-kill-hybrid-sexp))
+    (global-set-key [remap org-kill-line] (bol-with-prefix org-kill-line))
+    (global-set-key [remap kill-line] (bol-with-prefix kill-line))
+
+    (global-set-key (kbd "C-k") (bol-with-prefix kill-line))
+  #+END_SRC
+
+* Selecting Words
+
+  While you can type: =M-4 M-@= to select the next four words, that
+  is too much finger stretching for something I want to use often.
+  (Yes, hitting =M-@= four times is actually easier, but...)
+
+  The =M-w= does nothing different with a prefix, so this seems quite
+  reasonable to re-purpose such a direct command:
+
+  #+BEGIN_SRC elisp
+    (defun ha/select-words-or-copy (num)
+      "If region is active, copy to kill ring as normal, but given a
+    prefix, selects that number of words."
+      (interactive "p")
+      (cond
+       ((use-region-p) (kill-ring-save (region-beginning) (region-end)))
+       ((> num 0) (progn
+                    (beginning-of-thing 'word)
+                    (push-mark (point) nil t)
+                    (forward-word num)))
+       ((< num 0) (progn
+                    (end-of-thing 'word)
+                    (push-mark (point) nil t)
+                    (forward-word num)))))
+  #+END_SRC
+
+  Now bind them to the standard keys:
+
+  #+BEGIN_SRC elisp
+    (global-set-key (kbd "M-w") 'ha/select-words-or-copy)
+  #+END_SRC
+
+* Better Newline
+
+   Since =paredit= and other modes automatically insert final
+   characters like semi-colons and parenthesis, what I really want is
+   to hit return from the /end of the line/. Pretty simple function.
+
+#+BEGIN_SRC elisp
+  (defun newline-for-code ()
+    "Inserts a newline character, but from the end of the current line."
+    (interactive)
+    (move-end-of-line 1)
+    (newline-and-indent))
+#+END_SRC
+
+   And we can bind that to the free, /Meta-Return/:
+
+#+BEGIN_SRC elisp
+  (global-set-key (kbd "M-RET") 'newline-for-code)
+#+END_SRC
+
+   Remember, this works everywhere /except/ for org-mode.
+
+* Join Lines
+
+   I like how =M-SPC= removes all but one space, and =M-\= removes all
+   spaces. Would be nice to remove all /newlines/ in the same way.
+
+   Sure, =C-x C-o= removes all following newlines, so if at the end of
+   the first line that should be /joined/, then this acts somewhat
+   like =M-SPC=.
+
+#+BEGIN_SRC elisp
+  (defun join-lines ()
+    "If at the end of the line, will join the following line to the
+    end of this one...unless it is blank, in which case, it will
+    keep joining lines until the next line with text is
+    connected."
+    (interactive)
+
+    ;; Move to the the beginning of the white space before attempting
+    ;; this process. This allows us to join lines even if we are in the
+    ;; middle of some empty lines.
+    (re-search-backward "[^[:space:]\\r\\n]")
+    (forward-char)
+
+    ;; Just in case we have some trailing whitespace we can't see, let's
+    ;; just get rid of it. Won't do anything if in the middle of a line,
+    ;; or if there is not trailing whitespace.
+    (delete-trailing-whitespace (point) (point-at-eol))
+
+    ;; While we are at the end of the line, join a line, remove the
+    ;; whitespace, and keep on going until we're through...
+    (while (eq (point-at-eol) (point))
+      (delete-char 1)
+      (delete-trailing-whitespace (point) (point-at-eol))))
+
+  (global-set-key (kbd "C-RET") 'join-lines)
+#+END_SRC
+
+   I would like to have =M-RET= remove the lines similar to the way
+   =M-SPC= works, but that is already bound in =org-mode= to making a
+   special header, so I'll just bind it to Control.
+
+* Better Movement
+
+   The [[https://github.com/doitian/iy-go-to-char][iy-go-to-char]] project allows a quick search for a particular
+   character. In [[http://www.youtube.com/watch?v%3DNXTf8_Arl1w][Episode 6]] of [[http://www.emacsrocks.com][EmacsRocks]], [[http://twitter.com/emacsrocks][Magnar Sveen]] pulls it all
+   together and makes a compelling case for micro-optimizations.
+   I find it better than =avy= when in a macro.t
+
+   #+BEGIN_SRC elisp
+     (use-package iy-go-to-char
+       :ensure t
+       :bind
+       ("C-`" . iy-go-to-char)
+       ("<f13>" . iy-go-to-char)
+       ("C-~" . iy-go-to-char-backward))
+   #+END_SRC
+
+   To use, type =C-`= and then a character, number or other symbol to
+   jump to. Typing most things will bugger out of its "state" and
+   start editing, however, typing:
+
+   - =;= will jump to the next occurrence of that letter
+   - =,= jumps backwards
+   - =C-w= cuts from where the cursor started and where it ended.
+   - =M-w= copies that region
+
+* Better Beginning of Line
+
+   This [[http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginning-of-a-line/][Emacs Redux article]] has a great suggestion for having =C-a= go
+   to the beginning of the line's content instead of the actual
+   beginning of the line. Hit =C-a= a second to get to the actual
+   beginning.
+
+#+BEGIN_SRC elisp
+  (defun smarter-move-beginning-of-line (arg)
+    "Move point back to indentation of beginning of line.
+
+  Move point to the first non-whitespace character on this line.
+  If point is already there, move to the beginning of the line.
+  Effectively toggle between the first non-whitespace character and
+  the beginning of the line.
+
+  If ARG is not nil or 1, move forward ARG - 1 lines first.  If
+  point reaches the beginning or end of the buffer, stop there."
+    (interactive "^p")
+    (setq arg (or arg 1))
+
+    ;; Move lines first
+    (when (/= arg 1)
+      (let ((line-move-visual nil))
+        (forward-line (1- arg))))
+
+    (let ((orig-point (point)))
+      (back-to-indentation)
+      (when (= orig-point (point))
+        (move-beginning-of-line 1))))
+
+  ;; remap C-a to `smarter-move-beginning-of-line'
+  (global-set-key [remap move-beginning-of-line] 'smarter-move-beginning-of-line)
+  (global-set-key [remap org-beginning-of-line]  'smarter-move-beginning-of-line)
+#+END_SRC
+
+* Next and Previous File
+
+   Sometimes it is obvious what is the /next file/ based on the one
+   I'm currently reading. For instance, in my journal entries, the
+   filename is a number that can be incremented. Same with
+   presentation files...
+
+#+BEGIN_SRC elisp
+  (defun split-string-with-number (string)
+    "Returns a list of three components of the string, the first is
+  the text prior to any numbers, the second is the embedded number,
+  and the third is the rest of the text in the string."
+    (let* ((start (string-match "[0-9]+" string))
+           (end (string-match "[^0-9]+" string start)))
+      (if start
+          (list (substring string 0 start)
+                (substring string start end)
+                (if end  (substring string end)  "")))))
+#+END_SRC
+
+   Which means that the following defines this function:
+
+#+BEGIN_SRC elisp :tangle no
+(split-string-with-number "abc42xyz")  ;; ("abc" "42" "xyz")
+(split-string-with-number "42xyz")     ;; ("" "42" "xyz")
+(split-string-with-number "abc42")     ;; ("abc" "42" "")
+(split-string-with-number "20140424")  ;; ("" "20140424" "")
+(split-string-with-number "abcxyz")    ;; nil
+#+END_SRC
+
+   Given this splitter function, we create a function that takes some
+   sort of operator and return a new filename based on the conversion
+   that happens:
+
+#+BEGIN_SRC elisp
+  (defun find-file-number-change (f)
+    (let* ((filename (buffer-file-name))
+           (parts    (split-string-with-number
+                      (file-name-base filename)))
+           (new-name (number-to-string
+                      (funcall f (string-to-number (nth 1 parts))))))
+       (concat (file-name-directory filename)
+               (nth 0 parts)
+               new-name
+               (nth 2 parts))))
+#+END_SRC
+
+   And this allows us to create two simple functions that can load the
+   "next" and "previous" files:
+
+#+BEGIN_SRC elisp
+  (defun find-file-increment ()
+    "Takes the current buffer, and loads the file that is 'one
+  more' than the file contained in the current buffer. This
+  requires that the current file contain a number that can be
+  incremented."
+    (interactive)
+    (find-file (find-file-number-change '1+)))
+
+  (defun find-file-decrement ()
+    "Takes the current buffer, and loads the file that is 'one
+  less' than the file contained in the current buffer. This
+  requires that the current file contain a number that can be
+  decremented."
+    (interactive)
+    (find-file (find-file-number-change '1-)))
+
+  (global-set-key (kbd "C-c f +") 'find-file-increment)
+  (global-set-key (kbd "C-c f n") 'find-file-increment)
+  (global-set-key (kbd "C-c f -") 'find-file-decrement)
+  (global-set-key (kbd "C-c f p") 'find-file-decrement)
+#+END_SRC
+
+* Kill This Buffer
+
+  I rarely want to kill any buffer but the one I'm looking at.
+
+  #+BEGIN_SRC elisp
+    (global-set-key (kbd "C-x k") 'kill-this-buffer)
+    (global-set-key (kbd "C-x K") 'kill-buffer)
+  #+END_SRC
+
+* Better Transpose Word
+
+  Seems that the prefix feature of the =traspose-words= function is
+  backwards... at least, for case my use whatever
+
+  #+BEGIN_SRC elisp
+    (defun ha/transpose-words (pre)
+      "Wrapper around `transpose-words' and `org-transpose-words'
+    that works more intuitively when you are at the end of the line."
+      (interactive "p")
+      (let ((wrap-this (if (equal major-mode 'org-mode)
+                           'org-transpose-words
+                         'transpose-words)))
+        ;; At the end of the line with a positive prefix?
+        (when (looking-at "\s*$")
+          (cond
+           ;; No prefix? Send last word back before the previous...
+           ((null pre) (setq pre -1))
+           ;; Call it with a negative version of the prefix...
+           ((> pre 0)  (setq pre (- 0 pre)))))
+        (funcall wrap-this pre)))
+
+    (add-hook 'org-mode-hook (lambda()
+                              (define-key org-mode-map [remap org-transpose-words] #'ha/transpose-words)))
+    (global-set-key [remap transpose-words] #'ha/transpose-words)
+  #+END_SRC
+
+* Technical Artifacts
+
+  Make sure that we can simply =require= this library.
+
+#+BEGIN_SRC elisp
+  (provide 'init-fixes)
+#+END_SRC
+
+  Before you can build this on a new system, make sure that you put
+  the cursor over any of these properties, and hit: =C-c C-c=
+
+#+DESCRIPTION: A literate programming version of my Emacs Initialization for Graphical Clients
+
+#+PROPERTY:    header-args:sh     :tangle no
+#+PROPERTY:    header-args:elisp  :tangle ~/.emacs.d/elisp/init-fixes.el
+#+PROPERTY:    header-args:       :results silent   :eval no-export   :comments org
+
+#+OPTIONS:     num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS:     skip:nil author:nil email:nil creator:nil timestamp:nil
+#+INFOJS_OPT:  view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js

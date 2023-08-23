@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: fc
+# key: fc
+# condition: t       
+# --
+import React from 'react'
+const $1 = () => {
+  return (
+    <div>$2</div>
+  )
+}

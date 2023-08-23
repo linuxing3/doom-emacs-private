@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: python
+# key: py
+# uuid: py
+# --
+\lstset{language=python}
+\begin[language=python]{lstlisting}
+$0
+\end{lstlisting}

@@ -1,0 +1,88 @@
+#+TITLE: 基本的个性化配置技巧
+
+使用emacs有一段时间了，但是经常忘记一些关键的设置，导致实际安装和使用时出现这样
+或那样的问题。
+
+做一点简单的笔记,作为备忘。
+
+
+登录远程ssh服务器是，backspace键不管用怎么办？
+
+原因是很多的情况下，emacs自己有对于backspace的按键定义，可以这样修改
+
+#+BEGIN_SRC emacs-lisp
+
+;; FIXME: let [backspace] key work as it should be for ssh and other environment
+;; NOTE:  \C-h      C must be uppercase
+(global-set-key "\?" 'help-command)
+(global-set-key "\C-h" 'delete-backward-char)
+
+;; TODO: Switch [delete] and [backspace] for ssh and other environment
+;; (keyboard-translate ?\C-h ?\C-?)
+;; (keyboard-translate ?\C-? ?\C-h)
+
+#+END_SRC
+
+自定义字体怎么安装和配置
+
+#+BEGIN_SRC emacs-lisp
+;;
+;; Font
+;;
+(defvar my-font-list nil "A list of fonts for `my-cycle-font' to cycle from.")
+
+(setq my-font-list
+      (cond
+       ((string-equal system-type "windows-nt")
+        '(
+          "Yahei Consolas Hybrid-12"
+          "Microsoft Yahei-12"
+          "IBM Plex Mono-12"
+          "Hack-12"
+          "Courier-12"
+          "Lucida Console-12"
+          "Segoe UI Symbol-12"
+          "Lucida Sans Unicode-12"
+          ))
+       ((string-equal system-type "gnu/linux")
+        '(
+          "DejaVu Sans Mono-12"
+          "DejaVu Sans-12"
+          "Symbola-12"
+          ))
+       ((string-equal system-type "darwin") ; Mac
+        '(
+          "IBM Plex Mono-12"
+          "Monaco-12"
+          "Courier-12"
+          "Menlo-12"))))
+
+(if (string-equal system-type "windows-nt")
+    (setq
+     doom-font (font-spec :family "Hack" :size 16)
+     doom-big-font (font-spec :family "Yahei Consolas Hybrid" :size 18)
+     doom-variable-pitch-font (font-spec :family "Yahei Consolas Hybrid" :size 16)
+     doom-unicode-font (font-spec :famaly "Yahei Consolas Hybrid" :size 16))
+	(setq
+   doom-font (font-spec :family "IBM Plex Mono" :size 16)
+   doom-big-font (font-spec :family "IBM Plex Mono" :size 18)
+   doom-variable-pitch-font (font-spec :family "IBM Plex Mono" :size 16)
+   doom-unicode-font (font-spec :family "IBM Plex Mono" :size 16)))
+#+END_SRC
+
+定义自己的org capture模板是怎样工作的
+
+[[help:org-mode][Org-mode]]
+
+#+BEGIN_SRC emacs-lisp
+  ;; Magic begins
+  (setq org-capture-templates nil)
+  (setq anki-org-file (dropbox-path "org/anki.org"))
+  (add-to-list 'org-capture-templates
+               `("x"
+                 "Vocabulary"
+                 entry
+                 (file+headline anki-org-file "Vocabulary")
+                 ,(concat "* %^{heading} :note:\n"
+                          "%(generate-anki-note-body)\n")))
+#+END_SRC

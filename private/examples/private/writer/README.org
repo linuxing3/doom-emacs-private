@@ -1,0 +1,106 @@
+#+TITLE: :private xingwenju
+
+My Private module as writer
+
+All the functions are organized around the writer requiest.
+
+
+* Table of Contents :TOC:
+- [[Module Flags][Module Flags]]
+- [[Prerequisites][Prerequisites]]
+- [[Features][Features]]
+- [[Configuration][Configuration]]
+- [[Appendix][Appendix]]
+  - [[Commands][Commands]]
+  - [[Hacks][Hacks]]
+
+* Module Flags
+Xing wenju as a writer.
+
+* Prerequisites
+This module has no prereqisites.
+
+* Features
+
+A list of features, how to use them, and their dependencies.
+
+
+- 写博客 +blog.el
+
+- 看新闻 +news.el
+
+- 日程管理 +org.el
+
+- 看新闻  +rss.el
+
+
+* Configuration
+
+#+BEGIN_SRC emacs-lisp
+;;
+;;; Org
+;;
+(setq org-journal-dir (os-path "~/Dropbox/org/journal/"))
+(setq +org-babel-mode-alist
+  '(
+	("emacs-lisp" . C)
+	("cpp" . C)
+	("python" . C)
+	("shell" . C)
+    ("clojure" . C)
+    ("dot" . C)
+    ("ditaa" . C)
+    ("matlab" . octave))
+  )
+(load! +org)
+
+;;
+;;; Blog
+;;
+(setq blog-dir (os-path "~/Dropbox/xingwenju.com/hugo"))
+(setq blog-public-dir (os-path "~/Dropbox/xingwenju.com/hugo/public"))
+(load! +blog)
+
+;;
+;;; News
+;;
+(load! +news)
+
+;;
+;;; RSS
+;;
+(setq elfeed-dir (os-path "~/Dropbox/shared/"))
+(load! +rss)
+;;; End
+#+END_SRC
+
+* Appendix
+
+** Commands
+- 快捷键绑定 +bindings.el
+- 主题和字体 +ui.el
+- 自述文件 README.org
+- 自定义命令
+
+
+#+BEGIN_SRC emacs-lisp
+(defun my-simple-org-insert-src-block (src-code-type)
+  "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
+  (interactive
+   (let ((src-code-types
+          '("emacs-lisp" "python" "sh" "js")))
+     (list (ido-completing-read "代码类型: " src-code-types))))
+  (progn
+    (newline-and-indent)
+    (insert (format "#+BEGIN_SRC %s\n" src-code-type))
+    (newline-and-indent)
+    (insert "#+END_SRC\n")
+    (previous-line 2)
+    (org-edit-src-code)))
+#+END_SRC
+
+
+** Hacks
+- 自动加载函数 autoloads.el
+- 总体配置 config.el
+- 安装必要包 packages.el

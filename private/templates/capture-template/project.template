@@ -1,0 +1,16 @@
+* TODO [#%^{Priority}] %^{Project Name} [0/0] %^g
+:PROPERTIES:
+:Effort: %^{effort|1:00|2:00|4:00|8:00|24:00|100:00}
+:agenda-group: project
+:END:
+
+** Why?
+** When?
+** Where?
+** Who?
+** What?
+** How?
+Each Project will have some relevante steps
+- [ ] Todo1
+- [ ] Todo2
+- [ ] Todo3

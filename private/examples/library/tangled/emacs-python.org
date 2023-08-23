@@ -1,0 +1,333 @@
+#+TITLE:  Emacs Settings for Python
+#+AUTHOR: Howard Abrams
+#+EMAIL:  howard.abrams@gmail.com
+#+DATE:   [2014-02-01 Sat]
+#+TAGS:   emacs python
+
+For learning Python, read the [[https://docs.python.org/3/tutorial/index.html][basic tutorial]]. If you already know
+Python, perhaps check out some [[http://docs.python-guide.org/en/latest/][best practices]].  I initially stole my
+Emacs setup from [[https://github.com/gabrielelanaro/emacs-for-python][Gabriel Elanaro's git project]], but now it mostly
+revolves around the [[https://elpy.readthedocs.io/en/latest/introduction.html][Elpy Project]].
+
+* Virtual Environments
+
+  Development for Python should be isolated in [[http://docs.python-guide.org/en/latest/dev/virtualenvs/][virtual environments]],
+  where Project A doesn't need to change the dependencies for Project B.
+  First, some background (feel free to skip this section).
+
+  First, we used [[https://virtualenv.pypa.io/en/stable/][virtualenv]], which created a =venv= in every project's
+  directory. However, after using it a while...
+  #+BEGIN_QUOTE
+  you might end up with a lot of virtual environments littered across
+  your system, and its possible you’ll forget their names or where
+  they were placed.
+  #+END_QUOTE
+
+  So, we moved to the [[http://virtualenvwrapper.readthedocs.org/en/latest/index.html][virtualenvwrapper]] project, as it...
+  #+BEGIN_QUOTE
+  provides a set of commands which makes working with virtual
+  environments much more pleasant. It also places all your virtual
+  environments in one place.
+  #+END_QUOTE
+
+  *Note:* To use this, you'd call, =mkvirtualenv venv= to create an
+  environment, and work on a virtual environment, with =workon venv=.
+
+  In my day job, project often have a different /version/ of Python
+  (like =2.7.5= for Project B, and 2.6.6 for some legacy Project A).
+  To solve this, I now use [[https://github.com/yyuu/pyenv][pyenv]] for all my Pythonic virtualization
+  needs.
+
+** Installation
+
+   Begin with installing these packages on a Mac:
+
+   #+BEGIN_SRC sh
+     brew install pyenv pyenv-virtualenv pyenv-virtualwrapper
+   #+END_SRC
+
+   Or, if on Linux, let’s do it neckbeard-style:
+
+   #+BEGIN_SRC sh
+     git clone https://github.com/yyuu/pyenv.git ~/.pyenv
+     git clone https://github.com/yyuu/pyenv-virtualenv.git ~/.pyenv/plugins/pyenv-virtualenv
+   #+END_SRC
+
+   Next, use pip to install virtualenv globally.
+
+   #+BEGIN_SRC sh
+     sudo pip install virtualenv
+   #+END_SRC
+
+   Finally, change the [[file:profile.org::*Python][.profile]] to add these to the basic shell:
+
+   #+BEGIN_SRC sh
+     export PYENV_ROOT="${HOME}/.pyenv"
+
+     if [ -d "${PYENV_ROOT}" ]; then
+         export PATH="${PYENV_ROOT}/bin:${PATH}"
+         eval "$(pyenv init -)"
+     fi
+   #+END_SRC
+
+   Each /project/ will have its own collection of pip libraries, called
+   an /environment/. Each environment, however, can have a particular
+   version of Python...
+
+** Installing a Python Version
+
+   For a given /project/, we first install a particular Python version
+   for it using the =pyenv= command:
+
+   #+BEGIN_SRC sh
+     pyenv install 2.6.6
+   #+END_SRC
+
+   What versions are installed? Run:
+   #+BEGIN_SRC sh
+     pyenv versions
+   #+END_SRC
+
+** Creating a Python Environment
+
+   For a new project, create a new environment, and optionally
+   specify the version of Python you want to use:
+
+   #+BEGIN_SRC sh
+      pyenv global 3.4.2       # Step 1. Set the version
+      pyenv virtualenv foobar  # Step 2. Create environment
+      pyenv activate foobar    # STep 3. Use environment
+   #+END_SRC
+
+   Now commands like =pip= will isolate the module for this particular
+   environment.
+
+   *Note:* To get all the lovelies found in this configuration file, run
+   the following for each new virtual environment:
+
+   #+BEGIN_SRC sh
+     pip install --upgrade jedi flake8 pep8 importmagic autopep8 yapf nose
+   #+END_SRC
+
+** Using a Python Environment
+
+   To /use/ an environment you previously created, run:
+   #+BEGIN_SRC sh
+     pyenv activate foobar
+   #+END_SRC
+
+   And /deactivate/ it with:
+   #+BEGIN_SRC sh
+     pyenv deactivate
+   #+END_SRC
+
+   Want to set up a /default/ version that isn't the one that came with
+   your computer:
+   #+BEGIN_SRC sh
+     pyenv global 2.7.5
+   #+END_SRC
+   Or set up a default environment:
+   #+BEGIN_SRC sh
+     pyenv global foobar
+   #+END_SRC
+
+   Typically, you will have an environment tied to a particular
+   project, and since each project has its own directory, tie a
+   directory to a virtual environment:
+
+   #+BEGIN_SRC sh
+     pyenv local 2.6.6@foobar
+   #+END_SRC
+
+   While, the [[http://elpy.readthedocs.org/en/latest/concepts.html#virtual-envs][Elpy Project]] deals with the =virtualenvwrapper= (using the
+   =pyvenv-workon= function), we need to install [[https://github.com/proofit404/pyenv-mode][pyenv-mode]] for Emacs:
+
+   #+BEGIN_SRC elisp
+   (use-package pyenv-mode
+     :ensure t
+     :config
+       (defun projectile-pyenv-mode-set ()
+         "Set pyenv version matching project name."
+         (let ((project (projectile-project-name)))
+           (if (member project (pyenv-mode-versions))
+               (pyenv-mode-set project)
+             (pyenv-mode-unset))))
+
+       (add-hook 'projectile-switch-project-hook 'projectile-pyenv-mode-set)
+       (add-hook 'python-mode-hook 'pyenv-mode))
+   #+END_SRC
+
+   To automatically use the correct virtual environment (based on the
+   contents of a projects, =.python-version= file, use [[https://github.com/ssbb/pyenv-mode-auto][pyenv-mode-auto]]:
+
+   #+BEGIN_SRC elisp
+     (use-package pyenv-mode-auto
+        :ensure t)
+   #+END_SRC
+
+   *Note:* Since Elpy runs Python in the home directory, it doesn't deal
+   with any /local/ environment, so only use =pyenv global=.
+
+* Basics
+
+  WSGI files are just Python files in disguise, so tell them to use
+  the Python environment.
+
+  Careful with the tabs, my friend.
+
+  #+BEGIN_SRC elisp
+    (use-package python
+      :mode ("\\.py\\'" . python-mode)
+            ("\\.wsgi$" . python-mode)
+      :interpreter ("python" . python-mode)
+
+      :init
+      (setq-default indent-tabs-mode nil)
+
+      :config
+      (setq python-indent-offset 4)
+      (add-hook 'python-mode-hook 'smartparens-mode)
+      (add-hook 'python-mode-hook 'color-identifiers-mode))
+  #+END_SRC
+
+* Lint
+
+  Standardized on the =pep8= project, just make sure you've install the
+  [[https://flake8.readthedocs.org/en/2.3.0/][Flake8]] library.
+
+  #+BEGIN_SRC sh
+    pip install --upgrade flake8
+  #+END_SRC
+
+  [[http://www.flycheck.org][Flycheck]] automatically supports [[http://www.flycheck.org/manual/latest/Supported-languages.html#Python][Python with Flake8]]. To use it, set
+  the virtual environment, and the errors should appear automatically.
+
+* Unit Testing
+
+  Unit test and code coverage tool for Python now comes to Emacs
+  with [[http://ivory.idyll.org/articles/nose-intro.html][Python Nose]].
+
+  The ELPY project automatically adds support [[http://elpy.readthedocs.org/en/latest/ide.html#testing][for testing]].
+
+* Jedi
+
+  For auto-completion (and refactoring) for Python, you get two
+  choices: [[http://rope.sourceforge.net/ropemacs.html][Rope]] or [[https://github.com/tkf/emacs-jedi][Jedi]]. Rope, while claiming more features, seems to
+  crash and not work. Besides, Jedi is a better name.
+  See [[http://www.masteringemacs.org/articles/2013/01/10/jedi-completion-library-python/][this article]], and maybe [[http://tkf.github.io/emacs-jedi/][these instructions]].
+
+  Elpy will automatically use either, however, I want to hook Jedi to
+  Company mode:
+
+  #+BEGIN_SRC elisp
+    (use-package jedi
+      :ensure t
+      :init
+      (add-to-list 'company-backends 'company-jedi)
+      :config
+      (use-package company-jedi
+        :ensure t
+        :init
+        (add-hook 'python-mode-hook (lambda () (add-to-list 'company-backends 'company-jedi)))
+        (setq company-jedi-python-bin "python")))
+  #+END_SRC
+
+* Anaconda
+
+  While [[https://github.com/jorgenschaefer/elpy/wiki][ELPY]] tries to be the all-in-one Python IDE, [[https://github.com/proofit404/anaconda-mode][Anaconda]] is
+  thinner wrapper around Jedi, which seems to work a bit better for me
+  and the fact that I need to use =pyenv= (instead of =pyvenv=).
+
+  #+BEGIN_SRC elisp :tangle no
+    (use-package anaconda-mode
+      :ensure t
+      :init (add-hook 'python-mode-hook 'anaconda-mode)
+            (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+      :config (use-package company-anaconda
+                :ensure t
+                :init (add-hook 'python-mode-hook 'anaconda-mode)
+                (eval-after-load "company"
+                  '(add-to-list 'company-backends '(company-anaconda :with company-capf)))))
+  #+END_SRC
+
+  Oh, make sure we have [[https://github.com/proofit404/company-anaconda][Company-Anaconda]] configured too.
+
+* ELPY
+
+  According to the [[https://github.com/jorgenschaefer/elpy/wiki][ELPY Web Site]], grab the latest version:
+  #+BEGIN_SRC elisp :tangle no :results silent
+    (add-to-list 'package-archives
+               '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+  #+END_SRC
+
+  Then call:
+  - ~M-x package-initialize~
+  - ~M-x package-install~ ... ~elpy~
+
+  Once this has been installed, we can enable it:
+
+  #+BEGIN_SRC elisp :results silent
+    (use-package elpy
+      :ensure t
+      :commands elpy-enable
+      :init (with-eval-after-load 'python (elpy-enable))
+
+      :config
+      (electric-indent-local-mode -1)
+      (delete 'elpy-module-highlight-indentation elpy-modules)
+      (delete 'elpy-module-flymake elpy-modules)
+
+      (defun ha/elpy-goto-definition ()
+        (interactive)
+        (condition-case err
+            (elpy-goto-definition)
+          ('error (xref-find-definitions (symbol-name (symbol-at-point))))))
+
+      :bind (:map elpy-mode-map ([remap elpy-goto-definition] .
+                                 ha/elpy-goto-definition)))
+  #+END_SRC
+
+  Since ELPY is not a simple mode, but a collection of smaller modes
+  stitched together, we have to call ~with-eval-after-load~ (see [[http://emacs.stackexchange.com/questions/10065/how-can-i-defer-loading-elpy-using-use-package][this discussion]])
+
+  As the final bit of customization, first activate a virtual
+  environment with ~M-x pyvenv-workon~, and then run: ~M-x elpy-config~
+
+  See [[http://elpy.readthedocs.org/en/latest/ide.html][the documentation]] for details, but:
+  - =C-c C-f= :: Find Python file
+  - =C-c C-s= :: Grep for a Python symbol
+  - =C-c C-z= :: Switch to the Python Shell
+  - =C-c C-c= :: Send region to the Python interpreter
+
+  Note: The elpy-goto-definition is nice and all if you have a full
+  project with a running interpreter, but I want to use tags as a
+  fallback.  However, since the function throws an error, I can't
+  simply /advice/ the function, like:
+
+  #+BEGIN_SRC elisp :tangle no
+    (advice-add 'elpy-goto-definition :after-until 'find-tag)
+  #+END_SRC
+
+  Instead, I had to create a function wrapper.
+
+* Technical Artifacts
+
+  Make sure that we can simply =require= this library.
+
+  #+BEGIN_SRC elisp
+    (provide 'init-python)
+  #+END_SRC
+
+  Before you can build this on a new system, make sure that you put
+  the cursor over any of these properties, and hit: =C-c C-c=
+
+#+DESCRIPTION: A literate programming version of my Emacs Initialization of Python
+
+#+PROPERTY:    header-args:elisp  :tangle ~/.emacs.d/elisp/init-python.el
+#+PROPERTY:    header-args:sh     :tangle no
+#+PROPERTY:    header-args:python :tangle no
+#+PROPERTY:    header-args:       :results silent   :eval no-export   :comments org
+
+#+OPTIONS:     num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS:     skip:nil author:nil email:nil creator:nil timestamp:nil
+#+INFOJS_OPT:  view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js

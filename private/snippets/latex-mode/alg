@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: alg
+# key: alg
+# uuid: alg
+# --
+\begin{algorithmic}
+$0
+\end{algorithmic}

@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: function
+# key: fu
+# uuid: fu
+# --
+function ${1:name}($2)
+    ${3:-- code}
+end

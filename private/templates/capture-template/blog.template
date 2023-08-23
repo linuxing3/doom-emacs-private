@@ -1,0 +1,11 @@
+#+startup: showall
+#+options: toc:nil
+#+begin_export html
+---
+layout     : post
+title      : %^{标题}
+categories : %^{类别}
+tags       : %^{标签}
+---
+#+end_export
+#+TOC: headlines 2

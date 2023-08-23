@@ -1,0 +1,131 @@
+#+TITLE:  Emacs Settings for Web Programming
+#+AUTHOR: Howard Abrams
+#+EMAIL:  howard.abrams@gmail.com
+#+DATE:   [2014-02-01 Sat][2014-02-01 Sat]
+#+TAGS:   emacs web
+
+* Modes
+
+  I need these packages installed:
+
+  #+BEGIN_SRC elisp
+    (use-package web-mode
+       :ensure t)
+
+    (use-package mustache-mode
+       :ensure t)
+  #+END_SRC
+
+* CSS
+
+  Dunno why CSS doesn't honor the 2 spacing indent I have globally:
+
+  #+BEGIN_SRC elisp
+    (use-package css
+       :init
+        (setq css-indent-offset 2))
+  #+END_SRC
+
+  Need the smart parens:
+
+  #+BEGIN_SRC elisp
+    (use-package smartparens
+      :init (add-hook 'css-mode-hook 'smartparens-mode))
+  #+END_SRC
+
+* Surround with Tag
+
+  Seems that even the SGML mode doesn't care about properly formatted
+  HTML tags. This allows me to select a region and add wrap it in
+  tag...properly.
+
+  #+BEGIN_SRC elisp
+    (defun surround-html (start end tag)
+       "Wraps the specified region (or the current 'symbol / word'
+     with a properly formatted HTML tag."
+       (interactive "r\nsTag: " start end tag)
+       (save-excursion
+         (narrow-to-region start end)
+         (goto-char (point-min))
+         (insert (format "<%s>" tag))
+         (goto-char (point-max))
+         (insert (format "</%s>" tag))
+         (widen)))
+  #+END_SRC
+
+  And bind it to the HTML hook:
+
+  #+BEGIN_SRC elisp
+    (define-key html-mode-map (kbd "C-c C-w") 'surround-html)
+  #+END_SRC
+
+* Emmet Mode
+
+  [[https://github.com/smihica/emmet-mode][Emmet-Mode]] is pretty sweet, but need to hook it up to both
+  SGML (which includes HTML) and CSS:
+
+  #+BEGIN_SRC elisp
+  (use-package emmet-mode
+    :ensure t
+    :commands emmet-mode
+    :init
+    (setq emmet-indentation 2)
+    (setq emmet-move-cursor-between-quotes t)
+    :config
+    (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+    (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
+  #+END_SRC
+
+* Skewer
+
+  Live coding for HTML/CSS/JavaScript with a [[https://github.com/skeeto/skewer-mode][Skewer server]] running in Emacs.
+
+  #+BEGIN_SRC elisp
+    (use-package skewer-mode
+      :ensure t
+      :commands skewer-mode run-skewer
+      :config (skewer-setup))
+  #+END_SRC
+
+  Useful key-bindings with the =skewer-setup=:
+
+  - =C-x C-e= :: Evaluate the form before the point and display the result in the
+  - =minibuffer. If given a prefix argument, insert the result into the current
+  - =buffer.
+  - =C-M-x= :: Evaluate the top-level form around the point.
+  - =C-c C-k= :: Load the current buffer.
+  - =C-c C-z= :: Select the REPL buffer.
+
+* Impatient Mode
+
+  Similar to Skewer, the [[https://github.com/netguy204/imp.el][impatient-mode]] works well with HTML, but not
+  as well with Javascript, so I'm not tangling it right now:
+
+  #+BEGIN_SRC elisp :tangle no
+    (use-package impatient-mode
+      :ensure t)
+  #+END_SRC
+
+  Simply turn on the =impatient-mode= for any buffer that should be
+  /served/ and then pop over to http://localhost:8888/imp/
+
+* Technical Artifacts
+
+  Make sure that we can simply =require= this library.
+
+  #+BEGIN_SRC elisp
+    (provide 'init-web)
+  #+END_SRC
+
+  Before you can build this on a new system, make sure that you put
+  the cursor over any of these properties, and hit: =C-c C-c=
+
+#+DESCRIPTION: A literate programming version of my Emacs Initialization of Web Programming
+
+#+PROPERTY:    header-args:elisp  :tangle ~/.emacs.d/elisp/init-web.el
+#+PROPERTY:    header-args:sh     :tangle no
+#+PROPERTY:    header-args:       :results silent   :eval no-export   :comments org
+
+#+OPTIONS:     num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS:     skip:nil author:nil email:nil creator:nil timestamp:nil
+#+INFOJS_OPT:  view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
