@@ -1,0 +1,32 @@
+#+TITLE:  Emacs Server Configuration
+#+AUTHOR: Howard Abrams
+#+EMAIL:  howard.abrams@gmail.com
+#+DATE:   2014 Mar 22
+#+TAGS:   emacs
+
+This file is a smaller subset of my Emacs configuration file oriented
+for servers. Since I now use Tramp exclusively for editing files on my
+servers, having a special non-client configuration has become less of
+an issue.
+
+If I do get back to using a server-side emacs, since I dig [[https://tmux.github.io/][tmux]], I may
+want to play with the [[https://github.com/re5et/emux][emux]] package.
+
+* Key Bindings
+
+  If I am running on server, then I might as well attempt to pretend I'm
+  on a desktop:
+
+  #+BEGIN_SRC elisp
+    (cua-mode t)
+  #+END_SRC
+
+#+DESCRIPTION: A literate programming version of my Emacs Initialization for Servers
+
+#+PROPERTY:    header-args:sh     :tangle no
+#+PROPERTY:    header-args:elisp  :tangle ~/.emacs.d/elisp/init-server.el
+#+PROPERTY:    header-args:       :results silent   :eval no-export   :comments org
+
+#+OPTIONS:     num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS:     skip:nil author:nil email:nil creator:nil timestamp:nil
+#+INFOJS_OPT:  view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js

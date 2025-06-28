@@ -1,0 +1,325 @@
+#+TITLE:  Emacs Lisp Programming for Emacs
+#+AUTHOR: Howard Abrams
+#+EMAIL:  howard.abrams@workday.com
+#+DATE:   2017 Aug 23
+#+TAGS:   programming elisp
+
+   Sure, everything in my setup files is in Emacs Lisp, but this helps
+   me write more of that... like making snazzy symbols and colorizing
+   the variables.
+
+* Introduction
+
+  Since Emacs is great environment for writing Emacs Lisp, I never
+  thought to /customize that experience/.
+
+  However, after watching [[https://www.youtube.com/watch?v=QFClYrhV1z4][John Wiegley's talk]], I decided to /craft/ my
+  experience a bit (especially since I do quite a bit of Emacs Lisp
+  nowadays).
+
+  See these [[file:emacs.org::*General%20Language%20Support][features for general programming]] applicable to Emacs Lisp.
+  Check out the built-in *Info* documentation:
+    - =C-h i= :: Including [[info:eintr#Top][Elisp Introduction]] and [[info:elisp#Top][Full Reference]]
+    - =C-h f= :: Function description
+    - =C-h v= :: Variable description with current and previous setting
+    - =C-h S= :: Search the Info based on function or variable name
+
+* Emacs Lisp Mode
+
+  Hook in some packages into the built-in Emacs Lisp Mode.  The only
+  real snazzy symbol that I like is replacing the =lambda= with λ:
+
+   #+BEGIN_SRC elisp
+     (use-package lisp-mode
+       :init
+       (defconst lisp--prettify-symbols-alist
+         '(("lambda"  . ?λ)                  ; Shrink this
+           ("."       . ?•)))                ; Enlarge this
+
+       :bind (("C-c e i" . ielm))
+
+       :config
+       (add-hook 'emacs-lisp-mode-hook 'global-prettify-symbols-mode)
+       (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+       (add-hook 'emacs-lisp-mode-hook 'activate-aggressive-indent)
+
+       ;; Bind some prefixes to a couple of mode maps:
+       (bind-keys :map emacs-lisp-mode-map
+                  :prefix-map lisp-find-map
+                  :prefix "C-h e"
+                  ("e" . view-echo-area-messages)
+                  ("f" . find-function)
+                  ("k" . find-function-on-key)
+                  ("l" . find-library)
+                  ("v" . find-variable)
+                  ("V" . apropos-value))
+
+       (dolist (m (list emacs-lisp-mode-map lisp-interaction-mode-map))
+         (bind-keys :map m
+                    :prefix-map lisp-evaluation-map
+                    :prefix "C-c e"
+                    ("b" . eval-buffer)
+                    ("r" . eval-region)
+                    ("c" . eval-and-comment-output) ;; Defined below
+                    ("o" . eval-and-comment-output)
+                    ("d" . toggle-debug-on-error)
+                    ("f" . emacs-lisp-byte-compile-and-load))))
+   #+END_SRC
+
+  Emacs obviously does Emacs Lisp well, including most keybindings you
+  can imagine (did you know that you can be in the Info mode, and
+  evaluate any Lisp expression in the documentation with a =C-x C-e=).
+
+** IDO Everywhere
+
+  To help with some of the =find-= functions, we need IDO on /everything/:
+
+  #+BEGIN_SRC emacs-lisp
+    (defvar ido-enable-replace-completing-read t
+      "If t, use ido-completing-read instead of completing-read if possible.
+
+        Set it to nil using let in around-advice for functions where the
+        original completing-read is required.  For example, if a function
+        foo absolutely must use the original completing-read, define some
+        advice like this:
+
+        (defadvice foo (around original-completing-read-only activate)
+          (let (ido-enable-replace-completing-read) ad-do-it))")
+
+    ;; Replace completing-read wherever possible, unless directed otherwise
+    (defadvice completing-read
+        (around use-ido-when-possible activate)
+      (if (or (not ido-enable-replace-completing-read) ; Manual override disable ido
+              (and (boundp 'ido-cur-list)
+                   ido-cur-list)) ; Avoid infinite loop from ido calling this
+          ad-do-it
+        (let ((allcomp (all-completions "" collection predicate)))
+          (if allcomp
+              (setq ad-return-value
+                    (ido-completing-read prompt
+                                         allcomp
+                                         nil require-match initial-input hist def))
+            ad-do-it))))
+  #+END_SRC
+
+  Hrm... perhaps this code should be in my primary [[file:emacs.org][Emacs configuration file]].
+
+* Nicer Paren Matching
+
+  The reverse mode of the default parenthesis matching doesn’t match
+  as well, so [[http://www.emacswiki.org/emacs/ShowParenMode][this code]] just makes it bold and more obvious:
+
+  #+BEGIN_SRC elisp
+    (use-package paren
+      :init
+      (set-face-background 'show-paren-match (face-background 'default))
+      (set-face-foreground 'show-paren-match "#afa")
+      (set-face-attribute  'show-paren-match nil :weight 'black)
+      (set-face-background 'show-paren-mismatch (face-background 'default))
+      (set-face-foreground 'show-paren-mismatch "#c66")
+      (set-face-attribute  'show-paren-mismatch nil :weight 'black))
+  #+END_SRC
+
+  While we are at it, let's dim the parens with [[https://github.com/tarsius/paren-face][paren-face]]. May want
+  to customize the face to be even darker.
+
+  #+BEGIN_SRC elisp
+    (use-package paren-face
+      :ensure t
+      :init
+      (global-paren-face-mode))
+  #+END_SRC
+
+  While we are at it, let's make sure that we get an error if we ever
+  attempt to save a file with mismatched parenthesis:
+
+  #+BEGIN_SRC elisp
+    (add-hook 'after-save-hook 'check-parens nil t)
+  #+END_SRC
+
+* Code Templating
+
+  The [[https://github.com/Malabarba/speed-of-thought-lisp][Speed of Thought]] concept for lots of /little templates/ may be
+  helpful, assuming one can learn all the acronyms, but with the
+  overlaps and conflicts, I've decided to stick to [[file:emacs.org::*Yasnippets][Yasnippet templates]]
+  and [[file:emacs.org::*Auto%20Complete][Company]] mode (for auto-completing).
+
+* Code Evaluation
+
+  I'm intrigued with the [[https://www.emacswiki.org/emacs/InferiorEmacsLispMode][Inferior Emacs Lisp Mode]] (IELM), so let's add
+  the =eldoc= feature to it:
+
+  #+BEGIN_SRC elisp
+    (use-package ielm
+      :init
+      (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode))
+  #+END_SRC
+
+  Instead of displaying the results in a separate buffer (like the
+  above code does), The [[https://github.com/xiongtx/eros][EROS project]] displays the results temporarily
+  /in the buffer/ in an overlay.  No need to do anything special:
+
+  #+BEGIN_SRC elisp
+    (use-package eros
+      :ensure t
+      :init
+      (add-hook 'emacs-lisp-mode-hook (lambda () (eros-mode 1))))
+  #+END_SRC
+
+** Insert Comment of Eval
+
+   While writing and documenting Emacs Lisp code, it would be helpful
+   to insert the results of evaluation of an s-expression directly
+   into the code as a comment:
+
+   #+BEGIN_SRC elisp
+     (defun current-sexp ()
+       "Returns the _current expression_ based on the position of the
+       point within or on the edges of an s-expression."
+       (cond
+        ((looking-at "(") (sexp-at-point))
+        ((looking-back ")" 1) (elisp--preceding-sexp))
+        (t (save-excursion
+             (search-backward "(")
+             (sexp-at-point)))))
+
+     (defun eval-current-sexp ()
+       "Evaluates the expression at point. Unlike `eval-last-sexp',
+     the point doesn't need to be at the end of the expression, but
+     can be at the beginning (on the parenthesis) or even somewher
+     inside."
+       (interactive)
+       (eval-expression (current-sexp)))
+
+     (defun eval-and-comment-output ()
+       "Add the output of the `current-sexp' as a comment at the end
+     of the line. Calling this multiple times replaces the comment
+     with the new evaluation value."
+       (interactive)
+       (let* ((marker " ; -> ")
+              (expression (current-sexp))
+              (results (eval expression)))
+         (save-excursion
+           (beginning-of-line)
+           (if (search-forward marker (line-end-position) t)
+               (delete-region (point) (line-end-position))
+             (end-of-line)
+             (insert marker))
+           (condition-case nil
+               (princ (pp-to-string results) (current-buffer))
+             (error (message "Invalid expression"))))))
+   #+END_SRC
+
+* Paredit
+
+  One of the cooler features of Emacs is the [[http://emacswiki.org/emacs/ParEdit][ParEdit mode]] which
+  keeps all parenthesis balanced in Lisp-oriented languages.
+  See this [[http://www.emacswiki.org/emacs/PareditCheatsheet][cheatsheet]].
+
+  #+BEGIN_SRC elisp
+    (use-package paredit
+      :ensure t
+      :diminish "﹙﹚"
+      :init
+      (dolist (m (list 'emacs-lisp-mode-hook 'lisp-interaction-mode-hook 'eval-expression-minibuffer-setup-hook 'ielm-mode-hook))
+        (add-hook m 'enable-paredit-mode)))
+  #+END_SRC
+
+  As they say, “If you think paredit is not for you then you need to
+  become the kind of person that paredit is for.”
+
+* Code Navigation
+
+  The [[https://github.com/abo-abo/lispy][lispy project]] takes the code navigation of Paredit, with the
+  /keyboard movement/ ideas from Vi. Essentially, if you are on a
+  parenthesis character (where typing a letter wouldn't make sense),
+  then it binds that to a movement command.
+
+  #+BEGIN_SRC elisp :tangle no
+    (use-package lispy
+      :ensure t
+      :defer t
+      :bind (:map lispy-mode-map
+             ("C-1" . nil)
+             ("C-2" . nil)
+             ("C-3" . nil)
+             ("C-4" . nil))
+      :init
+      (dolist (hook '(emacs-lisp-mode-hook
+                      lisp-interaction-mode-hook
+                      lisp-mode-hook
+                      clojure-mode-hook))
+        (add-hook hook (lambda () (lispy-mode 1)))))
+  #+END_SRC
+
+  Some bindings, like =C-1= is /wrong/, so I remove those.
+  I don't know if I will ever get to know all the keybindings here:
+
+  - =d= :: Toggle between both sides of the s-expression
+  - =f= :: Move from paren to paren regardless of indentation (inside)
+  - =h= :: Move /up/ to the start of the containing s-expression (parent)
+  - =j= / =k= :: Move from start of one sibling s-expression to the next
+  - =b= :: moves back in history for all above commands
+
+  Actually, I think I would prefer to turn on each of the keybindings,
+  since it has so many conflicting ones.
+
+* Refactoring
+
+  Checked out [[http://www.foldr.org/~michaelw/emacs/redshank/][Redshank]], but quite disappointed.  I really need the
+  ability to pull things out into =let= expressions, functions and
+  variables (and inline them back again), and for this feature,
+  [[https://github.com/Wilfred][Wilfred Hughes]]' [[https://github.com/emacsmirror/emr][EMR system]] works quite well.
+
+  #+BEGIN_SRC elisp
+    (use-package emr
+      :config
+      (add-hook 'emacs-lisp-mode-hook 'emr-initialize)
+      (bind-key "R" #'emr-show-refactor-menu lisp-evaluation-map))
+  #+END_SRC
+
+* Debugging
+
+  Debugging is built into Emacs. Simply prepend a =C-u= before you
+  evaluate a function, and when it is run, it will drop you into the
+  debugger.
+
+  Remember the following key-bindings once started:
+  - =SPC= :: To stop at the next /stop point/
+  - =b= :: Set a breakpoint and =q= to execute until that breakpoint
+  - =q= :: quit the debugger (other commands, hit =?= to see what is available)
+
+  Unfamiliar?  Check out [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Using-Edebug.html][this introduction]] (or see the Info).
+
+* Suggesting
+
+  Intrigued to play with Wilfred Hughes' project, [[https://github.com/Wilfred/suggest.el][suggest]]:
+
+  #+BEGIN_SRC elisp
+    (use-package suggest
+      :bind ((:prefix-map lisp-evaluation-map
+              :prefix "C-c e"
+              ("s" . suggest))))
+  #+END_SRC
+
+  To use, simply: =M-x suggest=
+
+* Technical Artifacts
+
+  Make sure that we can simply =require= this library.
+
+  #+BEGIN_SRC elisp
+  (provide 'init-elisp)
+  #+END_SRC
+
+  Before you can build this on a new system, make sure that you put
+  the cursor over any of these properties, and hit: =C-c C-c=
+
+#+DESCRIPTION: A literate programming version of my Emacs Initialization for Emacs Lisp
+#+PROPERTY:    header-args:sh     :tangle no
+#+PROPERTY:    header-args:elisp  :tangle ~/.emacs.d/elisp/init-elisp.el
+#+PROPERTY:    header-args        :results silent   :eval no-export   :comments org
+#+PROPERTY:    comments no
+#+OPTIONS:     num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS:     skip:nil author:nil email:nil creator:nil timestamp:nil
+#+INFOJS_OPT:  view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
