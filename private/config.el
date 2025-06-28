@@ -10,7 +10,7 @@
 (setq projectile-default-src-directory "~/sources")
 (setq projectile-project-search-path 'projectile-default-src-directory)
 
-; (setq bookmark-default-file (dropbox-path "shared/emacs-bookmarks"))
+(setq bookmark-default-file (dropbox-path "shared/emacs-bookmarks"))
 
 (setq display-line-numbers-type t)
 
