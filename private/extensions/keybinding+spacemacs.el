@@ -315,7 +315,7 @@
           :desc "Save and quit"          :n "q" #'evil-save-and-quit
           :desc "Quit (forget session)"  :n "Q" #'+workspace/kill-session-and-quit)
 
-        (:when (featurep! :tools upload)
+        (:when (modulep! :tools upload)
           (:desc "remote" :prefix "r"
             :desc "Upload local"           :n "u" #'ssh-deploy-upload-handler
             :desc "Upload local (force)"   :n "U" #'ssh-deploy-upload-handler-forced

@@ -7,7 +7,7 @@
 
 (defvar data-drive "")
 
-(setq data-drive "/"))
+(setq data-drive "/")
 
 (if (equal nil (getenv "HOME"))
     (setq home-directory "~/")
@@ -24,15 +24,15 @@
 (defun dropbox-path (path)
   "Prepend drive label to PATH."
   (if IS-WINDOWS
-      (concat data-drive "OneDrive/" path)
-    (concat home-directory "OneDrive/" path)))
+      (concat data-drive "/OneDrive/" path)
+    (concat home-directory "/OneDrive/" path)))
 
 ;;;###autoload
 (defun workspace-path (path)
   "Prepend drive label to PATH."
   (if IS-WINDOWS
-      (concat data-drive "sources/" path)
-    (concat home-directory "sources/" path)))
+      (concat data-drive "/sources/" path)
+    (concat home-directory "/sources/" path)))
 
 ;;;###autoload
 (defmacro with-dir (DIR &rest FORMS)

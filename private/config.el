@@ -7,7 +7,10 @@
 ;;
 (setq doom-theme 'doom-one)
 
-(setq bookmark-default-file (dropbox-path "shared/emacs-bookmarks"))
+(setq projectile-default-src-directory "~/sources")
+(setq projectile-project-search-path 'projectile-default-src-directory)
+
+; (setq bookmark-default-file (dropbox-path "shared/emacs-bookmarks"))
 
 (setq display-line-numbers-type t)
 
@@ -35,5 +38,5 @@
 ;; ---------------------------------------------------------
 ;; Keybindings
 ;; ---------------------------------------------------------
-; (load! "extensions/keybinding+spacemacs" nil t)
-(load! "extensions/keybinding+helix" nil t)
+(load! "extensions/keybinding+spacemacs" nil t)
+; (load! "extensions/keybinding+helix" nil t)

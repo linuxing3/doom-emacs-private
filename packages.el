@@ -7,6 +7,7 @@
 (package! kakoune)
 (package! org-super-agenda)
 (package! ryo-modal)
+(package! hydra)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 
