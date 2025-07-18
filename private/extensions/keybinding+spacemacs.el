@@ -32,16 +32,25 @@
       "M-="       #'text-scale-increase
       "M--"       #'text-scale-decrease
 
-      ;; Simple window/frame navigation/manipulation
-      "C-`"       #'+popup/toggle ;;打开弹窗
-      "C-~"       #'+popup/raise  ;;抬高弹窗
-      "M-t"       #'+workspace/new ;;创建新工作区
-      "M-T"       #'+workspace/display ;;显示工作区
-      "M-w"       #'delete-window ;; 删除窗口
+      ;; frame operation
       "M-W"       #'delete-frame  ;; 删除桢
       "C-M-f"     #'toggle-frame-fullscreen ;;全屏切换
       "M-n"       #'evil-buffer-new ;;创建新缓存区
       "M-N"       #'make-frame ;;创建新的帧
+
+      ;; match
+      :n  "mm"    #'evil-jump-item
+
+      "M-RET"     (λ! (evil-end-of-line) (newline-and-indent))
+      ;; Simple workspace operation
+      "M-T"       #'+workspace/new ;;创建新工作区
+      "M-D"       #'+workspace/kill
+      "M-L"       #'+workspace/switch-right ;切换右边工作区
+      "M-H"       #'+workspace/switch-left  ;切换左边工作区
+      :n  "]w"    #'+workspace/switch-right ;切换右边工作区
+      :n  "[w"    #'+workspace/switch-left  ;切换左边工作区
+      :m  "gt"    #'+workspace/switch-right ;
+      :m  "gT"    #'+workspace/switch-left  ;
       "M-1"       (λ! (+workspace/switch-to 0))
       "M-2"       (λ! (+workspace/switch-to 1))
       "M-3"       (λ! (+workspace/switch-to 2))
@@ -53,45 +62,81 @@
       "M-9"       (λ! (+workspace/switch-to 8))
       "M-0"       #'+workspace/switch-to-last
 
+      ;; Simple window operation
+      "s-v"       #'split-window-right ;;
+      "s-d"       #'split-window-below ;;
+      "s-q"       #'delete-window ;; 删除窗口
+
+      ;; Simple buffer operation
+      :n "L"   #'next-buffer
+      :n "H"   #'previous-buffer
+
+      ;; Simple popup window
+      "C-`"       #'+popup/toggle ;;打开弹窗
+      "C-~"       #'+popup/raise  ;;抬高弹窗
+
       ;; Other functional keys
       ;; "<f1>"  #'help
-      "<f2>"  #'previous-buffer
-      "<f3>"  #'next-buffer
-      "<f4>"  #'dired ;;explore
-      "<f5>"  #'+eval/buffer
-      "<f6>"  #'kill-buffer-and-window
-      "<f7>"  #'split-window-right
-      "<f8>"  #'fill-paragraph
-      "<f9>"  #'org-capture
+      "<f2>"   #'org-todo-list
+      "<f3>"   #'magit-status
+      "<f4>"   #'dired
+      "<f5>"   #'+eval/buffer
+      "<f6>"   #'delete-window
+      "<f7>"   #'split-window-right
+      "<f8>"   #'fill-paragraph
+      "<f9>"   #'org-capture
       "<f10>"  #'org-agenda
       "<f11>"  #'new-frame
       "<f12>"  #'+lookup/definition
 
-      ;; Other sensible, textmate-esque global bindings
-      :ne "M-r"   #'+eval/buffer  ;; 运行代码
-      :ne "C-M-r"   #'+eval/buffer  ;; 运行代码
-      :ne "M-R"   #'+eval/region-and-replace ;; 运行代码片段
-      :ne "M-b"   #'+eval/build   ;; 构建
-      :ne "M-a"   #'mark-whole-buffer  ;; 全选
-      :ne "M-c"   #'evil-yank     ;; 粘贴
-      :ne "M-q"   (if (daemonp) #'delete-frame #'evil-quit-all)
-                                        ; :ne "M-f"   #'swiper        ;; 查找
+      ;; --- Personal vim-esque bindings ------------------
+      :n  "zx" #'kill-this-buffer ;杀死当前缓冲
+      :n  "ZX" #'bury-buffer      ;去掉当前缓冲
+      :n  "]b" #'next-buffer      ;下个缓冲
+      :n  "[b" #'previous-buffer  ;枪个缓冲
+
+      :m  "gd" #'+lookup/definition      ;查找定义
+      :m  "gD" #'+lookup/references      ;查找引用
+      :m  "gh" #'+lookup/documentation   ;查看文裆
+      :n  "gp" #'+evil/reselect-paste    ;重新选择-粘贴
+
+      ;; kakoune/helix like line goto
+      :n  "gl" #'evil-end-of-line
+      :n  "gh" #'evil-beginning-of-line
+      :n  "ge" #'evil-goto-line
+      :ni  "C-d" #'duplicate-line
+
+      :n  "gr" #'+eval:region            ;执区域
+      :n  "gR" #'+eval/buffer            ;执缓冲
+      :v  "gR" #'+eval:replace-region    ;替换区域
+
+      :v  "@"  #'+evil:macro-on-all-lines;执行宏
+      :n  "g@" #'+evil:macro-on-all-lines
+      ;; repeat in visual mode (FIXME buggy)
+      :v  "."  #'evil-repeat             ;点重复执行
+      ;; don't leave visual mode after shifting
+      :v  "<"  #'+evil/visual-dedent  ; vnoremap < <gv
+      :v  ">"  #'+evil/visual-indent  ; vnoremap > >gv
+      ;; paste from recent yank register (which isn't overwritten)
+      :v  "C-p" "\"0p"                ;从最新寄存器粘贴
+
+      :nv "C-a" #'evil-numbers/inc-at-pt ;增加编号
+      :nv "C-x" #'evil-numbers/dec-at-pt ;缩小编号
+
       :ne "M-z"   #'fill-paragraph ;; 折行
       :n  "M-s"   #'save-buffer   ;; 保存
       :n  "M-F"   #'+format/buffer;; 保存
       :m  "A-j"   #'+default:multi-next-line  ;; 多次下一行
       :m  "A-k"   #'+default:multi-previous-line     ;;多次前一行
       :nv "C-SPC" #'+evil:fold-toggle  ;;  切换折叠
-      :gnvimer "M-v" #'clipboard-yank  ;;  粘贴
       ;;  快速窗口移动 Easier window navigation
       :en "C-h"   #'evil-window-left
       :en "C-j"   #'evil-window-down
       :en "C-k"   #'evil-window-up
       :en "C-l"   #'evil-window-right
 
-      "C-x p"     #'+popup/other
       ;; 提高效率的快捷键
-      ;; :i  "jk"    (lambda! (evil-force-normal-state) (save-buffer)) ;;退出编辑状态并保存
+      :i  "jk" (λ! (normal-mode) (save-buffer))
 
       ;; --- <leader> -------------------------------------
       (:leader
@@ -99,18 +144,22 @@
        :desc "M-x"                     :nv ":"  #'execute-extended-command ;;Emacs类执行扩展命令
        :desc "Extended command"        :n "SPC" #'execute-extended-command ;;
        :desc "Pop up scratch buffer"   :nv "X"  #'doom/open-scratch-buffer ;;打开涂鸦缓冲区
-       :desc "Org Capture"             :nv "x"  #'org-capture ;;org抓取器
-       ;;:desc "Reload Config"           :nv "r"  #'doom/reload ;; reload
 
+       :desc "Reload Config"           :nv "r"  #'doom/reload ;; reload
+
+       :desc "Save buffer"             :nv  "x" #'save-buffer
        ;; Most commonly used
-       :desc "Switch workspace buffer" :n ","   #'persp-switch-to-buffer ;;切换缓冲区
-       :desc "Switch buffer"           :n "<"   #'switch-to-buffer ;;切换缓冲区
+       :desc "Close Others"            :n ","   #'doom/kill-other-buffers
        :desc "Browse files"            :n "."   #'find-file ;;查找文件
+
        :desc "Toggle last popup"       :n "~"   #'+popup/toggle ;;切换最后弹窗
        :desc "Eval expression"         :n "`"   #'eval-expression ;;验证表达式
-       :desc "Blink cursor line"       :n "DEL" #'+doom/blink-cursor ;;
+       :desc "Blink cursor line"       :n "DEL" #'+nav-flash/blink-cursor ;;
+
        :desc "Jump to bookmark"        :n "RET" #'bookmark-jump-other-window ;; 跳到书签
        :desc "Set bookmark"            :n "#"   #'bookmark-set  ;; 设置书签
+
+       :desc "Clipboard Yank"          :nv "Y"  #'clipboard-yank  ;;  粘贴
 
        ;; C-u is used by evil
        :desc "Universal argument"      :n "u"  #'universal-argument
@@ -175,17 +224,17 @@
 
        ;; 缓冲区
        (:desc "buffer" :prefix "b"
-        :desc "New"                 :n "n" #'evil-buffer-new
+        :desc "New"                    :n "n" #'evil-buffer-new
         :desc "Choose"                 :n "b" #'persp-switch-to-buffer
         :desc "Choose"                 :n "B" #'switch-to-buffer
-        :desc "Close"                 :n "k" #'kill-this-buffer
-        :desc "Close Others"                 :n "o" #'doom/kill-other-buffers
-        :desc "Save"                 :n "s" #'save-buffer
-        :desc "Scratch"                 :n "x" #'doom/open-scratch-buffer
-        :desc "Overlay"                 :n "z" #'bury-buffer
-        :desc "Next"                 :n "]" #'next-buffer
-        :desc "Prev"                 :n "[" #'previous-buffer
-        :desc "Sudo Edit"                 :n "S" #'doom/sudo-this-file)
+        :desc "Close"                  :n "k" #'kill-this-buffer
+        :desc "Close Others"           :n "o" #'doom/kill-other-buffers
+        :desc "Save"                   :n "s" #'save-buffer
+        :desc "Scratch"                :n "x" #'doom/open-scratch-buffer
+        :desc "Overlay"                :n "z" #'bury-buffer
+        :desc "Next"                   :n "]" #'next-buffer
+        :desc "Prev"                   :n "[" #'previous-buffer
+        :desc "Sudo Edit"              :n "S" #'doom/sudo-this-file)
 
        ;; 代码 c
        (:desc "code" :prefix "c"
@@ -302,7 +351,8 @@
        ;; 工程 p
        (:desc "project" :prefix "p"
         :desc "Browse project"          :n  "." #'+default/browse-project
-        :desc "Find file in project"    :n  "/" #'projectile-find-file
+        :desc "Fuzzy find in project"   :n  "*" #'projectile-find-regex
+        :desc "Find file in project"    :n  "/" #'project-find-regexp
         :desc "Run cmd in project root" :nv "!" #'projectile-run-shell-command-in-root
         :desc "Compile project"         :n  "c" #'projectile-compile-project
         :desc "Find other file"         :n  "o" #'projectile-find-other-file
@@ -342,36 +392,6 @@
         :desc "Impatient mode"         :n "h" #'+impatient-mode/toggle
         :desc "Big mode"               :n "b" #'doom-big-font-mode
         :desc "Evil goggles"           :n "g" #'+evil-goggles/toggle))
-
-
-      ;; --- Personal vim-esque bindings ------------------
-      :n  "zx" #'kill-this-buffer ;杀死当前缓冲
-      :n  "ZX" #'bury-buffer      ;去掉当前缓冲
-      :n  "]b" #'next-buffer      ;下个缓冲
-      :n  "[b" #'previous-buffer  ;枪个缓冲
-      :n  "]w" #'+workspace/switch-right ;切换右边工作区
-      :n  "[w" #'+workspace/switch-left  ;切换左边工作区
-      :m  "gt" #'+workspace/switch-right ;
-      :m  "gT" #'+workspace/switch-left  ;
-      :m  "gd" #'+lookup/definition      ;查找定义
-      :m  "gD" #'+lookup/references      ;查找引用
-      :m  "gh" #'+lookup/documentation   ;查看文裆
-      :n  "gp" #'+evil/reselect-paste    ;重新选择-粘贴
-      :n  "gr" #'+eval:region            ;执区域
-      :n  "gR" #'+eval/buffer            ;执缓冲
-      :v  "gR" #'+eval:replace-region    ;替换区域
-      :v  "@"  #'+evil:macro-on-all-lines;执行宏
-      :n  "g@" #'+evil:macro-on-all-lines
-      ;; repeat in visual mode (FIXME buggy)
-      :v  "."  #'evil-repeat             ;点重复执行
-      ;; don't leave visual mode after shifting
-      :v  "<"  #'+evil/visual-dedent  ; vnoremap < <gv
-      :v  ">"  #'+evil/visual-indent  ; vnoremap > >gv
-      ;; paste from recent yank register (which isn't overwritten)
-      :v  "C-p" "\"0p"                ;从最新寄存器粘贴
-
-      :nv "C-a" #'evil-numbers/inc-at-pt ;增加编号
-      :nv "C-x" #'evil-numbers/dec-at-pt ;缩小编号
 
 
       ;; --- Plugin bindings ------------------------------
@@ -602,22 +622,6 @@
       :m  "]t" #'hl-todo-next
       :m  "[t" #'hl-todo-previous
 
-      ;; ivy
-      (:after ivy
-       :map ivy-minibuffer-map
-       [escape] #'keyboard-escape-quit
-       "C-SPC" #'ivy-call-and-recenter
-       "M-v" #'yank
-       "M-z" #'undo
-       "C-r" #'evil-paste-from-register
-       "C-k" #'ivy-previous-line
-       "C-j" #'ivy-next-line
-       "C-l" #'ivy-alt-done
-       "C-w" #'ivy-backward-kill-word
-       "C-u" #'ivy-kill-line
-       "C-b" #'backward-word
-       "C-f" #'forward-word)
-
       ;; neotree
       (:after neotree
        :map neotree-mode-map
@@ -644,35 +648,6 @@
        :n "s"         #'neotree-enter-horizontal-split ;; 横向风格
        :n "q"         #'neotree-hide
        :n "R"         #'neotree-refresh)
-
-      ;; realgud
-      (:after realgud
-       :map realgud:shortkey-mode-map
-       :n "j" #'evil-next-line
-       :n "k" #'evil-previous-line
-       :n "h" #'evil-backward-char
-       :n "l" #'evil-forward-char
-       :m "n" #'realgud:cmd-next
-       :m "b" #'realgud:cmd-break
-       :m "B" #'realgud:cmd-clear
-       :n "c" #'realgud:cmd-continue)
-
-      ;; rotate-text
-      :n  "!"  #'rotate-text
-
-      ;; smart-forward
-      :nv "K"  #'smart-up
-      :m  "g]" #'smart-forward
-      :m  "g[" #'smart-backward
-
-      ;; swiper
-      (:after swiper
-              (:map swiper-map
-                    [backtab]  #'+ivy/wgrep-occur))
-
-      ;; undo-tree -- undo/redo for visual regions
-      :v "C-u" #'undo-tree-undo ; NOTE: 取消
-      :v "C-r" #'undo-tree-redo ; NOTE: 重复
 
       ;; 代码片段 yasnippet
       (:after yasnippet
