@@ -1,6 +1,9 @@
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
 ;; ---------------------------------------------------------
+
+;; (helix-normal-mode 1)
+
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-set-key (kbd "C-z") #'helix-mode-all)
 
@@ -17,16 +20,17 @@
 (keymap-global-set "<f11>" #'+lookup/implementations)
 (keymap-global-set "<f12>" #'+lookup/definition)
 
-(keymap-global-set "<f1>" #'+workspace/switch-left)
-(keymap-global-set "<f2>" #'+workspace/switch-right)
+(keymap-global-set "<f2>" #'+workspace/cycle)
 (global-set-key (kbd "s-<tab>") #'+workspace/cycle)
 (global-set-key (kbd "s-N") #'+workspace/new)
 (global-set-key (kbd "s-Q") #'+workspace/delete)
+(keymap-global-set "s-H" #'+workspace/switch-left)
+(keymap-global-set "s-l" #'+workspace/switch-right)
 
 (global-set-key (kbd "C-/") #'comment-line)
 (global-set-key (kbd "C-d") #'duplicate-line)
 
-(global-set-key (kbd "C-t") #'load-theme)
+(global-set-key (kbd "C-t") #'consult-theme)
 
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
@@ -120,15 +124,20 @@
   (helix-define-key 'space " " #'execute-extended-command)
   (helix-define-key 'space ":" #'execute-extended-command)
 
+  (helix-define-key 'space "b" #'consult-buffer)
   (helix-define-key 'space "f" #'projectile-find-file)
   (helix-define-key 'space "." #'find-file)
   (helix-define-key 'space "/" #'project-find-regexp)
 
   (helix-define-key 'space "e" #'+eval/buffer-or-region)
-  (helix-define-key 'space "s" #'save-buffer)
+
+  (helix-define-key 'space "s" #'consult-lsp-symbols)
+  (helix-define-key 'space "d" #'consult-lsp-diagnostics)
+
+  (helix-define-key 'space "x" #'save-buffer)
   (helix-define-key 'space "," #'doom/kill-other-buffers)
 
-  (helix-define-key 'space "R" #'load-theme)
+  (helix-define-key 'space "R" #'consult-theme)
 
   (helix-define-key 'goto "c" #'comment-line)
 
@@ -149,7 +158,8 @@
   (helix-define-key 'space "g" #'magit-status)
 
   (helix-mode)
-  (helix-mode-all))
+  (helix-mode-all)
+  )
 
 (use-package! helix
   :after multiple-cursors
