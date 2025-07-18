@@ -42,4 +42,8 @@
 ;; (load! "extensions/keybinding+spacemacs" nil t)
 (load! "extensions/keybinding+helix" nil t)
 
+;; Load windows manger extra settings
 (load! "extensions/exwm" nil t)
+
+;; load aider
+(load! "extensions/ai" nil t)
