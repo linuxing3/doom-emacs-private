@@ -29,6 +29,7 @@
     (setq org-directory (expand-file-name "~/org"))
   (setq org-directory (dropbox-path "org")))
 
+(load! "extensions/exwm" nil t)
 ;; These can be set after org loads!
 (load! "extensions/org+config" nil t)
 (load! "extensions/org+capture" nil t)
@@ -39,4 +40,4 @@
 ;; Keybindings
 ;; ---------------------------------------------------------
 (load! "extensions/keybinding+spacemacs" nil t)
-; (load! "extensions/keybinding+helix" nil t)
+;; (load! "extensions/keybinding+helix" nil t)

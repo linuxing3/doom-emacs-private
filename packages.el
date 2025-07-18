@@ -8,6 +8,10 @@
 (package! org-super-agenda)
 (package! ryo-modal)
 (package! hydra)
+(package! guix)
+                                        ; (package! geiser-guile)
+
+(package! exwm)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 
@@ -20,7 +24,7 @@
 ;; If the package you are trying to install does not contain a PACKAGENAME.el
 ;; file, or is located in a subdirectory of the repo, you'll need to specify
 ;; `:files' in the `:recipe':
-; (package! ryo-modal)
+                                        ; (package! ryo-modal)
 ;;   :recipe (:host github :repo "Kungsgeten/ryo-modal"))
 
 

@@ -10,20 +10,21 @@
    ("k" previous-line)
    ("l" forward-char))
 
-  (ryo-modal-keys
-   ;; First argument to ryo-modal-keys may be a list of keywords.
-   ;; These keywords will be applied to all keybindings.
-   (:norepeat t)
-   ("0" "M-0")
-   ("1" "M-1")
-   ("2" "M-2")
-   ("3" "M-3")
-   ("4" "M-4")
-   ("5" "M-5")
-   ("6" "M-6")
-   ("7" "M-7")
-   ("8" "M-8")
-   ("9" "M-9")))
+  ; (ryo-modal-keys
+  ;  ;; First argument to ryo-modal-keys may be a list of keywords.
+  ;  ;; These keywords will be applied to all keybindings.
+  ;  (:norepeat t)
+  ;  ("0" "M-0")
+  ;  ("1" "M-1")
+  ;  ("2" "M-2")
+  ;  ("3" "M-3")
+  ;  ("4" "M-4")
+  ;  ("5" "M-5")
+  ;  ("6" "M-6")
+  ;  ("7" "M-7")
+  ;  ("8" "M-8")
+  ;  ("9" "M-9"))
+  )
 
 (use-package! kakoune
   ;; Having a non-chord way to escape is important, since key-chords don't work in macros
