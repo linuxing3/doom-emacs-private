@@ -1,4 +1,23 @@
 ;;; private/org/+brain.el -*- lexical-binding: t; -*-
+;;
+;; Org-Brain Knowledge Management
+;;
+;; This file configures org-brain for personal knowledge management:
+;; - Visual mind-mapping of notes and ideas
+;; - Custom icons for different resource types
+;; - Integration with org-capture
+;; - Evil-mode compatibility
+;;
+;; Key features:
+;; - Brain-style visualization of connections
+;; - Automatic icon insertion (web, emacs, files)
+;; - Global ID tracking for stable links
+;; - Dedicated capture template
+;;
+;; See also:  
+;; - README.org for setup instructions
+;; - org/agenda.el for task management
+;; - org/config.el for core configuration
 
 (use-package! org-brain
   :init

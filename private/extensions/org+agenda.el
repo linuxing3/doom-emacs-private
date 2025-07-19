@@ -1,4 +1,23 @@
 ;;; org+agenda.el -*- lexical-binding: t; -*-
+;;
+;; Super Org Agenda Configuration
+;;
+;; This file implements advanced agenda views and task management features:
+;; - Custom todo states with visual indicators (⚑⚐✔✘)
+;; - Super agenda grouping and filtering
+;; - Time tracking and habit integration  
+;; - Keyboard shortcuts for common operations
+;;
+;; Key components:
+;; - org-super-agenda for smart task grouping
+;; - Custom agenda views (GTD, Projects, etc)
+;; - Tag alignment and filtering hydra
+;; - Sticky agenda windows
+;;
+;; See also:
+;; - README.org for usage overview
+;; - org/config.el for core Org settings
+;; - org/babel.el for code execution
 
 ;; Bootstrap org
 (add-hook 'org-load-hook #'+org-private|setup-agenda t)

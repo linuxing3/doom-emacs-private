@@ -1,4 +1,27 @@
 ;;; private/themes/+font.el -*- lexical-binding: t; -*-
+;;
+;; UI Font and Window Configuration
+;;
+;; This file handles visual presentation including:
+;; - Cross-platform font configuration
+;; - Font cycling between multiple options
+;; - Popup window rules for common buffers
+;; - Modeline and dashboard tweaks
+;;
+;; Platform support:
+;; - Windows: Yahei, Consolas, Fira Code
+;; - Linux: DejaVu, Symbola  
+;; - Mac: IBM Plex, Monaco, Menlo
+;;
+;; Key features:
+;; - Automatic font selection per OS
+;; - Font size presets (normal/big)
+;; - Special popup rules for Org agenda/brain
+;; - Dired mode visual tweaks
+;;
+;; See also:
+;; - README.org for usage tips
+;; - evil/config.el for cursor styling
 
 ;;
 ;; Font

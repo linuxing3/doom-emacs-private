@@ -1,6 +1,22 @@
 ;;; lang/org-private/+babel.el -*- lexical-binding: t; -*-
-;;; load babel library lazily, so you don't need more settings explicityly
-;;; ~/.emacs.d/modules/lang/org/+babel#defun +org*babel-lazy-load-library
+;;
+;; Org Babel Configuration
+;;
+;; This file handles lazy loading and execution of Org Babel source blocks.
+;; Key features:
+;; - Auto-detection and setup of supported languages
+;; - Custom source block editing behavior
+;; - Directory handling for execution context
+;;
+;; Supported languages:
+;; - emacs-lisp, python, shell/bash/zsh
+;; - typescript, javascript, plantuml
+;; - R, clojure, jupyter-r, dot, ditaa
+;;
+;; See also:
+;; - README.org for general documentation
+;; - org/config.el for core Org configuration
+;; - org/+agenda.el for task management
 
 
 (setq +org-babel-mode-alist
