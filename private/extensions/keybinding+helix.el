@@ -2,8 +2,8 @@
 ;; 基于SPACE的键设置
 ;; ---------------------------------------------------------
 
-;; (helix-normal-mode 1)
-
+;; Enable helix-mode by default in all buffers
+(add-hook 'after-change-major-mode-hook #'helix-mode)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-set-key (kbd "C-z") #'helix-mode-all)
 
@@ -156,11 +156,14 @@
 
   (helix-define-key 'space "g" #'magit-status)
 
-  (helix-mode)
-  (helix-mode-all)
+  ;; Set up default helix keybindings
+  (helix-global-mode 1)
   )
 
 (use-package! helix
   :after multiple-cursors
   :config
-  (helix-multiple-cursors-setup))
+  (helix-multiple-cursors-setup)
+  ;; Ensure helix keymaps take precedence
+  (setq emulation-mode-map-alists 
+        (cons 'helix-mode-map (delq 'helix-mode-map emulation-mode-map-alists))))
