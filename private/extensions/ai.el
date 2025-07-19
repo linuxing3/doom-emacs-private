@@ -2,5 +2,5 @@
 
 (use-package aider
   :config
-  ;; (setq aider-args '("--model" "deepseek-R1"))
+  (setq aider-args '("--model" "deepseek"))
   )

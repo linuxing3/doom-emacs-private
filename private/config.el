@@ -5,7 +5,7 @@
 (setq doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font" :size 18))
 (setq doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 24))
 ;;
-(setq doom-theme 'doom-nord-light)
+(setq doom-theme 'doom-nord)
 
 (setq projectile-default-src-directory "~/sources")
 (setq projectile-project-search-path 'projectile-default-src-directory)
@@ -13,6 +13,7 @@
 (setq bookmark-default-file (dropbox-path "shared/emacs-bookmarks"))
 
 (setq display-line-numbers-type t)
+
 
 ;; ---------------------------------------------------------
 ;; Org mode
@@ -29,7 +30,7 @@
     (setq org-directory (expand-file-name "~/org"))
   (setq org-directory (dropbox-path "org")))
 
-
+(load! "extensions/default" nil t)
 ;; These can be set after org loads!
 (load! "extensions/org+config" nil t)
 (load! "extensions/org+capture" nil t)
@@ -46,4 +47,4 @@
 (load! "extensions/exwm" nil t)
 
 ;; load aider
-(load! "extensions/ai" nil t)
+;; (load! "extensions/ai" nil t)

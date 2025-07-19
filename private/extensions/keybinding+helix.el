@@ -4,6 +4,8 @@
 
 ;; Enable helix-mode by default in all buffers
 (add-hook 'after-change-major-mode-hook #'helix-mode)
+(add-hook 'doom-after-init-hook #'helix-mode)
+
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-set-key (kbd "C-z") #'helix-mode-all)
 
@@ -157,7 +159,8 @@
   (helix-define-key 'space "g" #'magit-status)
 
   ;; Set up default helix keybindings
-  (helix-global-mode 1)
+  (helix-mode)
+  (helix-mode-all)
   )
 
 (use-package! helix
