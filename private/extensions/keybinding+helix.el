@@ -7,7 +7,6 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-set-key (kbd "C-z") #'helix-mode-all)
 
-
 (keymap-global-set "<f3>" #'magit-status)
 (keymap-global-set "<f4>" #'dired)
 
@@ -126,7 +125,7 @@
 
   (helix-define-key 'space "b" #'consult-buffer)
   (helix-define-key 'space "f" #'projectile-find-file)
-  (helix-define-key 'space "." #'find-file)
+  (helix-define-key 'space "." #'consult-file)
   (helix-define-key 'space "/" #'project-find-regexp)
 
   (helix-define-key 'space "e" #'+eval/buffer-or-region)
