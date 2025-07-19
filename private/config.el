@@ -14,6 +14,10 @@
 
 (setq display-line-numbers-type t)
 
+(defun linuxing3/dired-mode-setup ()
+  "to be run as hook for `dired-mode'."
+  (dired-hide-details-mode 1))
+(add-hook 'dired-mode-hook 'linuxing3/dired-mode-setup)
 
 ;; ---------------------------------------------------------
 ;; Org mode

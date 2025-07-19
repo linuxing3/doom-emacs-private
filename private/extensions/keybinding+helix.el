@@ -1,6 +1,21 @@
+;;; private/extensions/keybinding+helix.el -*- lexical-binding: t; -*-
+;;
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
 ;; ---------------------------------------------------------
+;; Helix-style Keybindings
+;;
+;; This file provides Helix-inspired keybindings that match Spacemacs functionality.
+;; Key principles:
+;; - Modal editing with different states (normal/insert/visual)
+;; - Space as leader key
+;; - jk for escape
+;; - Consistent with Spacemacs muscle memory
+;;
+;; See also:
+;; - README.org for usage overview
+;; - keybinding+spacemacs.el for original Spacemacs bindings
+
 
 ;; Enable helix-mode by default in all buffers
 ;; (add-hook 'after-change-major-mode-hook #'helix-mode)
@@ -162,108 +177,3 @@
   (helix-mode)
   (helix-mode-all)
   )
-
-(use-package! helix
-  :after multiple-cursors
-  :config
-  (helix-multiple-cursors-setup)
-  ;; Ensure helix keymaps take precedence
-  (setq emulation-mode-map-alists 
-        (cons 'helix-mode-map (delq 'helix-mode-map emulation-mode-map-alists))))
-;;; private/extensions/keybinding+helix.el -*- lexical-binding: t; -*-
-;;
-;; Helix-style Keybindings
-;;
-;; This file provides Helix-inspired keybindings that match Spacemacs functionality.
-;; Key principles:
-;; - Modal editing with different states (normal/insert/visual)
-;; - Space as leader key
-;; - jk for escape
-;; - Consistent with Spacemacs muscle memory
-;;
-;; See also:
-;; - README.org for usage overview
-;; - keybinding+spacemacs.el for original Spacemacs bindings
-
-(use-package! helix
-  :config
-  ;; Basic Helix setup
-  (setq helix-normal-state-cursor 'box
-        helix-insert-state-cursor 'bar
-        helix-visual-state-cursor 'hollow)
-
-  ;; Space as leader key
-  (helix-define-key 'space " " #'execute-extended-command)
-
-  ;; File operations
-  (helix-define-key 'space "f" #'projectile-find-file)
-  (helix-define-key 'space "." #'consult-find)
-  (helix-define-key 'space "/" #'project-find-regexp)
-
-  ;; Buffer operations
-  (helix-define-key 'space "b" #'consult-buffer)
-  (helix-define-key 'space "x" #'save-buffer)
-  (helix-define-key 'space "," #'doom/kill-other-buffers)
-
-  ;; Window management
-  (helix-define-key 'space "v" #'split-window-right)
-  (helix-define-key 'space "h" #'split-window-below)
-  (helix-define-key 'space "q" #'delete-window)
-  (helix-define-key 'space "o" #'delete-other-windows)
-
-  ;; Git operations
-  (helix-define-key 'space "g" #'magit-status)
-
-  ;; Code evaluation
-  (helix-define-key 'space "e" #'+eval/buffer-or-region)
-
-  ;; Search/navigation
-  (helix-define-key 'space "s" #'consult-lsp-symbols)
-  (helix-define-key 'space "d" #'consult-lsp-diagnostics)
-
-  ;; Workspace management
-  (helix-define-key 'space "TAB" #'+workspace/display)
-  (helix-define-key 'space "n" #'+workspace/new)
-  (helix-define-key 'space "l" #'+workspace/load)
-  (helix-define-key 'space "d" #'+workspace/delete)
-
-  ;; Theme/UI
-  (helix-define-key 'space "R" #'consult-theme)
-
-  ;; Terminal
-  (helix-define-key 'space "t" #'+vterm/toggle)
-
-  ;; Formatting
-  (helix-define-typable-command "fmt" #'+format/region-or-buffer)
-
-  ;; Movement commands (Helix-style)
-  (helix-define-key 'normal "h" #'evil-backward-char)
-  (helix-define-key 'normal "j" #'evil-next-line)
-  (helix-define-key 'normal "k" #'evil-previous-line)
-  (helix-define-key 'normal "l" #'evil-forward-char)
-  (helix-define-key 'normal "w" #'evil-forward-word-begin)
-  (helix-define-key 'normal "b" #'evil-backward-word-begin)
-  (helix-define-key 'normal "e" #'evil-forward-word-end)
-  (helix-define-key 'normal "f" #'evil-find-char)
-  (helix-define-key 'normal "t" #'evil-find-char-to)
-  (helix-define-key 'normal "x" #'evil-delete-char)
-
-  ;; Visual mode
-  (helix-define-key 'normal "v" #'evil-visual-char)
-
-  ;; Insert mode
-  (helix-define-key 'normal "i" #'evil-insert)
-  (helix-define-key 'normal "a" #'evil-append)
-  (helix-define-key 'normal "I" #'evil-insert-line)
-  (helix-define-key 'normal "A" #'evil-append-line)
-
-  ;; Escape with jk
-  (helix-define-key 'insert "j k" #'evil-normal-state)
-
-  ;; Enable helix mode globally
-  (helix-mode)
-  (helix-mode-all)
-
-  ;; Ensure helix keymaps take precedence
-  (setq emulation-mode-map-alists 
-        (cons 'helix-mode-map (delq 'helix-mode-map (copy-sequence emulation-mode-map-alists)))))

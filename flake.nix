@@ -10,7 +10,7 @@
         inherit inputs;
       };
     in
-    {
+      {
       devShells = {
         x86_64-linux = {
           default = import ./shell.nix flakeContext { system = "x86_64-linux"; };
