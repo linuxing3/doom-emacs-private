@@ -3,8 +3,8 @@
 ;; ---------------------------------------------------------
 
 ;; Enable helix-mode by default in all buffers
-(add-hook 'after-change-major-mode-hook #'helix-mode)
-(add-hook 'doom-after-init-hook #'helix-mode)
+;; (add-hook 'after-change-major-mode-hook #'helix-mode)
+;; (add-hook 'doom-after-init-hook #'helix-mode)
 
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-set-key (kbd "C-z") #'helix-mode-all)
@@ -127,7 +127,7 @@
 
   (helix-define-key 'space "b" #'consult-buffer)
   (helix-define-key 'space "f" #'projectile-find-file)
-  (helix-define-key 'space "." #'consult-file)
+  (helix-define-key 'space "." #'consult-find)
   (helix-define-key 'space "/" #'project-find-regexp)
 
   (helix-define-key 'space "e" #'+eval/buffer-or-region)
