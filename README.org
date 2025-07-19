@@ -1,0 +1,68 @@
+#+TITLE: My Doom Emacs Configuration
+#+AUTHOR: Your Name
+#+DATE: 2025-07-19
+
+* Introduction
+This documents my personal Doom Emacs configuration featuring:
+- [[#helix-mode][Helix-style modal editing]]
+- [[#magit-gpg][Magit with GPG integration]] 
+- [[#super-org-agenda][Super Org Agenda setup]]
+
+* Installation
+1. Clone Doom Emacs
+2. Replace =~/.doom.d= with this configuration
+3. Run =doom sync=
+
+* Key Features
+
+** Helix Mode Integration
+My evil-mode configuration provides Helix-inspired keybindings and behavior:
+- Modal editing with different cursor states
+- jk for escape
+- Enhanced surround functionality
+
+** Magit with GPG
+Secure Git operations via:
+- GPG signing of commits
+- Encrypted email integration
+- SMTP configuration for email notifications
+
+** Super Org Agenda
+A powerful task management system featuring:
+- Custom agenda views
+- Smart task grouping
+- Time tracking
+- Priority management
+
+* Configuration Details
+
+** Org Mode
+See [[file:private/examples/private/org/config.el][org/config.el]] for:
+- File locations
+- Todo states
+- Capture templates
+- Export settings
+
+** Org Agenda
+See [[file:private/examples/private/org/+agenda.el][+agenda.el]] for:
+- Custom agenda commands
+- Super agenda groups
+- Filtering hydra
+- Tag alignment
+
+** Evil Mode
+See [[file:private/examples/features/evil/config.el][evil/config.el]] for:
+- Cursor styles
+- Escape configuration
+- Surround setup
+
+** Email
+See [[file:private/examples/applications/email/config.el][email/config.el]] for:
+- SMTP settings
+- GPG integration
+- Email workflows
+
+* Maintenance
+- Regularly run =doom sync= after updates
+- Review =doom upgrade= changelogs
+- Backup =~/.doom.d= directory

@@ -1,4 +1,21 @@
 ;;; private/org/+agenda.el -*- lexical-binding: t; -*-
+;;
+;; Super Org Agenda Configuration
+;;
+;; This file implements:
+;; - Custom agenda views and commands
+;; - Super agenda grouping logic  
+;; - Todo state triggers and faces
+;; - Agenda filtering hydra
+;; - Tag alignment and display tweaks
+;;
+;; Key features:
+;; - GTD-style workflow views
+;; - Context-based task grouping
+;; - Time-based filtering
+;; - Project management
+;; 
+;; See README.org for usage overview.
 
 ;; Bootstrap org
 (add-hook 'org-load-hook #'+org-private|setup-agenda t)

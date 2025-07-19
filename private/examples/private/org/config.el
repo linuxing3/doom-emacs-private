@@ -1,4 +1,16 @@
 ;;; private/org/config.el -*- lexical-binding: t; -*-
+;; 
+;; Org Mode Configuration
+;;
+;; This file configures core Org mode functionality including:
+;; - File locations and directory structure
+;; - Todo state workflow
+;; - Clocking and time tracking
+;; - Capture templates and refiling
+;; - Export settings
+;; - Custom hooks and advice
+;; 
+;; See README.org for overview documentation.
 
 (setq org-directory (os-path "~/Dropbox/org"))
 (setq org-journal-dir (os-path "~/Dropbox/org/journal"))

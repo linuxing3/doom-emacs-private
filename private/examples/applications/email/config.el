@@ -1,4 +1,19 @@
 ;;; app-x/email/config.el -*- lexical-binding: t; -*-
+;;
+;; Email and Git Configuration
+;;
+;; This file handles:
+;; - SMTP email setup (QQ mail)
+;; - GPG signing configuration
+;; - Magit integration
+;; - Email-based workflows
+;;
+;; Security features:
+;; - Encrypted email sending
+;; - Signed Git commits
+;; - Secure credential storage
+;;
+;; See README.org for setup instructions.
 
 (when IS-MAC
   (if (featurep! +gmail) (load! "+gmail"))

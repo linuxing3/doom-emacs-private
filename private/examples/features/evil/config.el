@@ -1,3 +1,14 @@
+;; Helix-inspired Evil Mode Configuration
+;;
+;; This config provides:
+;; - Modal editing states (normal/insert/visual)
+;; - Helix-style keybindings
+;; - Custom cursor appearances per state
+;; - jk escape sequence
+;; - Enhanced surround functionality
+;;
+;; See README.org for usage tips.
+
 (def-package! evil
   :init
   (setq
