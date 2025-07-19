@@ -266,4 +266,4 @@
 
   ;; Ensure helix keymaps take precedence
   (setq emulation-mode-map-alists 
-        (cons 'helix-mode-map (delq 'helix-mode-map emulation-mode-map-alists)))
+        (cons 'helix-mode-map (delq 'helix-mode-map (copy-sequence emulation-mode-map-alists)))))
