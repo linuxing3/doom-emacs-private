@@ -24,6 +24,16 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (global-set-key (kbd "C-z") #'helix-mode-all)
 
+;; open kitty, C-S-T for new tab, C-S-Q to exit
+(defun x/open-kitty-new-workspace ()
+  (interactive)
+  (start-process-shell-command "kitty" nil "kitty"))
+(defun x/open-kitty-here ()
+  (interactive)
+  (split-window-horizontally)
+  (start-process-shell-command "kitty" nil "kitty"))
+(global-set-key (kbd "s-<return>") 'x/open-kitty-new-workspace)
+(global-set-key (kbd "M-<return>") 'x/open-kitty-here)
 ;; git
 (keymap-global-set "<f3>" #'magit-status)
 
@@ -169,6 +179,7 @@
   ;; saving buffers
   (helix-define-key 'space "x" #'save-buffer)
   (helix-define-key 'space "X" #'save-some-buffers)
+  (helix-define-key 'space "z" #'+workspace/kill-session-and-quit)
 
   ;; only keey me
   (helix-define-key 'space "," #'doom/kill-other-buffers)

@@ -157,14 +157,14 @@
   (org-super-agenda-mode)
   ;; Agenda filter
   (defhydra +org@org-agenda-filter (:color pink :hint nil)
-    "
+            "
 _;_ tag      _h_ headline      _c_ category     _r_ regexp     _d_ remove    "
-    (";" org-agenda-filter-by-tag)
-    ("h" org-agenda-filter-by-top-headline)
-    ("c" org-agenda-filter-by-category)
-    ("r" org-agenda-filter-by-regexp)
-    ("d" org-agenda-filter-remove-all)
-    ("q" nil "cancel" :color blue))
+            (";" org-agenda-filter-by-tag)
+            ("h" org-agenda-filter-by-top-headline)
+            ("c" org-agenda-filter-by-category)
+            ("r" org-agenda-filter-by-regexp)
+            ("d" org-agenda-filter-remove-all)
+            ("q" nil "cancel" :color blue))
   ;; align tags
   (defun org-agenda-align-tags (&optional line)
     "Align all tags in agenda items to `org-agenda-tags-column'."
@@ -215,19 +215,19 @@ _;_ tag      _h_ headline      _c_ category     _r_ regexp     _d_ remove    "
                       (org-super-agenda-groups
                        '(
                          (:name "马上去做 Quick Picks"
-                                :effort< "0:30")
+                          :effort< "0:30")
                          (:name "重要任务 Important"
-                                :priority "A")
+                          :priority "A")
                          (:priority<= "B"
-                                      :scheduled today
-                                      :order 1)
+                          :scheduled today
+                          :order 1)
                          (:discard (:anything t))))))
             (todo "" (
                       (org-agenda-overriding-header "All Projects")
                       (org-super-agenda-groups
                        '(
                          (:name none  ; Disable super group header
-                                :children todo)
+                          :children todo)
                          (:discard (:anything t))))))))
           ;; My grouped tasks
           ("x"
@@ -238,7 +238,7 @@ _;_ tag      _h_ headline      _c_ category     _r_ regexp     _d_ remove    "
                         (org-super-agenda-groups
                          '(
                            (:name "Today"
-                                  :time-grid t)))))))
+                            :time-grid t)))))))
           ;; Daniel's tasks
           ("d"
            "Daniel's Task view"
@@ -254,14 +254,14 @@ _;_ tag      _h_ headline      _c_ category     _r_ regexp     _d_ remove    "
            "Computer Related"
            (
             (tags-todo "" (
-                      (org-agenda-overriding-header "Computer Related")
-                      (org-super-agenda-groups
-                       `(
-                         (:name "General Comupter Related"
-                                :tag "COMPUTER"
-                                )
-                         (:name "Emacs Related"
-                                :tag "COMPUTER"
-                                :regexp ("org" "emacs" ,(rx bow "emacs" eow))
-                                )
-                         )))))))))
+                           (org-agenda-overriding-header "Computer Related")
+                           (org-super-agenda-groups
+                            `(
+                              (:name "General Comupter Related"
+                               :tag "COMPUTER"
+                               )
+                              (:name "Emacs Related"
+                               :tag "COMPUTER"
+                               :regexp ("org" "emacs" ,(rx bow "emacs" eow))
+                               )
+                              )))))))))
