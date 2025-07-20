@@ -20,4 +20,4 @@
 
 (use-package! exwm
   :config
-  (exwm-input-set-key (kbd "s-SPC") 'counsel-linux-app))
+  (exwm-input-set-key (kbd "s-SPC") 'consult-buffer))
