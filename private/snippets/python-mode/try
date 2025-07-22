@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# name: try
-# key: try
-# uuid: try
-# --
-try:
-    ${1:`(or % "pass")`}
-except ${2:Exception}:
-    $0

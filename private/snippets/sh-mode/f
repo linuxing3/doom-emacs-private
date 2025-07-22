@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: short function
-# key: f
-# uuid: f
-# --
-${1:name}() {
-    `%`$0
-}

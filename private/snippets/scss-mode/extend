@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: @extend
-# --
-@extend `(doom-snippets-text nil t)`$0;

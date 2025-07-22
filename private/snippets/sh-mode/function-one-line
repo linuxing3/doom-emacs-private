@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: one-line function
-# key: f;
-# uuid: f;
-# --
-${1:name}() { `(doom-snippets-format "%n%s%n")`$0; }

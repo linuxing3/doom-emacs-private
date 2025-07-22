@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: ...: ...
-# key: :
-# uuid: :
-# --
-${1:key}: ${0:value}

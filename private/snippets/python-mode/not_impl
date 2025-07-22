@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: not_impl
-# key: not_impl
-# uuid: not_impl
-# --
-raise NotImplementedError

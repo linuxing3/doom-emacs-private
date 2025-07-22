@@ -1,2 +1,0 @@
-# -*- mode: snippet -*-
-math.ldexp($0)

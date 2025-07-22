@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: textbf
-# key: b
-# uuid: b
-# --
-\textbf{$1}$0

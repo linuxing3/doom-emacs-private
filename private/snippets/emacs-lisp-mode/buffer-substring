@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: buffer-substring
-# key: bs
-# uuid: bs
-# --
-(buffer-substring ${1:start} ${2:end})

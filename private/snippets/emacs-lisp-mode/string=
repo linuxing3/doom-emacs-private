@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: string=
-# key: string=
-# uuid: string=
-# --
-(string= ${1:`%`} ${2:str})

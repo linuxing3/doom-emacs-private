@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# contributor: Seong Yong-ju <sei40kr@gmail.com>
-# name: shouldComponentUpdate
-# key: shouldComponentUpdate
-# --
-shouldComponentUpdate(nextProps, nextState) {
-  $0
-}

@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: local ...
-# key: l
-# uuid: l
-# --
-local $0

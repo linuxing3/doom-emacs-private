@@ -1,2 +1,0 @@
-#+TITLE: Key Bindings with Doom
-

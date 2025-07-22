@@ -1,2 +1,0 @@
-# -*- mode: snippet -*-
-math.randomseed($0)

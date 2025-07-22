@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: buffer-substring-no-properties
-# key: bsnp
-# uuid: bsnp
-# --
-(buffer-substring-no-properties ${1:start} ${2:end})

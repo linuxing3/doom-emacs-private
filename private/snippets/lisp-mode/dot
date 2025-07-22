@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: dotimes
-# type: command
-# uuid: dot
-# --
-(doom-snippets-expand :uuid "dotimes")

@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: nth
-# --
-(nth ${0:n} ${1:`%`list})

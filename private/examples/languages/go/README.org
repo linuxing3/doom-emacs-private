@@ -1,2 +1,0 @@
-#+TITLE: Go language README
-

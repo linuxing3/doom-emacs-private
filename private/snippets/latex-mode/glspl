@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: glspl
-# key: gp
-# uuid: gp
-# --
-\glspl{${1:label}}

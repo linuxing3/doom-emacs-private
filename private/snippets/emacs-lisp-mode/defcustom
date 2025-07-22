@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: defcustom
-# --
-(defcustom $1 ${2:VALUE} "${3:doc}" $4)

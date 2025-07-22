@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: with_statement
-# key: fw
-# uuid: fw
-# group: future
-# --
-from __future__ import with_statement

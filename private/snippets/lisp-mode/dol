@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: dolist
-# type: command
-# uuid: dol
-# --
-(doom-snippets-expand :uuid "dolist")

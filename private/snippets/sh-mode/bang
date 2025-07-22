@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: bang
-# key: #!
-# uuid: #!
-# --
-#!${1:/usr/bin/env `(symbol-name sh-shell)`}
-$0

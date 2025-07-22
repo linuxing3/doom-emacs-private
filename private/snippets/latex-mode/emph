@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: emph
-# key: e
-# uuid: e
-# --
-\emph{$1}$0

@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: assertTrue
-# key: at
-# uuid: at
-# group: testing
-# --
-self.assertTrue($0)

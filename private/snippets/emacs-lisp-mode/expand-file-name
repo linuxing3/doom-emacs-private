@@ -1,4 +1,0 @@
-# -*- mode: snippet -*-
-# name: expand-file-name
-# --
-(expand-file-name `%`$0${1: ${2:default-directory}})

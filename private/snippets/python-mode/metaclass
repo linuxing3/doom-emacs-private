@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: metaclass
-# key: mt
-# uuid: mt
-# group: object oriented
-# --
-__metaclass__ = type

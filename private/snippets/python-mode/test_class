@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: test_class
-# key: tcs
-# uuid: tcs
-# group : testing
-# --
-class Test${1:toTest}(${2:unittest.TestCase}):
-      $0

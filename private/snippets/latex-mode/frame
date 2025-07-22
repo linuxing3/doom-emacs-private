@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# name: frame
-# key: fr
-# uuid: fr
-# --
-\begin{frame}${1:[$2]}
-        ${3:\frametitle{$4}}
-        $0
-\end{frame}

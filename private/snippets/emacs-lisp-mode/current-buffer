@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: current-buffer
-# key: cb
-# uuid: cb
-# --
-(current-buffer)

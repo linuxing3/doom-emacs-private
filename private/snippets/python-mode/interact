@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: interact
-# key: int
-# uuid: int
-# --
-import code; code.interact(local=locals())

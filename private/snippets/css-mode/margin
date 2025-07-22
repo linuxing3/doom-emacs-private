@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: margin: ...;
-# key: mar
-# uuid: mar
-# --
-margin: ${1:0 auto};
