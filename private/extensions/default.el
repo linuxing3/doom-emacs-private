@@ -2,4 +2,3 @@
 
 (use-package! hydra)
 (use-package! consult)
-                                        ; (use-package! sounsel)
