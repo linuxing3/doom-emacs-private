@@ -1,0 +1,484 @@
+#+TITLE:  Emacs Settings for Clojure
+#+AUTHOR: Howard Abrams
+#+EMAIL:  howard.abrams@gmail.com
+#+DATE:   [2014-02-01 Sat]
+#+TAGS:   emacs clojure
+
+Me like [[http://clojure.org][Clojure]], and since it is a LISP, then [[https://github.com/clojure-emacs][Emacs likes it]] too.
+The following instructions create a fully blinged-out Emacs-Clojure setup.
+
+* Introduction
+
+  While one can copy and paste sections of this document, if you
+  download the original =org-mode= document, type =C-c C-v t= to
+  /tangle/ it as an Emacs Lisp file: =~/.emacs.d/elisp/init-clojure.el=
+
+  If the directory is added to the Emacs load path, you can then:
+
+  #+BEGIN_SRC elisp :tangle no
+    (require 'init-clojure)
+  #+END_SRC
+
+  Otherwise, you can simply call =load-file= on it.
+
+** Regarding Leiningen
+
+  To keep from having to add the same information to /every/
+  =project.clj= file, place the following in =~/.lein/profiles.clj=:
+
+  #+BEGIN_SRC clojure :tangle ~/.lein/profiles.clj
+  {:repl {:plugins [[cider/cider-nrepl "0.11.0-SNAPSHOT"]
+                    [jonase/eastwood "0.2.2"]
+                    [refactor-nrepl "2.0.0-SNAPSHOT"]
+                    [lein-cljfmt "0.3.0"]]
+          :dependencies [[org.clojure/clojure "1.7.0"]
+                         [acyclic/squiggly-clojure "0.1.3-SNAPSHOT"]
+                         [org.clojure/tools.nrepl "0.2.12"]]}}
+  #+END_SRC
+
+  *Note:* I think the latest version of Cider removes this need.
+
+** Required Packages
+
+  To make installation easier, we'll use the [[https://github.com/jwiegley/use-package][use-package]] project, so
+  to being, kick off a =M-x install-package= with =use-package=, and
+  install the following:
+
+  - [[https://github.com/clojure-emacs/clojure-mode][clojure-mode]]
+  - [[https://github.com/clojure-emacs/cider][cider]]
+  - [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]]
+  - [[https://github.com/clojure-emacs/squiggly-clojure][flycheck-clojure]] (and [[http://www.flycheck.org/][flycheck]] of course)
+  - [[http://www.emacswiki.org/emacs/ParEdit][paredit]]
+  - [[https://github.com/ankurdave/color-identifiers-mode][color-identifiers-mode]]
+  - [[https://github.com/clojure-emacs/clojure-cheatsheet][clojure-cheatsheet]]
+
+  Each of these packages will be configured below.
+
+* Snippets
+
+  Most reliable way to add David Nolen's [[http://github.com/swannodette/clojure-snippets][clojure-snippets]] collection
+  to [[https://github.com/capitaomorte/yasnippet][Yasnippets]], is simply to clone the repository into my =snippets=
+  directory:
+
+  #+BEGIN_SRC sh :tangle no
+    git clone http://github.com/swannodette/clojure-snippets ~/.emacs/snippets/clojure-mode
+  #+END_SRC
+
+  Or we could just install it as a package:
+  #+BEGIN_SRC elisp
+  (use-package clojure-snippets
+    :ensure t)
+  #+END_SRC
+
+* Clojure Mode
+
+  The [[https://github.com/clojure-emacs/clojure-mode][clojure-mode]] project seems to be the best (and works well with [[*Cider][Cider]]).
+
+  #+BEGIN_SRC elisp
+    (use-package clojure-mode
+      :ensure t
+      :init
+      (defconst clojure--prettify-symbols-alist
+        '(("fn"   . ?λ)
+          ("__"   . ?⁈)))
+
+      :config
+      (add-hook 'clojure-mode-hook 'global-prettify-symbols-mode)
+      :bind (("C-c d f" . cider-code)
+             ("C-c d g" . cider-grimoire)
+             ("C-c d w" . cider-grimoire-web)
+             ("C-c d c" . clojure-cheatsheet)
+             ("C-c d d" . dash-at-point)))
+  #+END_SRC
+
+  Need to figure out how to get the color identifiers mode to work
+  without an error:
+
+  #+BEGIN_SRC elisp
+    (use-package color-identifiers-mode
+      :ensure t
+      :init
+      (add-hook 'clojure-mode-hook 'color-identifiers-mode))
+  #+END_SRC
+
+* Compojure
+
+  According to the [[https://github.com/weavejester/compojure/wiki][Compojure Wiki]], the following code makes their
+  macros look prettier:
+
+  #+BEGIN_SRC elisp
+    (use-package clojure-mode
+      :config
+      (define-clojure-indent
+        (defroutes 'defun)
+        (GET 2)
+        (POST 2)
+        (PUT 2)
+        (DELETE 2)
+        (HEAD 2)
+        (ANY 2)
+        (context 2)))
+  #+END_SRC
+
+* Paredit
+
+  All Lisps, including Clojure, should use [[http://www.emacswiki.org/emacs/ParEdit][paredit]].
+
+  Since it’s currently possible to use something like =join-lines=
+  to pull code up from one line and stick it into the end-of-line
+  comment of another line, invalidating the code. [[http://www.emacswiki.org/emacs/ParEdit#toc7][The following]]
+  replacement for [[help:delete-indentation][delete-indentation]] prevents this.
+
+  #+BEGIN_SRC elisp
+    (defun paredit-delete-indentation (&optional arg)
+      "Handle joining lines that end in a comment."
+      (interactive "*P")
+      (let (comt)
+        (save-excursion
+          (move-beginning-of-line (if arg 1 0))
+          (when (skip-syntax-forward "^<" (point-at-eol))
+            (setq comt (delete-and-extract-region (point) (point-at-eol)))))
+        (delete-indentation arg)
+        (when comt
+          (save-excursion
+            (move-end-of-line 1)
+            (insert " ")
+            (insert comt)))))
+  #+END_SRC
+
+  While =M-SPC= (especially =M-0 M-SPC=) is good for cleaning up extra
+  white space on a single line, let's use this function to get rid of
+  it all.
+
+  #+BEGIN_SRC elisp
+    (defun paredit-remove-newlines ()
+      "Removes extras whitespace and newlines from the current point
+    to the next parenthesis."
+      (interactive)
+      (let ((up-to (point))
+            (from (re-search-forward "[])}]")))
+         (backward-char)
+         (while (> (point) up-to)
+           (paredit-delete-indentation))))
+  #+END_SRC
+
+  Bind these previous functions and add it to the =clojure-mode=:
+
+  #+BEGIN_SRC elisp
+    (use-package paredit
+      :bind ("M-^" . paredit-delete-indentation)
+      :bind ("C-^" . paredit-remove-newlines)
+      :init
+      (add-hook 'clojure-mode-hook 'paredit-mode))
+  #+END_SRC
+
+  Useful key sequences for positioning cursor on particular s-expressions:
+
+  - C-M- a d :: Move to beginning of function and inside the
+       declaration. Good start to just about any other positioning.
+  - C-M- d f d :: At beginning of function, moves to first s-expression.
+
+* REPL
+
+  When demonstrating Clojure, I find it is a better approach is to send
+  the S-Expression to the REPL and evaluate it there instead of
+  showing the result in the mini-buffer:
+
+  #+BEGIN_SRC elisp
+    (defun cider-send-and-evaluate-sexp ()
+      "Sends the s-expression located before the point or the active
+      region to the REPL and evaluates it. Then the Clojure buffer is
+      activated as if nothing happened."
+      (interactive)
+      (if (not (region-active-p))
+          (cider-insert-last-sexp-in-repl)
+        (cider-insert-in-repl
+         (buffer-substring (region-beginning) (region-end)) nil))
+      (cider-switch-to-repl-buffer)
+      (cider-repl-closing-return)
+      (cider-switch-to-last-clojure-buffer)
+      (message ""))
+  #+END_SRC
+
+* Cider
+
+  The [[https://github.com/clojure-emacs/cider][Cider project]] is da bomb. Usage:
+
+  - =cider-jack-in= - For starting an nREPL server and setting
+    everything up. Keyboard: =C-c M-j=
+  - =cider= to connect to an existing nREPL server.
+
+  #+BEGIN_SRC elisp
+    (use-package cider
+      :ensure t
+      :commands (cider cider-connect cider-jack-in)
+
+      :init
+      (setq cider-auto-select-error-buffer t
+            cider-repl-pop-to-buffer-on-connect nil
+            cider-repl-use-clojure-font-lock t
+            cider-repl-wrap-history t
+            cider-repl-history-size 1000
+            cider-show-error-buffer t
+            nrepl-hide-special-buffers t
+            ;; Stop error buffer from popping up while working in buffers other than the REPL:
+            nrepl-popup-stacktraces nil)
+
+      ;; (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+      (add-hook 'cider-mode-hook 'company-mode)
+
+      (add-hook 'cider-repl-mode-hook 'paredit-mode)
+      (add-hook 'cider-repl-mode-hook 'superword-mode)
+      (add-hook 'cider-repl-mode-hook 'company-mode)
+      (add-hook 'cider-test-report-mode 'jcf-soft-wrap)
+
+      :bind (:map cider-mode-map
+             ("C-c C-v C-c" . cider-send-and-evaluate-sexp)
+             ("C-c C-p"     . cider-eval-print-last-sexp))
+
+      :config
+      (use-package slamhound))
+  #+END_SRC
+
+  What about doing the evaluation but re-inserting the results as a
+  comment at the end of the expression? Let's create a function that
+  will insert a comment character if we aren't already in a comment,
+  and we will then advice the Cider function that prints the results:
+
+  #+BEGIN_SRC elisp
+    (defun ha/cider-append-comment ()
+      (when (null (nth 8 (syntax-ppss)))
+        (insert " ; ")))
+
+    (advice-add 'cider-eval-print-last-sexp :before #'ha/cider-append-comment)
+  #+END_SRC
+
+  While I typically use [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]]'s [[https://github.com/clojure-emacs/clj-refactor.el/wiki/cljr-add-missing-libspec][add-missing-libspec]] function,
+  I am thinking of looking into [[https://github.com/technomancy/slamhound][Slamhound]] for reconstructing the =ns= namespace.
+
+  This also specifies using [[http://emacswiki.org/emacs/ElDoc][ElDoc]] working with Clojure.
+
+  To get Clojure's Cider working with org-mode, do:
+
+  #+BEGIN_SRC elisp
+    (use-package ob-clojure
+      :init
+      (setq org-babel-clojure-backend 'cider))
+  #+END_SRC
+
+* Linting
+
+  Using [[https://github.com/jonase/eastwood#emacs--cider][Eastwood]] with the [[https://github.com/clojure-emacs/squiggly-clojure][Squiggly Clojure]] project to add lint
+  warnings to [[file:emacs.org::*Flycheck][Flycheck]]:
+
+  #+BEGIN_SRC elisp
+    (use-package flycheck-clojure
+      :ensure t
+      :init
+      (add-hook 'after-init-hook 'global-flycheck-mode)
+      :config
+      (use-package flycheck
+        :config
+        (flycheck-clojure-setup)))
+  #+END_SRC
+
+  Seems we should also install [[https://github.com/flycheck/flycheck-pos-tip][flycheck-pos-tip]] as well.
+
+  #+BEGIN_SRC elisp
+    (use-package flycheck-pos-tip
+      :ensure t
+      :config
+      (use-package flycheck
+        :config
+        (setq flycheck-display-errors-function 'flycheck-pos-tip-error-messages)))
+  #+END_SRC
+
+* Refactoring
+
+  Using the [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor]] project:
+
+  #+BEGIN_SRC elisp
+    (use-package clj-refactor
+      :ensure t
+      :init
+      (add-hook 'clojure-mode-hook 'clj-refactor-mode)
+      :config
+      ;; Configure the Clojure Refactoring prefix:
+      (cljr-add-keybindings-with-prefix "C-c .")
+      :diminish clj-refactor-mode)
+  #+END_SRC
+
+  The advanced refactorings require the [[https://github.com/clojure-emacs/refactor-nrepl][refactor-nrepl middleware]],
+  which should explain why we added the =refactor-nrepl= to the
+  =:plugins= section in the =~/.lein/profiles.clj= file.
+
+  Of course, the /real problem/ is trying to remember all the
+  [[https://github.com/clojure-emacs/clj-refactor.el/wiki][refactoring options]]. Remember: =C-c . h h=
+
+* 4Clojure
+
+  Finally, if you are just learning Clojure, check out [[http://www.4clojure.com/][4Clojure]] and then
+  install [[https://github.com/joshuarh/4clojure.el][4clojure-mode]].
+
+  #+BEGIN_SRC elisp :tangle no
+    (use-package 4clojure
+      :init
+      (bind-key "<f9> a" '4clojure-check-answers clojure-mode-map)
+      (bind-key "<f9> n" '4clojure-next-question clojure-mode-map)
+      (bind-key "<f9> p" '4clojure-previous-question clojure-mode-map)
+
+      :config
+      (defadvice 4clojure-open-question (around 4clojure-open-question-around)
+         "Start a cider/nREPL connection if one hasn't already been started when
+         opening 4clojure questions."
+         ad-do-it
+         (unless cider-current-clojure-buffer
+           (cider-jack-in))))
+  #+END_SRC
+
+** Endless Questions
+
+  Got some good /advice/ from [[http://endlessparentheses.com/be-a-4clojure-hero-with-emacs.html][Endless Parens]] for dealing with
+  4Clojure:
+
+  #+BEGIN_SRC elisp :tangle no
+     (defun endless/4clojure-check-and-proceed ()
+       "Check the answer and show the next question if it worked."
+       (interactive)
+       (unless
+           (save-excursion
+             ;; Find last sexp (the answer).
+             (goto-char (point-max))
+             (forward-sexp -1)
+             ;; Check the answer.
+             (cl-letf ((answer
+                        (buffer-substring (point) (point-max)))
+                       ;; Preserve buffer contents, in case you failed.
+                       ((buffer-string)))
+               (goto-char (point-min))
+               (while (search-forward "__" nil t)
+                 (replace-match answer))
+               (string-match "failed." (4clojure-check-answers))))
+         (4clojure-next-question)))
+  #+END_SRC
+
+  And:
+
+  #+BEGIN_SRC elisp :tangle no
+     (defadvice 4clojure/start-new-problem
+         (after endless/4clojure/start-new-problem-advice () activate)
+         ;; Prettify the 4clojure buffer.
+       (goto-char (point-min))
+       (forward-line 2)
+       (forward-char 3)
+       (fill-paragraph)
+       ;; Position point for the answer
+       (goto-char (point-max))
+       (insert "\n\n\n")
+       (forward-char -1)
+       ;; Define our key.
+       (local-set-key (kbd "M-j") #'endless/4clojure-check-and-proceed))
+  #+END_SRC
+
+** Question Saving?
+
+  I really should advice the =4clojure-next-question= to store the
+  current question ... and then we can pop back to that and resume
+  where we left off.
+
+  We need a file where we can save our current question:
+
+  #+BEGIN_SRC elisp :tangle no
+   (defvar ha-4clojure-place-file (concat user-emacs-directory "4clojure-place.txt"))
+  #+END_SRC
+
+  Read a file's contents as a buffer by specifying the file. For
+  this, we use a temporary buffer, so that we don't have to worry
+  about saving it.
+
+  #+BEGIN_SRC elisp :tangle no
+  (defun ha-file-to-string (file)
+    "Read the contents of FILE and return as a string."
+    (with-temp-buffer
+      (insert-file-contents file)
+      (buffer-substring-no-properties (point-min) (point-max))))
+  #+END_SRC
+
+  Parse a file into separate lines and return a list.
+
+  #+BEGIN_SRC elisp :tangle no
+    (defun ha-file-to-list (file)
+      "Return a list of lines in FILE."
+      (split-string (ha-file-to-string file) "\n" t))
+  #+END_SRC
+
+  We create a wrapper function that reads our previous "place"
+  question and then calls the open question function.
+
+  #+BEGIN_SRC elisp :tangle no
+     (defun ha-4clojure-last-project (file)
+       (interactive "f")
+       (if (file-exists-p file)
+           (car (ha-file-to-list file))
+         "1"))
+
+     (defun 4clojure-start-session ()
+       (interactive)
+       (4clojure-open-question
+        (ha-4clojure-last-project ha-4clojure-place-file)))
+
+     (global-set-key (kbd "<f2> s") '4clojure-start-session)
+  #+END_SRC
+
+  Write a value to a file. Making this interactive makes for an
+  interesting use case...we'll see if I use that.
+
+  #+BEGIN_SRC elisp :tangle no
+     (defun ha-string-to-file (string file)
+       (interactive "sEnter the string: \nFFile to save to: ")
+       (with-temp-file file
+         (insert string)))
+  #+END_SRC
+
+  Whenever we load a 4clojure project or go to the next one, we store
+  the project number to our "place" file:
+
+  #+BEGIN_SRC elisp :tangle no
+   (when (package-installed-p '4clojure)
+     (defun ha-4clojure-store-place (num)
+         (ha-string-to-file (int-to-string num) ha-4clojure-place-file))
+
+     (defadvice 4clojure-next-question (after ha-4clojure-next-question)
+       "Save the place for each question you progress to."
+       (ha-4clojure-store-place (4clojure/problem-number-of-current-buffer)))
+
+     (defadvice 4clojure-open-question (after ha-4clojure-next-question)
+       "Save the place for each question you progress to."
+       (ha-4clojure-store-place (4clojure/problem-number-of-current-buffer)))
+
+     (ad-activate '4clojure-next-question)
+     (ad-activate '4clojure-open-question))
+     ;; Notice that we don't advice the previous question...
+  #+END_SRC
+
+* Technical Artifacts
+
+  Make sure that we can simply =require= this library.
+
+  #+BEGIN_SRC elisp
+  (provide 'init-clojure)
+  #+END_SRC
+
+  Before you can build this on a new system, make sure that you put
+  the cursor over any of these properties, and hit: =C-c C-c=
+
+#+DESCRIPTION: A literate programming version of my Emacs Initialization of Clojure
+#+PROPERTY:    header-args   :results silent
+#+PROPERTY:    header-args:clojure   :tangle no
+#+PROPERTY:    header-args:sh     :tangle no
+#+PROPERTY:    header-args:elisp  :tangle ~/.emacs.d/elisp/init-clojure.el
+#+PROPERTY:    header-args:       :results silent   :eval no-export   :comments org
+#+PROPERTY:    comments no
+#+OPTIONS:     num:nil toc:nil todo:nil tasks:nil tags:nil
+#+OPTIONS:     skip:nil author:nil email:nil creator:nil timestamp:nil
+#+INFOJS_OPT:  view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js

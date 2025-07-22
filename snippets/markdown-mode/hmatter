@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: hmatter
+# key: hmatter
+# condition: t
+# --
+---
+title: $1
+date: $2
+excerpt: $3
+author: linuxing3
+---

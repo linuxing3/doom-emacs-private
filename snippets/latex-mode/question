@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: question
+# key: q
+# uuid: q
+# --
+\question{$0}
