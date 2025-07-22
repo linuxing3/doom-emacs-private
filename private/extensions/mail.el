@@ -1,29 +1,29 @@
 ;;; private/extensions/mail.el -*- lexical-binding: t; -*-
+;; smtp settings
+(require 'smtpmail-async)
 
 (add-load-path! (expand-file-name
                  "~/.config/doom/private/mu4e"))
+
+(setq smtpmail-smtp-user     "linuxing3@qq.com")
+(setq smtpmail-smtp-server   "smtp.qq.com")
+(setq smtpmail-smtp-service  465)
+(setq smtpmail-stream-type  'ssl)
+
+(setq send-mail-function #'smtpmail-send-it)
+(setq message-send-mail-function #'smtpmail-send-it)
+
 ;; accounts
 (after! mu4e
   ;; FIXME: we use nixos agenix instead of pass-store
-  ;; (when (modulep! :tools pass)
-  ;;   (add-hook 'async-smtpmail-before-send-hook #'auth-source-pass-enable))
+  (when (modulep! :tools pass)
+    (add-hook 'async-smtpmail-before-send-hook #'auth-source-pass-enable))
 
-  ;; smtp settings
-  (require 'smtpmail-async)
-  (setq smtpmail-default-smtp-server "smtp.qq.com")
-  (setq smtpmail-smtp-user      "linuxing3@qq.com")
-  (setq smtpmail-smtp-server     "smtp.qq.com")
-  (setq smtpmail-smtp-service  465)
-
-  (setq sendmail-program (executable-find "msmtp")
-        send-mail-function #'async-smtpmail-send-it
-        message-send-mail-function #'async-smtpmail-send-it)
-
+  ;; auto update email
   (setq mu4e-update-interval 60)
+  ;; use org to compose html email
+  ;; (setq +mu4e-compose-org-msg-toggle-next nil)
 
-  (setq +mu4e-compose-org-msg-toggle-next nil)
-
-  ;; Each path is relative to the path of the maildir you passed to mu
   (set-email-account! "qq.com"
                       '((mu4e-sent-folder       . "/qq/Sent Messages")
                         (mu4e-drafts-folder     . "/qq/Drafts")
@@ -34,13 +34,31 @@
                         (smtpmail-smtp-server   . "smtp.qq.com")
                         (smtpmail-smtp-service  . 465)
                         (smtpmail-stream-type   . ssl)
-                        (smtpmail-servers-requiring-authorization . "smtp\\.qq\\.com")
 
-                        (send-mail-function . async-smtpmail-send-it)
-                        (message-send-mail-function . async-smtpmail-send-it)
+                        (send-mail-function . smtpmail-send-it)
+                        (message-send-mail-function . smtpmail-send-it)
 
-                        (mu4e-compose-signature . "---\nYours truly\nXing Wenju\nMinister\nChinese Embassy in Brazil"))
-                      t))
+                        (message-signature . "---\nYours truly\nXing Wenju\nMinister\nChinese Embassy in Brazil"))
+                      t)
+
+  (set-email-account! "gamil.com"
+                      '((mu4e-sent-folder       . "/gmail/Sent Messages")
+                        (mu4e-drafts-folder     . "/gmail/Drafts")
+                        (mu4e-trash-folder      . "/gmail/Trash")
+                        (mu4e-refile-folder     . "/gmail/All Mail")
+
+                        (smtpmail-smtp-user     . "xingwenju@gmail.com")
+                        (smtpmail-smtp-server   . "smtp.gmail.com")
+                        (smtpmail-smtp-service  . 587)
+                        (smtpmail-stream-type   . starttls)
+
+                        (send-mail-function . smtpmail-send-it)
+                        (message-send-mail-function . smtpmail-send-it)
+
+                        (message-signature . "---\nYours truly\nXing Wenju\nMinister\nChinese Embassy in Brazil"))
+                      nil)
+
+  )
 
 (setq +notmuch-sync-backend 'mbsync)
 (after! notmuch

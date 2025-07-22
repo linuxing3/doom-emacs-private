@@ -61,7 +61,7 @@
 (global-set-key (kbd "s-N") #'+workspace/new)
 (global-set-key (kbd "s-Q") #'+workspace/kill)
 (keymap-global-set "s-H" #'+workspace/switch-left)
-(keymap-global-set "s-l" #'+workspace/switch-right)
+(keymap-global-set "s-L" #'+workspace/switch-right)
 
 ;; comment the way
 (global-set-key (kbd "C-/") #'comment-line)

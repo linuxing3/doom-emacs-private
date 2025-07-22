@@ -179,7 +179,7 @@
        zig               ; C, but simpler
 
        :email
-       (mu4e +mbsync)
+       (mu4e +mbsync +gmail)
        notmuch
        ;;(wanderlust +gmail)
 
