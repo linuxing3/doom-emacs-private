@@ -16,13 +16,25 @@
 ;; - README.org for usage overview
 ;; - keybinding+spacemacs.el for original Spacemacs bindings
 
-
 ;; Enable helix-mode by default in all buffers
-;; (add-hook 'after-change-major-mode-hook #'helix-mode)
-;; (add-hook 'doom-after-init-hook #'helix-mode)
-
+;;
+;; escape to as escape
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-(global-set-key (kbd "C-z") #'helix-mode-all)
+
+(global-set-key (kbd "\\") #'doom/escape)
+
+;; open doom private config
+(global-set-key (kbd "C-,") #'doom/open-private-config)
+
+;; envrc allow virtual develop env
+(global-set-key (kbd "C-.") #'envrc-allow)
+
+;; helix mode for all buffers
+(global-set-key (kbd "C-<tab>") #'helix-mode-all)
+
+(global-set-key (kbd "M-<tab>") #'consult-buffer-other-window)
+
+(global-set-key (kbd "s-<tab>") #'+workspace/cycle)
 
 ;; open kitty, C-S-T for new tab, C-S-Q to exit
 (defun x/open-kitty-new-workspace ()
@@ -57,11 +69,18 @@
 
 ;; workspace
 
-(global-set-key (kbd "s-<tab>") #'+workspace/cycle)
 (global-set-key (kbd "s-N") #'+workspace/new)
 (global-set-key (kbd "s-Q") #'+workspace/kill)
+
 (keymap-global-set "s-H" #'+workspace/switch-left)
 (keymap-global-set "s-L" #'+workspace/switch-right)
+(keymap-global-set "s-p" #'projectile-switch-project)
+
+(global-set-key (kbd "s-v") #'split-window-right)
+(global-set-key (kbd "s-d") #'split-window-below)
+(global-set-key (kbd "s-q") #'delete-window)
+
+(keymap-global-set "s-s" #'save-buffer)
 
 ;; comment the way
 (global-set-key (kbd "C-/") #'comment-line)
@@ -78,6 +97,18 @@
 (global-set-key (kbd "C-j") #'windmove-down)
 (global-set-key (kbd "C-k") #'windmove-up)
 
+;; multi cursors
+(global-set-key (kbd "S-s-a") #'mc/edit-beginnings-of-lines)
+(global-set-key (kbd "S-s-e") #'mc/edit-ends-of-lines)
+
+(global-set-key (kbd "S-s-c") #'mc/mark-next-like-this)
+(global-set-key (kbd "S-s-b") #'mc/mark-previous-like-this)
+
+(global-set-key (kbd "S-s-<down>") #'mc/mark-next-like-this)
+(global-set-key (kbd "s-j") #'mc/mark-next-like-this)
+(global-set-key (kbd "S-s-<up>") #'mc/mark-previous-like-this)
+(global-set-key (kbd "s-k") #'mc/mark-previous-like-this)
+
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
 ;; ---------------------------------------------------------
@@ -88,16 +119,32 @@
 
   (helix-define-key 'space " " #'execute-extended-command)
 
+  ;; lsp actions
+  (helix-define-key 'goto "d" #'+lookup/definition)
+  (helix-define-key 'goto "i" #'+lookup/implementations)
+  (helix-define-key 'goto "r" #'+lookup/references)
+  (helix-define-key 'goto "y" #'+lookup/type-definition)
+
   ;; quick finder
   (helix-define-key 'goto "." #'consult-find)   ;;
-  (helix-define-key 'goto "b" #'consult-buffer) ;; project-switch-to-buffer
-  (helix-define-key 'goto "f" #'consult-fd)     ;; project-find-file
-  (helix-define-key 'goto "/" #'consult-grep)   ;; project-find-regexp
+  (helix-define-key 'goto "b" #'consult-buffer) ;;
+  (helix-define-key 'goto "f" #'consult-fd)     ;;
+  (helix-define-key 'goto "/" #'consult-grep)   ;;
 
-  ;; default project
-  (helix-define-key 'space "f" #'project-find-file)
-  (helix-define-key 'space "b" #'project-switch-to-buffer)
-  (helix-define-key 'space "j" #'project-switch-project)
+  ;; multi cursor
+  (helix-define-key 'goto "0" #'mc/mark-all-words-like-this)
+  (helix-define-key 'goto "9" #'mc/mark-all-like-this-dwim)
+
+  ;; select allow
+  (helix-define-key 'goto "8" #'mc/mark-all-like-this)
+  (helix-define-key 'goto "*" #'mc/mark-all-like-this)
+  (helix-define-key 'space "8" #'mc/mark-all-like-this)
+  (helix-define-key 'space "*" #'mc/mark-all-like-this)
+
+  ;; project
+  (helix-define-key 'space "f" #'projectile-find-file)
+  (helix-define-key 'space "b" #'projectile-switch-to-buffer)
+  (helix-define-key 'space "j" #'projectile-switch-project)
   (helix-define-key 'space "\\" #'project-find-regexp)
 
   ;; default lsp
@@ -125,6 +172,9 @@
 
   ;; quick comment
   (helix-define-key 'goto "c" #'comment-line)
+
+  ;; clangd switch header/source file
+  (helix-define-key 'goto "H" #'lsp-clangd-find-other-file)
 
   ;; switch buffers
   (helix-define-key 'goto "]" #'next-buffer)

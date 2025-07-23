@@ -23,7 +23,7 @@
 (defun efs/start-panel ()
   (interactive)
   (efs/kill-panel)
-  (setq efs/polybar-process (start-process-shell-command "polybar" nil "polybar panel")))
+  (setq efs/polybar-process (start-process-shell-command "polybar" nil "polybar mainbar-xmonad")))
 
 (defun efs/send-polybar-hook (module-name hook-index)
   (start-process-shell-command "polybar-msg" nil (format "polybar-msg hook %s %s" module-name hook-index)))
@@ -54,11 +54,11 @@
   (interactive)
   ;; NOTE: You will need to update this to a valid background path!
   (start-process-shell-command
-   "feh" nil  "feh --bg-scale /home/linuxing3/OneDrive/wallpapers/otherWallpaper/gruvbox/forest_bridge.jpg"))
+   "feh" nil  "feh --bg-scale /home/linuxing3/OneDrive/wallpapers/wallpapers/0235.jpg"))
 
 (defun efs/exwm-init-hook ()
-  ;; Make workspace 1 be the one where we land at startup
-  (exwm-workspace-switch-create 1)
+  ;; Make 0 be the one where we land at startup
+  (exwm-workspace-switch-create 0)
   ;; Open eshell by default
   ;; (vterm)
   ;; NOTE: The next two are disabled because we now use Polybar!

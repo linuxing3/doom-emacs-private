@@ -29,6 +29,7 @@
        vertico           ; the search engine of the future
 
        :ui
+       ;; dired             ; private modules
        deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
        ;; doom-dashboard    ; a nifty splash screen for Emacs
@@ -70,13 +71,13 @@
        :emacs
        dired             ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
-       ;;eww               ; the internet is gross
-       ;;ibuffer           ; interactive buffer management
+       eww               ; the internet is gross
+       ibuffer           ; interactive buffer management
        undo              ; persistent, smarter undo for your inevitable mistakes
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
-       ;;eshell            ; the elisp shell that works everywhere
+       eshell            ; the elisp shell that works everywhere
        ;;shell             ; simple shell REPL for Emacs
        ;;term              ; basic terminal emulator for Emacs
        vterm             ; the best terminal emulation in Emacs
@@ -104,8 +105,8 @@
        (pass +auth)        ; password manager for nerds
        ;;pdf               ; pdf enhancements
        ;;terraform         ; infrastructure as code
-       ;;tmux              ; an API for interacting with tmux
-       ;;tree-sitter       ; syntax and parsing, sitting in a tree...
+       ;;tmux              ; an API for interacting with
+       tree-sitter       ; syntax and parsing, sitting in a tree...
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :os

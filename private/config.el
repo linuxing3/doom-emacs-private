@@ -5,19 +5,14 @@
 (setq doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font" :size 18))
 (setq doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 24))
 ;;
-(setq doom-theme 'doom-nord)
+(setq doom-theme 'doom-dark+)
 
-(setq projectile-default-src-directory "~/sources")
+(setq projectile-default-src-directory (expand-file-name "~/sources"))
 (setq projectile-project-search-path 'projectile-default-src-directory)
 
 (setq bookmark-default-file (dropbox-path "shared/emacs-bookmarks"))
 
 (setq display-line-numbers-type t)
-
-(defun linuxing3/dired-mode-setup ()
-  "to be run as hook for `dired-mode'."
-  (dired-hide-details-mode 1))
-(add-hook 'dired-mode-hook 'linuxing3/dired-mode-setup)
 
 ;; ---------------------------------------------------------
 ;; Org mode
