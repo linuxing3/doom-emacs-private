@@ -93,20 +93,21 @@
 (map! "C-l" #'windmove-right)
 (map! "C-j" #'windmove-down)
 (map! "C-k" #'windmove-up)
-(map! "M-h" #'evil-window-left) ; Alternative navigation
-(map! "M-l" #'evil-window-right)
-(map! "M-j" #'evil-window-down)
-(map! "M-k" #'evil-window-up)
-(map! "C-w h" #'evil-window-left) ; VSCode-style window commands
-(map! "C-w l" #'evil-window-right)
-(map! "C-w j" #'evil-window-down)
-(map! "C-w k" #'evil-window-up)
+(map! "M-h" #'windmove-left) ; Alternative navigation
+(map! "M-l" #'windmove-right)
+(map! "M-j" #'windmove-down)
+(map! "M-k" #'windmove-up)
+(map! "C-w h" #'windmove-left) ; VSCode-style window commands
+(map! "C-w l" #'windmove-right)
+(map! "C-w j" #'windmove-down)
+(map! "C-w k" #'windmove-up)
 
 ;; Enhanced multi-cursor support (VSCode + Helix style)
 (map! "C-d" #'mc/mark-next-word-like-this) ; VSCode add next match
 (map! "C-S-d" #'mc/mark-previous-word-like-this) ; VSCode add previous match
 (map! "s-d" #'mc/mark-all-words-like-this) ; VSCode select all matches
 (map! "C-M-d" #'mc/mark-all-in-region) ; VSCode add cursors to selection
+(map! "C-M-<mouse-1>" #'mc/add-cursor-on-click) ; Add cursor on click
 
 ;; Selection expansion
 (map! "C-=" #'er/expand-region)
@@ -119,6 +120,8 @@
 (map! "C-S-k" #'kill-whole-line) ; VSCode delete line
 (map! "C-S-<up>" #'move-line-up) ; VSCode move line up
 (map! "C-S-<down>" #'move-line-down) ; VSCode move line down
+(map! "C-x C-o" #'open-line) ; Insert newline below
+(map! "C-x C-S-o" #'open-line-above) ; Insert newline above
 
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
