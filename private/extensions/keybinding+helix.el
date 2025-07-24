@@ -18,23 +18,25 @@
 
 ;; Enable helix-mode by default in all buffers
 ;;
-;; escape to as escape
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+;; emacs escape as escape
+(map! "<escape>" 'keyboard-escape-quit)
 
-(global-set-key (kbd "\\") #'doom/escape)
+(map! "C-\\" #'doom/escape)
 
 ;; open doom private config
-(global-set-key (kbd "C-,") #'doom/open-private-config)
+(map! "C-," #'doom/open-private-config)
 
-;; envrc allow virtual develop env
-(global-set-key (kbd "C-.") #'envrc-allow)
+;; envrc allow virtual develop environment
+(map! "C-." #'envrc-allow)
 
 ;; helix mode for all buffers
-(global-set-key (kbd "C-<tab>") #'helix-mode-all)
+(map! "C-<tab>" #'helix-mode-all)
 
-(global-set-key (kbd "M-<tab>") #'consult-buffer-other-window)
+;; quick switch buffers
+(map! "M-<tab>" #'consult-buffer-other-window)
 
-(global-set-key (kbd "s-<tab>") #'+workspace/cycle)
+;; quick switch workspace
+(map! "s-<tab>" #'+workspace/cycle)
 
 ;; open kitty, C-S-T for new tab, C-S-Q to exit
 (defun x/open-kitty-new-workspace ()
@@ -44,70 +46,82 @@
   (interactive)
   (split-window-horizontally)
   (start-process-shell-command "kitty" nil "kitty"))
-(global-set-key (kbd "s-<return>") 'x/open-kitty-new-workspace)
-(global-set-key (kbd "M-<return>") 'x/open-kitty-here)
+(map! "s-<return>" 'x/open-kitty-new-workspace)
+(map! "M-<return>" 'x/open-kitty-here)
 
 ;; lsp rename
-(keymap-global-set "<f2>" #'lsp-rename)
+(map! "<f2>" #'lsp-rename)
 ;; git
-(keymap-global-set "<f3>" #'magit-status)
+(map! "<f3>" #'magit-status)
 
 ;; buffers and files
-(keymap-global-set "<f4>" #'dired)
-(keymap-global-set "<f5>" #'+eval/buffer-or-region)
-(keymap-global-set "<f6>" #'consult-buffer)
-(keymap-global-set "<f7>" #'consult-fd)
-(keymap-global-set "<f8>" #'consult-grep)
+(map! "<f4>" #'dired)
+(map! "<f5>" #'+eval/buffer-or-region)
+(map! "<f6>" #'consult-buffer)
+(map! "<f7>" #'consult-fd)
+(map! "<f8>" #'consult-grep)
 
 ;; org capture
-(keymap-global-set "<f9>" #'org-capture)
+(map! "<f9>" #'org-capture)
 
 ;; lookup when coding
-(keymap-global-set "<f10>" #'+lookup/references)
-(keymap-global-set "<f11>" #'+lookup/implementations)
-(keymap-global-set "<f12>" #'+lookup/definition)
+(map! "<f10>" #'+lookup/references)
+(map! "<f11>" #'+lookup/implementations)
+(map! "<f12>" #'+lookup/definition)
 
 ;; workspace
+(map! "s-N" #'+workspace/new)
+(map! "s-Q" #'+workspace/kill)
 
-(global-set-key (kbd "s-N") #'+workspace/new)
-(global-set-key (kbd "s-Q") #'+workspace/kill)
+(map! "s-H" #'+workspace/switch-left)
+(map! "s-L" #'+workspace/switch-right)
 
-(keymap-global-set "s-H" #'+workspace/switch-left)
-(keymap-global-set "s-L" #'+workspace/switch-right)
-(keymap-global-set "s-p" #'projectile-switch-project)
+;; projects
+(map! "s-p" #'projectile-switch-project)
 
-(global-set-key (kbd "s-v") #'split-window-right)
-(global-set-key (kbd "s-d") #'split-window-below)
-(global-set-key (kbd "s-q") #'delete-window)
+;; windows
+(map! "s-v" #'split-window-right)
+(map! "s-d" #'split-window-below)
+(map! "s-q" #'delete-window)
 
-(keymap-global-set "s-s" #'save-buffer)
+;; save buffer
+(map! "s-s" #'save-buffer)
 
 ;; comment the way
-(global-set-key (kbd "C-/") #'comment-line)
+(map! "C-/" #'comment-line)
 
 ;; repeat this line as in vscode
-(global-set-key (kbd "C-d") #'duplicate-line)
+(map! "C-m" #'duplicate-line)
+(map! "M-s-<down>" #'duplicate-line)
 
 ;; change what emacs looks like
-(global-set-key (kbd "C-t") #'consult-theme)
+(map! "C-t" #'consult-theme)
 
 ;; move between windows quickly
-(global-set-key (kbd "C-h") #'windmove-left)
-(global-set-key (kbd "C-l") #'windmove-right)
-(global-set-key (kbd "C-j") #'windmove-down)
-(global-set-key (kbd "C-k") #'windmove-up)
+(map! "C-h" #'windmove-left)
+(map! "C-l" #'windmove-right)
+(map! "C-j" #'windmove-down)
+(map! "C-k" #'windmove-up)
 
 ;; multi cursors
-(global-set-key (kbd "S-s-a") #'mc/edit-beginnings-of-lines)
-(global-set-key (kbd "S-s-e") #'mc/edit-ends-of-lines)
+(map! "s-a" #'mc/edit-beginnings-of-lines)
+(map! "s-e" #'mc/edit-ends-of-lines)
 
-(global-set-key (kbd "S-s-c") #'mc/mark-next-like-this)
-(global-set-key (kbd "S-s-b") #'mc/mark-previous-like-this)
+;; expand and multi select
+(map! "C-d" #'mc/mark-next-word-like-this)
 
-(global-set-key (kbd "S-s-<down>") #'mc/mark-next-like-this)
-(global-set-key (kbd "s-j") #'mc/mark-next-like-this)
-(global-set-key (kbd "S-s-<up>") #'mc/mark-previous-like-this)
-(global-set-key (kbd "s-k") #'mc/mark-previous-like-this)
+(map! "s-=" #'er/expand-region)
+(map! "s-+" #'mc/mark-next-like-this)
+(map! "s-*" #'mc/mark-all-like-this)
+
+(map! "C-=" #'er/expand-region)
+(map! "C-+" #'mc/mark-next-like-this)
+(map! "C-*" #'mc/mark-all-like-this)
+
+(map! "s-j" #'mc/mark-next-like-this)
+(map! "M-s-j" #'mc/mark-next-like-this)
+(map! "s-k" #'mc/mark-previous-like-this)
+(map! "M-s-k" #'mc/mark-previous-like-this)
 
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
@@ -130,16 +144,6 @@
   (helix-define-key 'goto "b" #'consult-buffer) ;;
   (helix-define-key 'goto "f" #'consult-fd)     ;;
   (helix-define-key 'goto "/" #'consult-grep)   ;;
-
-  ;; multi cursor
-  (helix-define-key 'goto "0" #'mc/mark-all-words-like-this)
-  (helix-define-key 'goto "9" #'mc/mark-all-like-this-dwim)
-
-  ;; select allow
-  (helix-define-key 'goto "8" #'mc/mark-all-like-this)
-  (helix-define-key 'goto "*" #'mc/mark-all-like-this)
-  (helix-define-key 'space "8" #'mc/mark-all-like-this)
-  (helix-define-key 'space "*" #'mc/mark-all-like-this)
 
   ;; project
   (helix-define-key 'space "f" #'projectile-find-file)
