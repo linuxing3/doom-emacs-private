@@ -16,27 +16,23 @@
 ;; - README.org for usage overview
 ;; - keybinding+spacemacs.el for original Spacemacs bindings
 
-;; Enable helix-mode by default in all buffers
-;;
-;; emacs escape as escape
+;; Modal editing setup
 (map! "<escape>" 'keyboard-escape-quit)
-
 (map! "C-\\" #'doom/escape)
+(map! "C-g" #'keyboard-escape-quit) ; VSCode-style escape
 
-;; open doom private config
+;; VSCode-style file/buffer commands
 (map! "C-," #'doom/open-private-config)
-
-;; envrc allow virtual develop environment
 (map! "C-." #'envrc-allow)
-
-;; helix mode for all buffers
-(map! "C-<tab>" #'helix-mode-all)
-
-;; quick switch buffers
+(map! "C-p" #'projectile-find-file) ; VSCode quick open
+(map! "C-<tab>" #'consult-buffer) ; VSCode-style buffer switching
 (map! "M-<tab>" #'consult-buffer-other-window)
-
-;; quick switch workspace
 (map! "s-<tab>" #'+workspace/cycle)
+
+;; VSCode-style editor commands
+(map! "C-s" #'save-buffer)
+(map! "C-f" #'consult-line) ; Quick find in file
+(map! "C-h" #'consult-outline) ; File outline
 
 ;; open kitty, C-S-T for new tab, C-S-Q to exit
 (defun x/open-kitty-new-workspace ()
@@ -49,25 +45,20 @@
 (map! "s-<return>" 'x/open-kitty-new-workspace)
 (map! "M-<return>" 'x/open-kitty-here)
 
-;; lsp rename
-(map! "<f2>" #'lsp-rename)
-;; git
+;; Enhanced function keys
+(map! "<f2>" #'lsp-rename) ; VSCode rename
+(map! "C-<f2>" #'lsp-find-references) ; VSCode find all references
 (map! "<f3>" #'magit-status)
-
-;; buffers and files
 (map! "<f4>" #'dired)
 (map! "<f5>" #'+eval/buffer-or-region)
 (map! "<f6>" #'consult-buffer)
 (map! "<f7>" #'consult-fd)
 (map! "<f8>" #'consult-grep)
-
-;; org capture
 (map! "<f9>" #'org-capture)
-
-;; lookup when coding
 (map! "<f10>" #'+lookup/references)
 (map! "<f11>" #'+lookup/implementations)
 (map! "<f12>" #'+lookup/definition)
+(map! "C-<f12>" #'lsp-find-implementation) ; VSCode go to implementation
 
 ;; workspace
 (map! "s-N" #'+workspace/new)
@@ -97,31 +88,37 @@
 ;; change what emacs looks like
 (map! "C-t" #'consult-theme)
 
-;; move between windows quickly
+;; Enhanced window navigation (VSCode + Helix style)
 (map! "C-h" #'windmove-left)
 (map! "C-l" #'windmove-right)
 (map! "C-j" #'windmove-down)
 (map! "C-k" #'windmove-up)
+(map! "M-h" #'evil-window-left) ; Alternative navigation
+(map! "M-l" #'evil-window-right)
+(map! "M-j" #'evil-window-down)
+(map! "M-k" #'evil-window-up)
+(map! "C-w h" #'evil-window-left) ; VSCode-style window commands
+(map! "C-w l" #'evil-window-right)
+(map! "C-w j" #'evil-window-down)
+(map! "C-w k" #'evil-window-up)
 
-;; multi cursors
+;; Enhanced multi-cursor support (VSCode + Helix style)
+(map! "C-d" #'mc/mark-next-word-like-this) ; VSCode add next match
+(map! "C-S-d" #'mc/mark-previous-word-like-this) ; VSCode add previous match
+(map! "s-d" #'mc/mark-all-words-like-this) ; VSCode select all matches
+(map! "C-M-d" #'mc/mark-all-in-region) ; VSCode add cursors to selection
+
+;; Selection expansion
+(map! "C-=" #'er/expand-region)
+(map! "C--" #'er/contract-region) ; VSCode shrink selection
+(map! "C-S-=" #'mc/mark-all-like-this) ; VSCode select all occurrences
+
+;; Line manipulation
 (map! "s-a" #'mc/edit-beginnings-of-lines)
 (map! "s-e" #'mc/edit-ends-of-lines)
-
-;; expand and multi select
-(map! "C-d" #'mc/mark-next-word-like-this)
-
-(map! "s-=" #'er/expand-region)
-(map! "s-+" #'mc/mark-next-like-this)
-(map! "s-*" #'mc/mark-all-like-this)
-
-(map! "C-=" #'er/expand-region)
-(map! "C-+" #'mc/mark-next-like-this)
-(map! "C-*" #'mc/mark-all-like-this)
-
-(map! "s-j" #'mc/mark-next-like-this)
-(map! "M-s-j" #'mc/mark-next-like-this)
-(map! "s-k" #'mc/mark-previous-like-this)
-(map! "M-s-k" #'mc/mark-previous-like-this)
+(map! "C-S-k" #'kill-whole-line) ; VSCode delete line
+(map! "C-S-<up>" #'move-line-up) ; VSCode move line up
+(map! "C-S-<down>" #'move-line-down) ; VSCode move line down
 
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
