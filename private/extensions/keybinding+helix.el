@@ -209,6 +209,17 @@ FROM and TO should be strings like \"(\" or \"{\"."
      
      (t (message "Not at a delimiter")))))
 
+;; Delimiter navigation and transformation
+(map! "C-M-p" #'jump-to-matching-delimiter) ; Jump to matching delimiter
+(map! "M-%" #'jump-to-matching-delimiter)   ; Alternative binding
+(map! "C-c %" #'jump-to-matching-delimiter) ; Additional binding
+
+;; Delimiter transformation
+(map! "C-c (" #'change-braces-to-parens)    ; {} -> ()
+(map! "C-c )" #'change-parens-to-braces)    ; () -> {}
+(map! "C-c [" #'change-brackets-to-parens)  ; [] -> ()
+(map! "C-c ]" #'change-parens-to-brackets)  ; () -> []
+
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
 ;; ---------------------------------------------------------
