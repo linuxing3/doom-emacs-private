@@ -16,5 +16,10 @@
           default = import ./shell.nix flakeContext { system = "x86_64-linux"; };
         };
       };
+      packages = {
+        x86_64-linux = {
+          default = import ./package.nix flakeContext { system = "x86_64-linux"; };
+        };
+      };
     };
 }

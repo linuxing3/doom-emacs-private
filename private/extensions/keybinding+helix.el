@@ -21,10 +21,14 @@
 (map! "C-\\" #'doom/escape)
 (map! "C-g" #'keyboard-escape-quit) ; VSCode-style escape
 
+;; ---------------------------------------------------------
+;; 基于VSCODE的键设置
+;; ---------------------------------------------------------
 ;; VSCode-style file/buffer commands
 (map! "C-," #'doom/open-private-config)
 (map! "C-." #'envrc-allow)
 (map! "C-p" #'projectile-find-file) ; VSCode quick open
+
 (map! "C-<tab>" #'consult-buffer) ; VSCode-style buffer switching
 (map! "M-<tab>" #'consult-buffer-other-window)
 (map! "s-<tab>" #'+workspace/cycle)
@@ -46,6 +50,7 @@
 (map! "M-<return>" 'x/open-kitty-here)
 
 ;; Enhanced function keys
+
 (map! "<f2>" #'lsp-rename) ; VSCode rename
 (map! "C-<f2>" #'lsp-find-references) ; VSCode find all references
 (map! "<f3>" #'magit-status)
@@ -58,6 +63,7 @@
 (map! "<f10>" #'+lookup/references)
 (map! "<f11>" #'+lookup/implementations)
 (map! "<f12>" #'+lookup/definition)
+(map! "S-<f12>" #'+lookup/type-definition)
 (map! "C-<f12>" #'lsp-find-implementation) ; VSCode go to implementation
 
 ;; workspace
@@ -82,7 +88,6 @@
 (map! "C-/" #'comment-line)
 
 ;; repeat this line as in vscode
-(map! "C-m" #'duplicate-line)
 (map! "M-s-<down>" #'duplicate-line)
 
 ;; change what emacs looks like
@@ -118,14 +123,16 @@
 (map! "s-a" #'mc/edit-beginnings-of-lines)
 (map! "s-e" #'mc/edit-ends-of-lines)
 (map! "C-S-k" #'kill-whole-line) ; VSCode delete line
-(map! "C-S-<up>" #'move-line-up) ; VSCode move line up
-(map! "C-S-<down>" #'move-line-down) ; VSCode move line down
+(map! "C-S-<up>" #'drag-stuff-up) ; VSCode move line up
+(map! "C-S-<down>" #'drag-stuff-down) ; VSCode move line down
 (map! "C-x C-o" #'open-line) ; Insert newline below
 (map! "C-x C-S-o" #'open-line-above) ; Insert newline above
-
+(map! "RET" #'newline-and-indent) ; VSCode rename
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
 ;; ---------------------------------------------------------
+;; Helix mode
+(map! "C-`" #'helix-normal-mode) ; VSCode quick open
 
 (use-package! helix
   :config
@@ -152,9 +159,8 @@
   (helix-define-key 'space "\\" #'project-find-regexp)
 
   ;; default lsp
-  (helix-define-key 'space "a" #'eglot-code-action-quickfix)
-  (helix-define-key 'space "r" #'eglot-rename)
-  (helix-define-key 'space "d" #'flymake-show-buffer-diagnostics)
+  (helix-define-key 'space "a" #'lsp-execute-code-action)
+  (helix-define-key 'space "r" #'lsp-rename)
 
   ;; git
   (helix-define-key 'space "g" #'magit-status)
@@ -171,8 +177,12 @@
   (helix-define-key 'space "X" #'save-some-buffers)
   (helix-define-key 'space "z" #'+workspace/kill-session-and-quit)
 
-  ;; only keey me
+  ;; only kill me
   (helix-define-key 'space "," #'doom/kill-other-buffers)
+
+  ;; kill and yank / copy and past
+  (helix-define-key 'space "p" #'clipboard-yank)
+  (helix-define-key 'space "y" #'clipboard-kill-ring-save)
 
   ;; quick comment
   (helix-define-key 'goto "c" #'comment-line)

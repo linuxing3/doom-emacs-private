@@ -45,5 +45,5 @@
 ;; Load windows manger extra settings
 (load! "extensions/exwm" nil t)
 
-;; load aider
-;; (load! "extensions/ai" nil t)
+;; read rss with org
+;; (load! "extensions/feed" nil t)

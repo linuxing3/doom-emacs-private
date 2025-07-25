@@ -18,3 +18,18 @@
 (package! visual-fill-column)
 
 (package! desktop-environment :recipe (:host github :repo "DamienCassou/desktop-environment"))
+
+(package! flycheck-aspell)
+
+(package! calfw)
+(package! calfw-org)
+
+;;(package! dashboard)
+;;
+(package! dired-open)
+(package! dired-subtree)
+(package! dirvish)
+
+(package! dmenu)
+(package! ednc)
+(package! emojify)

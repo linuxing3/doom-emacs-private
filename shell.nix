@@ -17,4 +17,8 @@ pkgs.mkShell {
 
     aider-chat
   ];
+  shellHook = ''
+    export DEEPSEEK_API_KEY=$(cat /etc/agenix/deepseek-token)
+    aider
+ '';
 }
