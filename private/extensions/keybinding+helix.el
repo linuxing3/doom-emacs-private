@@ -156,12 +156,7 @@
           (message "No matching opening tag found")
           (goto-char pos))))
      
-     (t (message "Not at a delimiter"))))
-
-;; Navigation between matching delimiters
-(map! "C-M-p" #'jump-to-matching-delimiter) ; Jump to matching delimiter
-(map! "M-%" #'jump-to-matching-delimiter)   ; Alternative binding
-(map! "C-c %" #'jump-to-matching-delimiter) ; Additional binding
+     (t (message "Not at a delimiter")))))
 
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
@@ -177,7 +172,12 @@
   (helix-define-key 'normal "H" #'previous-buffer)
   (helix-define-key 'normal "L" #'next-buffer)
 
+  ;; matching delimiter
   (helix-define-key 'normal "mm" #'jump-to-matching-delimiter)
+
+  ;; expand and contract
+  (helix-define-key 'normal "v" #'er/expand-region)
+  (helix-define-key 'normal "V" #'er/contract-region)
 
   ;; multi cursor mark
   (helix-define-key 'normal "C" #'mc/mark-next-like-this)
@@ -222,9 +222,6 @@
   (helix-define-key 'goto "i" #'+lookup/implementations)
   (helix-define-key 'goto "r" #'+lookup/references)
   (helix-define-key 'goto "y" #'+lookup/type-definition)
-
-  ;; delimiter navigation
-  (helix-define-key 'normal "%" #'jump-to-matching-delimiter)
 
   ;; quick finder
   (helix-define-key 'goto "." #'consult-find)   ;;
