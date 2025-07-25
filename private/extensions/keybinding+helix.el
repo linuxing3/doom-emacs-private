@@ -129,18 +129,34 @@
 (map! "C-x C-S-o" #'open-line-above) ; Insert newline above
 (map! "RET" #'newline-and-indent) ; VSCode rename
 
-;; Jump to matching delimiter function
+;; Enhanced jump to matching delimiter function
 (defun jump-to-matching-delimiter ()
-  "Jump to the matching delimiter (parenthesis, bracket, brace, etc.)."
+  "Jump to the matching delimiter (parenthesis, bracket, brace, or HTML/XML tag)."
   (interactive)
-  (cond
-   ((looking-at "\\s(") (forward-sexp 1))
-   ((looking-back "\\s)" 1) (backward-sexp 1))
-   ((looking-at "\\s{") (forward-sexp 1))
-   ((looking-back "\\s}" 1) (backward-sexp 1))
-   ((looking-at "\\s[") (forward-sexp 1))
-   ((looking-back "\\s]" 1) (backward-sexp 1))
-   (t (message "Not at a delimiter"))))
+  (let ((pos (point)))
+    (cond
+     ;; Standard delimiters
+     ((looking-at "\\s(") (forward-sexp 1))
+     ((looking-back "\\s)" 1) (backward-sexp 1))
+     ((looking-at "\\s{") (forward-sexp 1))
+     ((looking-back "\\s}" 1) (backward-sexp 1))
+     ((looking-at "\\s[") (forward-sexp 1))
+     ((looking-back "\\s]" 1) (backward-sexp 1))
+     
+     ;; HTML/XML tags
+     ((looking-at "<[^/!]") ; Opening tag
+      (when (search-forward-regexp ">" nil t)
+        (unless (sgml-skip-tag-forward 1)
+          (message "No matching closing tag found")
+          (goto-char pos))))
+     
+     ((looking-back "</" 2) ; Closing tag
+      (when (search-backward-regexp "<[^/]" nil t)
+        (unless (sgml-skip-tag-backward 1)
+          (message "No matching opening tag found")
+          (goto-char pos))))
+     
+     (t (message "Not at a delimiter")))))
 
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
