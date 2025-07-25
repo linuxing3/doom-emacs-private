@@ -37,18 +37,18 @@ there's a region, all lines that region covers will be duplicated."
   "Toggle between horizontal and vertical layout of two windows."
   (interactive)
   (if (= (count-windows) 2)
-    (let* ((window-tree (car (window-tree)))
-           (current-split-vertical-p (car window-tree))
-           (first-window (nth 2 window-tree))
-           (second-window (nth 3 window-tree))
-           (second-window-state (window-state-get second-window))
-           (splitter (if current-split-vertical-p
-                         #'split-window-horizontally
-                       #'split-window-vertically)))
-      (delete-other-windows first-window)
-      ;; `window-state-put' also re-selects the window if needed, so we don't
-      ;; need to call `select-window'
-      (window-state-put second-window-state (funcall splitter)))
+      (let* ((window-tree (car (window-tree)))
+             (current-split-vertical-p (car window-tree))
+             (first-window (nth 2 window-tree))
+             (second-window (nth 3 window-tree))
+             (second-window-state (window-state-get second-window))
+             (splitter (if current-split-vertical-p
+                           #'split-window-horizontally
+                         #'split-window-vertically)))
+        (delete-other-windows first-window)
+        ;; `window-state-put' also re-selects the window if needed, so we don't
+        ;; need to call `select-window'
+        (window-state-put second-window-state (funcall splitter)))
     (error "Can't toggle window layout when the number of windows isn't two.")))
 
 ;;;###autoload
@@ -163,17 +163,17 @@ If NO-HEADERS is non-nil, remove the HTTP headers first."
 
 ;;;###autoload
 (defun +private/save-macro (name)
-    "save a macro. Take a name as argument
+  "save a macro. Take a name as argument
      and save the last defined macro under
      this name at the end of your .emacs"
-     (interactive "SName of the macro :")  ; ask for the name of the macro
-     (name-last-kbd-macro name)            ; use this name for the macro
-     (find-file user-init-file)            ; open ~/.emacs or other user init file
-     (goto-char (point-max))               ; go to the end of the .emacs
-     (newline)                             ; insert a newline
-     (insert-kbd-macro name)               ; copy the macro
-     (newline)                             ; insert a newline
-     (switch-to-buffer nil))               ; return to the initial buffer
+  (interactive "SName of the macro :")  ; ask for the name of the macro
+  (name-last-kbd-macro name)            ; use this name for the macro
+  (find-file user-init-file)            ; open ~/.emacs or other user init file
+  (goto-char (point-max))               ; go to the end of the .emacs
+  (newline)                             ; insert a newline
+  (insert-kbd-macro name)               ; copy the macro
+  (newline)                             ; insert a newline
+  (switch-to-buffer nil))               ; return to the initial buffer
 
 
 ;;;###autoload
@@ -249,7 +249,7 @@ Including indent-buffer, which should not be called automatically on save."
             hlf)))
   (redraw-display))
 
-
+;;;###autoload
 (defun +private/toggle-letter-case ()
   "Toggle the letter case of current word or text selection.
 Toggles from 3 cases: UPPER CASE, lower case, Title Case,
@@ -282,11 +282,11 @@ in that cyclic order."
      ((string= "all caps" (get this-command 'state))
       (downcase-region pos1 pos2) (put this-command 'state "all lower")))))
 
-
+;;;###autoload
 (defun +private/replace-next-underscore-with-camel (arg)
   (interactive "p")
   (if (> arg 0)
- (setq arg (1+ arg))) ; 1-based index to get eternal loop with 0
+      (setq arg (1+ arg))) ; 1-based index to get eternal loop with 0
   (let ((case-fold-search nil))
     (while (not (= arg 1))
       (search-forward-regexp "\\b_[a-z]")
@@ -298,9 +298,9 @@ in that cyclic order."
 
 ;;;###autoload
 (defun +private/goto-main-window (pname frame)
-    (let ((window (car (+my-doom-visible-windows))))
-      (if (window-live-p window)
-          (select-window window))))
+  (let ((window (car (+my-doom-visible-windows))))
+    (if (window-live-p window)
+        (select-window window))))
 
 ;;;###autoload
 (defun +private/show-visible-windows (&optional window-list)
@@ -308,3 +308,88 @@ in that cyclic order."
   (cl-loop for window in (or window-list (window-list))
            unless (window-dedicated-p window)
            collect window))
+
+;;;###autoload
+(defun change-surrounded-delimiter (from to)
+  "Change delimiters surrounding point from FROM to TO.
+FROM and TO should be strings like \"(\" or \"{\"."
+  (interactive)
+  (save-excursion
+    (let ((bounds (bounds-of-thing-at-point 'sexp)))
+      (when bounds
+        (let* ((beg (car bounds))
+               (end (cdr bounds))
+               (current-char (buffer-substring-no-properties beg (1+ beg)))
+               (end-char (buffer-substring-no-properties (1- end) end)))
+          (when (and (string= current-char from)
+                     (string= end-char (cl-case (string-to-char from)
+                                         (?\( ")")
+                                         (?\[ "]")
+                                         (?\{ "}")
+                                         (?< ">")
+                                         (t ""))))
+            (goto-char beg)
+            (delete-char 1)
+            (insert to)
+            (goto-char (1- end))
+            (delete-char 1)
+            (insert (cl-case (string-to-char to)
+                      (?\( ")")
+                      (?\[ "]")
+                      (?\{ "}")
+                      (?< ">")
+                      (t "")))))))))
+
+;; Delimiter transformation functions
+;;;###autoload
+(defun change-parens-to-braces ()
+  "Change surrounding parentheses to curly braces."
+  (interactive)
+  (change-surrounded-delimiter "(" "{"))
+
+;;;###autoload
+(defun change-braces-to-parens ()
+  "Change surrounding curly braces to parentheses."
+  (interactive)
+  (change-surrounded-delimiter "{" "("))
+
+;;;###autoload
+(defun change-parens-to-brackets ()
+  "Change surrounding parentheses to square brackets."
+  (interactive)
+  (change-surrounded-delimiter "(" "["))
+
+;;;###autoload
+(defun change-brackets-to-parens ()
+  "Change surrounding square brackets to parentheses."
+  (interactive)
+  (change-surrounded-delimiter "[" "("))
+
+;;;###autoload
+(defun jump-to-matching-delimiter ()
+  "Jump to the matching delimiter (parenthesis, bracket, brace, or HTML/XML tag)."
+  (interactive)
+  (let ((pos (point)))
+    (cond
+     ;; Standard delimiters
+     ((looking-at "\\s(") (forward-sexp 1))
+     ((looking-back "\\s)" 1) (backward-sexp 1))
+     ((looking-at "\\s{") (forward-sexp 1))
+     ((looking-back "\\s}" 1) (backward-sexp 1))
+     ((looking-at "\\s[") (forward-sexp 1))
+     ((looking-back "\\s]" 1) (backward-sexp 1))
+
+     ;; HTML/XML tags
+     ((looking-at "<[^/!]") ; Opening tag
+      (when (search-forward-regexp ">" nil t)
+        (unless (sgml-skip-tag-forward 1)
+          (message "No matching closing tag found")
+          (goto-char pos))))
+
+     ((looking-back "</" 2) ; Closing tag
+      (when (search-backward-regexp "<[^/]" nil t)
+        (unless (sgml-skip-tag-backward 1)
+          (message "No matching opening tag found")
+          (goto-char pos))))
+
+     (t (message "Not at a delimiter")))))

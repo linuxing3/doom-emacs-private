@@ -1,70 +1,5 @@
 ;;; private/extensions/keybinding+helix.el -*- lexical-binding: t; -*-
 
-;; ---------------------------------------------------------
-;; Core Configuration
-;; ---------------------------------------------------------
-
-;; Modal editing setup
-(map! "<escape>" 'keyboard-escape-quit)
-(map! "C-\\" #'doom/escape)
-(map! "C-g" #'keyboard-escape-quit)
-
-;; ---------------------------------------------------------
-;; Navigation & Editing
-;; ---------------------------------------------------------
-
-;; Window navigation
-(map! "C-h" #'windmove-left)
-(map! "C-l" #'windmove-right)
-(map! "C-j" #'windmove-down)
-(map! "C-k" #'windmove-up)
-
-;; Delimiter operations
-(defun jump-to-matching-delimiter ()
-  "Jump to matching delimiter (parenthesis, bracket, brace, or tag)."
-  (interactive)
-  (let ((pos (point)))
-    (cond
-     ((looking-at "\\s(") (forward-sexp 1))
-     ((looking-back "\\s)" 1) (backward-sexp 1))
-     ((looking-at "\\s{") (forward-sexp 1))
-     ((looking-back "\\s}" 1) (backward-sexp 1))
-     ((looking-at "\\s[") (forward-sexp 1))
-     ((looking-back "\\s]" 1) (backward-sexp 1))
-     ((looking-at "<[^/!]") 
-      (when (search-forward-regexp ">" nil t)
-        (unless (sgml-skip-tag-forward 1)
-          (goto-char pos))))
-     ((looking-back "</" 2)
-      (when (search-backward-regexp "<[^/]" nil t)
-        (unless (sgml-skip-tag-backward 1)
-          (goto-char pos))))
-     (t (message "Not at a delimiter")))))
-
-(map! "M-%" #'jump-to-matching-delimiter)
-
-;; ---------------------------------------------------------
-;; Helix Mode Configuration
-;; ---------------------------------------------------------
-
-(use-package! helix
-  :config
-  (helix-jj-setup 0.2)
-  
-  ;; Basic navigation
-  (helix-define-key 'normal "H" #'previous-buffer)
-  (helix-define-key 'normal "L" #'next-buffer)
-  
-  ;; Delimiter operations  
-  (helix-define-key 'normal "mm" #'jump-to-matching-delimiter)
-  
-  ;; Space leader commands
-  (helix-define-key 'space " " #'execute-extended-command)
-  (helix-define-key 'space "f" #'projectile-find-file)
-  (helix-define-key 'space "b" #'projectile-switch-to-buffer)
-  
-  (helix-mode)
-  (helix-mode-all))
 ;;
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
@@ -93,7 +28,8 @@
 ;; VSCode-style file/buffer commands
 (map! "C-," #'doom/open-private-config)
 (map! "C-." #'envrc-allow)
-(map! "C-p" #'projectile-find-file) ; VSCode quick open
+
+(map! "s-p" #'projectile-find-file) ; VSCode quick open
 
 (map! "C-<tab>" #'consult-buffer) ; VSCode-style buffer switching
 (map! "M-<tab>" #'consult-buffer-other-window)
@@ -179,6 +115,8 @@
 (map! "s-d" #'mc/mark-all-words-like-this) ; VSCode select all matches
 (map! "C-M-d" #'mc/mark-all-in-region) ; VSCode add cursors to selection
 (map! "C-M-<mouse-1>" #'mc/add-cursor-on-click) ; Add cursor on click
+(map! "s-a" #'mc/edit-beginnings-of-lines)
+(map! "s-e" #'mc/edit-ends-of-lines)
 
 ;; Selection expansion
 (map! "C-=" #'er/expand-region)
@@ -186,94 +124,13 @@
 (map! "C-S-=" #'mc/mark-all-like-this) ; VSCode select all occurrences
 
 ;; Line manipulation
-(map! "s-a" #'mc/edit-beginnings-of-lines)
-(map! "s-e" #'mc/edit-ends-of-lines)
 (map! "C-S-k" #'kill-whole-line) ; VSCode delete line
 (map! "C-S-<up>" #'drag-stuff-up) ; VSCode move line up
 (map! "C-S-<down>" #'drag-stuff-down) ; VSCode move line down
 (map! "C-x C-o" #'open-line) ; Insert newline below
 (map! "C-x C-S-o" #'open-line-above) ; Insert newline above
+
 (map! "RET" #'newline-and-indent) ; VSCode rename
-
-;; Delimiter transformation functions
-(defun change-surrounded-delimiter (from to)
-  "Change delimiters surrounding point from FROM to TO.
-FROM and TO should be strings like \"(\" or \"{\"."
-  (interactive)
-  (save-excursion
-    (let ((bounds (bounds-of-thing-at-point 'sexp)))
-      (when bounds
-        (let* ((beg (car bounds))
-               (end (cdr bounds))
-               (current-char (buffer-substring-no-properties beg (1+ beg)))
-               (end-char (buffer-substring-no-properties (1- end) end)))
-          (when (and (string= current-char from)
-                     (string= end-char (cl-case (string-to-char from)
-                                         (?\( ")")
-                                         (?\[ "]")
-                                         (?\{ "}")
-                                         (?< ">")
-                                         (t ""))))
-            (goto-char beg)
-            (delete-char 1)
-            (insert to)
-            (goto-char (1- end))
-            (delete-char 1)
-            (insert (cl-case (string-to-char to)
-                      (?\( ")")
-                      (?\[ "]")
-                      (?\{ "}")
-                      (?< ">")
-                      (t "")))))))))
-
-(defun change-parens-to-braces ()
-  "Change surrounding parentheses to curly braces."
-  (interactive)
-  (change-surrounded-delimiter "(" "{"))
-
-(defun change-braces-to-parens ()
-  "Change surrounding curly braces to parentheses."
-  (interactive)
-  (change-surrounded-delimiter "{" "("))
-
-(defun change-parens-to-brackets ()
-  "Change surrounding parentheses to square brackets."
-  (interactive)
-  (change-surrounded-delimiter "(" "["))
-
-(defun change-brackets-to-parens ()
-  "Change surrounding square brackets to parentheses."
-  (interactive)
-  (change-surrounded-delimiter "[" "("))
-
-;; Enhanced jump to matching delimiter function
-(defun jump-to-matching-delimiter ()
-  "Jump to the matching delimiter (parenthesis, bracket, brace, or HTML/XML tag)."
-  (interactive)
-  (let ((pos (point)))
-    (cond
-     ;; Standard delimiters
-     ((looking-at "\\s(") (forward-sexp 1))
-     ((looking-back "\\s)" 1) (backward-sexp 1))
-     ((looking-at "\\s{") (forward-sexp 1))
-     ((looking-back "\\s}" 1) (backward-sexp 1))
-     ((looking-at "\\s[") (forward-sexp 1))
-     ((looking-back "\\s]" 1) (backward-sexp 1))
-
-     ;; HTML/XML tags
-     ((looking-at "<[^/!]") ; Opening tag
-      (when (search-forward-regexp ">" nil t)
-        (unless (sgml-skip-tag-forward 1)
-          (message "No matching closing tag found")
-          (goto-char pos))))
-
-     ((looking-back "</" 2) ; Closing tag
-      (when (search-backward-regexp "<[^/]" nil t)
-        (unless (sgml-skip-tag-backward 1)
-          (message "No matching opening tag found")
-          (goto-char pos))))
-
-     (t (message "Not at a delimiter")))))
 
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
@@ -288,6 +145,8 @@ FROM and TO should be strings like \"(\" or \"{\"."
   ;; normal
   (helix-define-key 'normal "H" #'previous-buffer)
   (helix-define-key 'normal "L" #'next-buffer)
+  (helix-define-key 'normal "]" #'+workspace/swap-right)
+  (helix-define-key 'normal "[" #'+workspace/swap-left)
 
   ;; delimiter operations
   (helix-define-key 'normal "mm" #'jump-to-matching-delimiter)
@@ -356,10 +215,12 @@ FROM and TO should be strings like \"(\" or \"{\"."
   (helix-define-key 'goto "H" #'lsp-clangd-find-other-file)
 
   ;; switch buffers
-  (helix-define-key 'goto "]" #'next-buffer)
   (helix-define-key 'goto "n" #'next-buffer)
-  (helix-define-key 'goto "[" #'previous-buffer)
   (helix-define-key 'goto "p" #'previous-buffer)
+
+  ;; switch workspace
+  (helix-define-key 'goto "]" #'+workspace/swap-right)
+  (helix-define-key 'goto "[" #'+workspace/swap-left)
 
   ;; terminal to run command
   (helix-define-key 'space "t" #'+vterm/toggle)

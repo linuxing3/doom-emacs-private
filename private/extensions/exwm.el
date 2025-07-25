@@ -13,6 +13,10 @@
 (defvar efs/polybar-process nil
   "Holds the process of the running Polybar instance, if any")
 
+(defun efs/restart-display-manager()
+  (interactive)
+  (start-process-shell-command "logout" nil "sudo systemctl restart display-manager"))
+
 (defun efs/kill-panel ()
   (interactive)
   (when efs/polybar-process
@@ -58,7 +62,7 @@
 
 (defun efs/exwm-init-hook ()
   ;; Make 0 be the one where we land at startup
-  (exwm-workspace-switch-create 0)
+  (exwm-workspace-switch-create 1)
   ;; Open eshell by default
   ;; (vterm)
   ;; NOTE: The next two are disabled because we now use Polybar!
@@ -193,8 +197,14 @@
                           (interactive)
                           (exwm-workspace-switch-create ,i))))
                     (number-sequence 0 9))))
-  (exwm-input-set-key (kbd "s-SPC") 'consult-buffer)
+
+  ;; some global command
+  (exwm-input-set-key (kbd "s-/") 'consult-buffer)
+  (exwm-input-set-key (kbd "s-SPC") 'exwm-floating-toggle-floating)
+  (exwm-input-set-key (kbd "s-f") 'exwm-layout-toggle-fullscreen)
   (exwm-input-set-key (kbd "M-<f4>") 'kill-buffer-and-window)
+  (exwm-input-set-key (kbd "M-s-<f4>") 'exwm-restart)
+  (exwm-input-set-key (kbd "M-s-<return>") 'efs/restart-display-manager)
   (exwm-enable))
 
 (use-package! desktop-environment
