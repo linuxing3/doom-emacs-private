@@ -156,7 +156,12 @@
           (message "No matching opening tag found")
           (goto-char pos))))
      
-     (t (message "Not at a delimiter")))))
+     (t (message "Not at a delimiter"))))
+
+;; Navigation between matching delimiters
+(map! "C-M-p" #'jump-to-matching-delimiter) ; Jump to matching delimiter
+(map! "M-%" #'jump-to-matching-delimiter)   ; Alternative binding
+(map! "C-c %" #'jump-to-matching-delimiter) ; Additional binding
 
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
