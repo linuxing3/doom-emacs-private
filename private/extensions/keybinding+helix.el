@@ -93,6 +93,10 @@
 ;; change what emacs looks like
 (map! "C-t" #'consult-theme)
 
+;; Navigation between matching delimiters
+(map! "C-M-p" #'jump-to-matching-delimiter) ; Jump to matching delimiter
+(map! "M-%" #'jump-to-matching-delimiter)   ; Alternative binding
+
 ;; Enhanced window navigation (VSCode + Helix style)
 (map! "C-h" #'windmove-left)
 (map! "C-l" #'windmove-right)
@@ -128,6 +132,19 @@
 (map! "C-x C-o" #'open-line) ; Insert newline below
 (map! "C-x C-S-o" #'open-line-above) ; Insert newline above
 (map! "RET" #'newline-and-indent) ; VSCode rename
+;; Jump to matching delimiter function
+(defun jump-to-matching-delimiter ()
+  "Jump to the matching delimiter (parenthesis, bracket, brace, etc.)."
+  (interactive)
+  (cond
+   ((looking-at "\\s(") (forward-sexp 1))
+   ((looking-back "\\s)" 1) (backward-sexp 1))
+   ((looking-at "\\s{") (forward-sexp 1))
+   ((looking-back "\\s}" 1) (backward-sexp 1))
+   ((looking-at "\\s[") (forward-sexp 1))
+   ((looking-back "\\s]" 1) (backward-sexp 1))
+   (t (message "Not at a delimiter"))))
+
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
 ;; ---------------------------------------------------------
@@ -188,6 +205,9 @@
   (helix-define-key 'goto "i" #'+lookup/implementations)
   (helix-define-key 'goto "r" #'+lookup/references)
   (helix-define-key 'goto "y" #'+lookup/type-definition)
+
+  ;; delimiter navigation
+  (helix-define-key 'normal "%" #'jump-to-matching-delimiter)
 
   ;; quick finder
   (helix-define-key 'goto "." #'consult-find)   ;;
