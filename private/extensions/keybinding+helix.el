@@ -93,10 +93,6 @@
 ;; change what emacs looks like
 (map! "C-t" #'consult-theme)
 
-;; Navigation between matching delimiters
-(map! "C-M-p" #'jump-to-matching-delimiter) ; Jump to matching delimiter
-(map! "M-%" #'jump-to-matching-delimiter)   ; Alternative binding
-
 ;; Enhanced window navigation (VSCode + Helix style)
 (map! "C-h" #'windmove-left)
 (map! "C-l" #'windmove-right)
@@ -132,6 +128,7 @@
 (map! "C-x C-o" #'open-line) ; Insert newline below
 (map! "C-x C-S-o" #'open-line-above) ; Insert newline above
 (map! "RET" #'newline-and-indent) ; VSCode rename
+
 ;; Jump to matching delimiter function
 (defun jump-to-matching-delimiter ()
   "Jump to the matching delimiter (parenthesis, bracket, brace, etc.)."
@@ -159,14 +156,13 @@
   (helix-define-key 'normal "H" #'previous-buffer)
   (helix-define-key 'normal "L" #'next-buffer)
 
-  (helix-define-key 'normal "mm" #'next-buffer)
+  (helix-define-key 'normal "mm" #'jump-to-matching-delimiter)
 
   ;; multi cursor mark
   (helix-define-key 'normal "C" #'mc/mark-next-like-this)
 
   ;; space mode
   (helix-define-key 'space " " #'execute-extended-command)
-
 
   ;; project
   (helix-define-key 'space "f" #'projectile-find-file)
