@@ -1,4 +1,30 @@
 ;;; private/extensions/keybinding+helix.el -*- lexical-binding: t; -*-
+
+;; Org-mode Publishing Setup
+(setq org-publish-project-alist
+      `(("org-notes"
+         :base-directory "~/org/"
+         :publishing-directory "~/public_html/"
+         :recursive t
+         :publishing-function org-html-publish-to-html
+         :headline-levels 4
+         :section-numbers nil
+         :with-toc nil
+         :auto-sitemap t
+         :sitemap-title "Site Map")
+        
+        ("org-static"
+         :base-directory "~/org/static/"
+         :publishing-directory "~/public_html/static/"
+         :recursive t
+         :publishing-function org-publish-attachment)
+        
+        ("org-site" :components ("org-notes" "org-static"))))
+
+;; Publishing keybindings
+(map! "C-c p p" #'org-publish-current-project)
+(map! "C-c p a" #'org-publish-all)
+(map! "C-c p f" #'org-publish-current-file)
 ;;
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
@@ -136,29 +162,29 @@ FROM and TO should be strings like \"(\" or \"{\"."
   (interactive)
   (save-excursion
     (let ((bounds (bounds-of-thing-at-point 'sexp)))
-    (when bounds
-      (let* ((beg (car bounds))
-             (end (cdr bounds))
-             (current-char (buffer-substring-no-properties beg (1+ beg)))
-             (end-char (buffer-substring-no-properties (1- end) end)))
-        (when (and (string= current-char from)
-                   (string= end-char (cl-case (string-to-char from)
-                                     (?\( ")")
-                                     (?\[ "]")
-                                     (?\{ "}")
-                                     (?< ">")
-                                     (t ""))))
-          (goto-char beg)
-          (delete-char 1)
-          (insert to)
-          (goto-char (1- end))
-          (delete-char 1)
-          (insert (cl-case (string-to-char to)
-                    (?\( ")")
-                    (?\[ "]")
-                    (?\{ "}")
-                    (?< ">")
-                    (t ""))))))))
+      (when bounds
+        (let* ((beg (car bounds))
+               (end (cdr bounds))
+               (current-char (buffer-substring-no-properties beg (1+ beg)))
+               (end-char (buffer-substring-no-properties (1- end) end)))
+          (when (and (string= current-char from)
+                     (string= end-char (cl-case (string-to-char from)
+                                         (?\( ")")
+                                         (?\[ "]")
+                                         (?\{ "}")
+                                         (?< ">")
+                                         (t ""))))
+            (goto-char beg)
+            (delete-char 1)
+            (insert to)
+            (goto-char (1- end))
+            (delete-char 1)
+            (insert (cl-case (string-to-char to)
+                      (?\( ")")
+                      (?\[ "]")
+                      (?\{ "}")
+                      (?< ">")
+                      (t "")))))))))
 
 (defun change-parens-to-braces ()
   "Change surrounding parentheses to curly braces."
@@ -193,32 +219,21 @@ FROM and TO should be strings like \"(\" or \"{\"."
      ((looking-back "\\s}" 1) (backward-sexp 1))
      ((looking-at "\\s[") (forward-sexp 1))
      ((looking-back "\\s]" 1) (backward-sexp 1))
-     
+
      ;; HTML/XML tags
      ((looking-at "<[^/!]") ; Opening tag
       (when (search-forward-regexp ">" nil t)
         (unless (sgml-skip-tag-forward 1)
           (message "No matching closing tag found")
           (goto-char pos))))
-     
+
      ((looking-back "</" 2) ; Closing tag
       (when (search-backward-regexp "<[^/]" nil t)
         (unless (sgml-skip-tag-backward 1)
           (message "No matching opening tag found")
           (goto-char pos))))
-     
+
      (t (message "Not at a delimiter")))))
-
-;; Delimiter navigation and transformation
-(map! "C-M-p" #'jump-to-matching-delimiter) ; Jump to matching delimiter
-(map! "M-%" #'jump-to-matching-delimiter)   ; Alternative binding
-(map! "C-c %" #'jump-to-matching-delimiter) ; Additional binding
-
-;; Delimiter transformation
-(map! "C-c (" #'change-braces-to-parens)    ; {} -> ()
-(map! "C-c )" #'change-parens-to-braces)    ; () -> {}
-(map! "C-c [" #'change-brackets-to-parens)  ; [] -> ()
-(map! "C-c ]" #'change-parens-to-brackets)  ; () -> []
 
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
@@ -237,9 +252,7 @@ FROM and TO should be strings like \"(\" or \"{\"."
   ;; delimiter operations
   (helix-define-key 'normal "mm" #'jump-to-matching-delimiter)
   (helix-define-key 'normal "m(" #'change-braces-to-parens)
-  (helix-define-key 'normal "m)" #'change-parens-to-braces)
   (helix-define-key 'normal "m[" #'change-brackets-to-parens)
-  (helix-define-key 'normal "m]" #'change-parens-to-brackets)
 
   ;; expand and contract
   (helix-define-key 'normal "v" #'er/expand-region)
@@ -247,6 +260,7 @@ FROM and TO should be strings like \"(\" or \"{\"."
 
   ;; multi cursor mark
   (helix-define-key 'normal "C" #'mc/mark-next-like-this)
+  (helix-define-key 'normal "*" #'mc/mark-all-like-this)
 
   ;; space mode
   (helix-define-key 'space " " #'execute-extended-command)
