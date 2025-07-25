@@ -1,30 +1,70 @@
 ;;; private/extensions/keybinding+helix.el -*- lexical-binding: t; -*-
 
-;; Org-mode Publishing Setup
-(setq org-publish-project-alist
-      `(("org-notes"
-         :base-directory "~/org/"
-         :publishing-directory "~/public_html/"
-         :recursive t
-         :publishing-function org-html-publish-to-html
-         :headline-levels 4
-         :section-numbers nil
-         :with-toc nil
-         :auto-sitemap t
-         :sitemap-title "Site Map")
-        
-        ("org-static"
-         :base-directory "~/org/static/"
-         :publishing-directory "~/public_html/static/"
-         :recursive t
-         :publishing-function org-publish-attachment)
-        
-        ("org-site" :components ("org-notes" "org-static"))))
+;; ---------------------------------------------------------
+;; Core Configuration
+;; ---------------------------------------------------------
 
-;; Publishing keybindings
-(map! "C-c p p" #'org-publish-current-project)
-(map! "C-c p a" #'org-publish-all)
-(map! "C-c p f" #'org-publish-current-file)
+;; Modal editing setup
+(map! "<escape>" 'keyboard-escape-quit)
+(map! "C-\\" #'doom/escape)
+(map! "C-g" #'keyboard-escape-quit)
+
+;; ---------------------------------------------------------
+;; Navigation & Editing
+;; ---------------------------------------------------------
+
+;; Window navigation
+(map! "C-h" #'windmove-left)
+(map! "C-l" #'windmove-right)
+(map! "C-j" #'windmove-down)
+(map! "C-k" #'windmove-up)
+
+;; Delimiter operations
+(defun jump-to-matching-delimiter ()
+  "Jump to matching delimiter (parenthesis, bracket, brace, or tag)."
+  (interactive)
+  (let ((pos (point)))
+    (cond
+     ((looking-at "\\s(") (forward-sexp 1))
+     ((looking-back "\\s)" 1) (backward-sexp 1))
+     ((looking-at "\\s{") (forward-sexp 1))
+     ((looking-back "\\s}" 1) (backward-sexp 1))
+     ((looking-at "\\s[") (forward-sexp 1))
+     ((looking-back "\\s]" 1) (backward-sexp 1))
+     ((looking-at "<[^/!]") 
+      (when (search-forward-regexp ">" nil t)
+        (unless (sgml-skip-tag-forward 1)
+          (goto-char pos))))
+     ((looking-back "</" 2)
+      (when (search-backward-regexp "<[^/]" nil t)
+        (unless (sgml-skip-tag-backward 1)
+          (goto-char pos))))
+     (t (message "Not at a delimiter")))))
+
+(map! "M-%" #'jump-to-matching-delimiter)
+
+;; ---------------------------------------------------------
+;; Helix Mode Configuration
+;; ---------------------------------------------------------
+
+(use-package! helix
+  :config
+  (helix-jj-setup 0.2)
+  
+  ;; Basic navigation
+  (helix-define-key 'normal "H" #'previous-buffer)
+  (helix-define-key 'normal "L" #'next-buffer)
+  
+  ;; Delimiter operations  
+  (helix-define-key 'normal "mm" #'jump-to-matching-delimiter)
+  
+  ;; Space leader commands
+  (helix-define-key 'space " " #'execute-extended-command)
+  (helix-define-key 'space "f" #'projectile-find-file)
+  (helix-define-key 'space "b" #'projectile-switch-to-buffer)
+  
+  (helix-mode)
+  (helix-mode-all))
 ;;
 ;; ---------------------------------------------------------
 ;; 基于SPACE的键设置
