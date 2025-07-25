@@ -138,19 +138,18 @@
   :config
   (helix-jj-setup 0.2)
 
+  ;; normal
+  (helix-define-key 'normal "H" #'previous-buffer)
+  (helix-define-key 'normal "L" #'next-buffer)
+
+  (helix-define-key 'normal "mm" #'next-buffer)
+
+  ;; multi cursor mark
+  (helix-define-key 'normal "C" #'mc/mark-next-like-this)
+
+  ;; space mode
   (helix-define-key 'space " " #'execute-extended-command)
 
-  ;; lsp actions
-  (helix-define-key 'goto "d" #'+lookup/definition)
-  (helix-define-key 'goto "i" #'+lookup/implementations)
-  (helix-define-key 'goto "r" #'+lookup/references)
-  (helix-define-key 'goto "y" #'+lookup/type-definition)
-
-  ;; quick finder
-  (helix-define-key 'goto "." #'consult-find)   ;;
-  (helix-define-key 'goto "b" #'consult-buffer) ;;
-  (helix-define-key 'goto "f" #'consult-fd)     ;;
-  (helix-define-key 'goto "/" #'consult-grep)   ;;
 
   ;; project
   (helix-define-key 'space "f" #'projectile-find-file)
@@ -184,6 +183,18 @@
   (helix-define-key 'space "p" #'clipboard-yank)
   (helix-define-key 'space "y" #'clipboard-kill-ring-save)
 
+  ;; lsp actions
+  (helix-define-key 'goto "d" #'+lookup/definition)
+  (helix-define-key 'goto "i" #'+lookup/implementations)
+  (helix-define-key 'goto "r" #'+lookup/references)
+  (helix-define-key 'goto "y" #'+lookup/type-definition)
+
+  ;; quick finder
+  (helix-define-key 'goto "." #'consult-find)   ;;
+  (helix-define-key 'goto "b" #'consult-buffer) ;;
+  (helix-define-key 'goto "f" #'consult-fd)     ;;
+  (helix-define-key 'goto "/" #'consult-grep)   ;;
+
   ;; quick comment
   (helix-define-key 'goto "c" #'comment-line)
 
@@ -192,7 +203,9 @@
 
   ;; switch buffers
   (helix-define-key 'goto "]" #'next-buffer)
+  (helix-define-key 'goto "n" #'next-buffer)
   (helix-define-key 'goto "[" #'previous-buffer)
+  (helix-define-key 'goto "p" #'previous-buffer)
 
   ;; terminal to run command
   (helix-define-key 'space "t" #'+vterm/toggle)
