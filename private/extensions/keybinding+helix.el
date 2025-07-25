@@ -129,6 +129,57 @@
 (map! "C-x C-S-o" #'open-line-above) ; Insert newline above
 (map! "RET" #'newline-and-indent) ; VSCode rename
 
+;; Delimiter transformation functions
+(defun change-surrounded-delimiter (from to)
+  "Change delimiters surrounding point from FROM to TO.
+FROM and TO should be strings like \"(\" or \"{\"."
+  (interactive)
+  (save-excursion
+    (let ((bounds (bounds-of-thing-at-point 'sexp)))
+    (when bounds
+      (let* ((beg (car bounds))
+             (end (cdr bounds))
+             (current-char (buffer-substring-no-properties beg (1+ beg)))
+             (end-char (buffer-substring-no-properties (1- end) end)))
+        (when (and (string= current-char from)
+                   (string= end-char (cl-case (string-to-char from)
+                                     (?\( ")")
+                                     (?\[ "]")
+                                     (?\{ "}")
+                                     (?< ">")
+                                     (t ""))))
+          (goto-char beg)
+          (delete-char 1)
+          (insert to)
+          (goto-char (1- end))
+          (delete-char 1)
+          (insert (cl-case (string-to-char to)
+                    (?\( ")")
+                    (?\[ "]")
+                    (?\{ "}")
+                    (?< ">")
+                    (t ""))))))))
+
+(defun change-parens-to-braces ()
+  "Change surrounding parentheses to curly braces."
+  (interactive)
+  (change-surrounded-delimiter "(" "{"))
+
+(defun change-braces-to-parens ()
+  "Change surrounding curly braces to parentheses."
+  (interactive)
+  (change-surrounded-delimiter "{" "("))
+
+(defun change-parens-to-brackets ()
+  "Change surrounding parentheses to square brackets."
+  (interactive)
+  (change-surrounded-delimiter "(" "["))
+
+(defun change-brackets-to-parens ()
+  "Change surrounding square brackets to parentheses."
+  (interactive)
+  (change-surrounded-delimiter "[" "("))
+
 ;; Enhanced jump to matching delimiter function
 (defun jump-to-matching-delimiter ()
   "Jump to the matching delimiter (parenthesis, bracket, brace, or HTML/XML tag)."
@@ -172,8 +223,12 @@
   (helix-define-key 'normal "H" #'previous-buffer)
   (helix-define-key 'normal "L" #'next-buffer)
 
-  ;; matching delimiter
+  ;; delimiter operations
   (helix-define-key 'normal "mm" #'jump-to-matching-delimiter)
+  (helix-define-key 'normal "m(" #'change-braces-to-parens)
+  (helix-define-key 'normal "m)" #'change-parens-to-braces)
+  (helix-define-key 'normal "m[" #'change-brackets-to-parens)
+  (helix-define-key 'normal "m]" #'change-parens-to-brackets)
 
   ;; expand and contract
   (helix-define-key 'normal "v" #'er/expand-region)
