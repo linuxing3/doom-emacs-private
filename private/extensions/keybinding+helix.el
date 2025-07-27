@@ -27,13 +27,18 @@
 ;; ---------------------------------------------------------
 ;; VSCode-style file/buffer commands
 (map! "C-," #'doom/open-private-config)
-(map! "C-." #'envrc-allow)
 
-(map! "s-p" #'projectile-find-file) ; VSCode quick open
+;; context right menu ...
+(map! "C-." #'embark-act)
 
-(map! "C-<tab>" #'consult-buffer) ; VSCode-style buffer switching
-(map! "M-<tab>" #'consult-buffer-other-window)
-(map! "s-<tab>" #'+workspace/cycle)
+;; open project
+(map! "M-p" #'projectile-find-file) ; VSCode quick open
+
+;; workspace/project
+(map! "M-<tab>" #'+workspace/cycle)
+
+;; buffer in workspace
+(map! "C-<tab>" #'consult-buffer) ; VSCode-style buffer
 
 ;; VSCode-style editor commands
 (map! "C-s" #'save-buffer)
@@ -124,7 +129,7 @@
 ;; Selection expansion
 (map! "C-=" #'er/expand-region)
 (map! "C--" #'er/contract-region) ; VSCode shrink selection
-(map! "C-S-=" #'mc/mark-all-like-this) ; VSCode select all occurrences
+(map! "C-+" #'mc/mark-all-like-this) ; VSCode select all occurrences
 
 ;; Line manipulation
 (map! "C-S-k" #'kill-whole-line) ; VSCode delete line
@@ -146,11 +151,13 @@
   :config
   (helix-jj-setup 0.2)
 
+  (helix-define-key 'normal "`" #'eshell)
+
   ;; normal
   (helix-define-key 'normal "H" #'previous-buffer)
   (helix-define-key 'normal "L" #'next-buffer)
-  (helix-define-key 'normal "]" #'+workspace/swap-right)
   (helix-define-key 'normal "[" #'+workspace/swap-left)
+  (helix-define-key 'normal "]" #'+workspace/swap-right)
 
   ;; delimiter operations
   (helix-define-key 'normal "mm" #'jump-to-matching-delimiter)

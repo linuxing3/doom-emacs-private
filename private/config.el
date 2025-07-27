@@ -8,12 +8,15 @@
 
 (setq bookmark-default-file (dropbox-path "shared/emacs-bookmarks"))
 
-(defvar org-directory-default nil
-  "whether use org directory in default location")
+(setq org-directory (dropbox-path "org"))
 
-(if org-directory-default
-    (setq org-directory (expand-file-name "~/org"))
-  (setq org-directory (dropbox-path "org")))
+(setq diary-file (dropbox-path "org/diary"))
+
+(setq
+ org-agenda-diary-file (dropbox-path "org/diary")
+ org-agenda-files (directory-files org-directory t "\\.agenda\\.org$" t))
+
+(setq org-archive-location (dropbox-path "org/archived/%s_archive::"))
 
 ;; Better defaults
 (load! "extensions/default" nil t)
