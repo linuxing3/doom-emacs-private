@@ -11,6 +11,9 @@
 
 (package! counsel)
 
+(package! consult-omni :recipe (:host github :repo "armindarvish/consult-omni" :files (:defaults "sources/*.el")))
+(package! browser-hist  :recipe (:host github :repo "agzam/browser-hist.el"))
+
 (package! helix :recipe (:host github :repo "mgmarlow/helix-mode"))
 
 (package! aider :recipe (:host github :repo "tninja/aider.el" :files ("aider.el aider-doom.el")))
@@ -33,3 +36,5 @@
 (package! dmenu)
 (package! ednc)
 (package! emojify)
+
+(package! org-web-tools)

@@ -17,6 +17,10 @@
   (interactive)
   (start-process-shell-command "logout" nil "sudo systemctl restart display-manager"))
 
+(defun efs/rofi()
+  (interactive)
+  (start-process-shell-command "rofi" nil "rofi -show drun"))
+
 (defun efs/kill-panel ()
   (interactive)
   (when efs/polybar-process
@@ -200,12 +204,15 @@
 
   ;; some global command
   (exwm-input-set-key (kbd "s-/") 'consult-buffer)
+
   (exwm-input-set-key (kbd "s-SPC") 'exwm-floating-toggle-floating)
   (exwm-input-set-key (kbd "s-f") 'exwm-layout-toggle-fullscreen)
+
   (exwm-input-set-key (kbd "M-<f4>") 'kill-buffer-and-window)
-  (exwm-input-set-key (kbd "M-s-<f4>") 'exwm-restart)
-  (exwm-input-set-key (kbd "M-s-<return>") 'efs/restart-display-manager)
-  (exwm-enable))
+  (exwm-input-set-key (kbd "M-s-<f4>") 'efs/restart-display-manager)
+
+  (exwm-input-set-key (kbd "M-SPC") 'efs/rofi)
+  (exwm-wm-mode))
 
 (use-package! desktop-environment
   :config

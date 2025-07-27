@@ -69,13 +69,11 @@
     (setq
      doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 16)
      doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 18)
-     doom-variable-pitch-font (font-spec :family "Microsoft Yahei" :size 16)
-     doom-unicode-font (font-spec :famaly "Microsoft Yehei" :size 16))
+     doom-variable-pitch-font (font-spec :family "Microsoft Yahei" :size 16))
   (setq
    doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 16)
    doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 18)
-   doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font" :size 16)
-   doom-unicode-font (font-spec :family "JetBrainsMono Nerd Font" :size 16)))
+   doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font" :size 16)))
 
 (custom-set-faces!
   `(doom-modeline-bar-inactive :background ,(face-background 'mode-line-inactive)))

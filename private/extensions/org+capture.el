@@ -1,5 +1,7 @@
 ;;; org+capture.el -*- lexical-binding: t; -*-
 
+(require 'org-web-tools)
+
 (after! org
 
   (org-add-link-type
@@ -83,6 +85,11 @@ With prefix argument, also display headlines without a TODO keyword."
         (goto-char (point-max))
         (or (bolp) (insert "\n"))
         (insert "* " hd "\n"))))
+
+  (defun org-web-tools-insert-link-for-clipboard-url ()
+    "Extend =org-web-tools-inster-link-for-url= to take URL from clipboard or kill-ring"
+    (interactive)
+    (org-web-tools--org-link-for-url (org-web-tools--get-first-url)))
 
   (defun generate-anki-note-body ()
     (interactive)
@@ -194,6 +201,7 @@ With prefix argument, also display headlines without a TODO keyword."
                  entry
                  (file+headline links-org-file "Bookmarks")
                  "* %t %:description\nlink: %l \n\n%i\n"
+                 :prepend t
                  :kill-buffer nil))
 
   (add-to-list 'org-capture-templates
@@ -202,6 +210,16 @@ With prefix argument, also display headlines without a TODO keyword."
                  plain
                  (file+function links-org-file org-capture-template-goto-link)
                  " %^{Title}\n  %U - %?\n\n  %:initial"
+                 :prepend t
+                 :empty-lines 1))
+
+  (add-to-list 'org-capture-templates
+               '("a"
+                 "Protocol Annotation"
+                 entry
+                 (file+headline links-org-file "Bookmarks")
+                 "** %(org-web-tools-insert-link-for-clipboard-url)\n:PROPERTIES:\n:TIMESTAMP: %t\n:END:%?\n"
+                 :prepend t
                  :empty-lines 1))
 
   ;; Task Group

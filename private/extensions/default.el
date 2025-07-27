@@ -1,13 +1,12 @@
 ;;; private/extensions/default.el -*- lexical-binding: t; -*-
 
 (use-package! hydra)
-(use-package! consult)
+
+(load! "exwm" nil t)
 
 (load! "ui+font")
 
 (load! "keybinding+helix" nil t)
-
-(load! "exwm" nil t)
 
 (load! "mail" nil t)
 
@@ -19,3 +18,5 @@
   (load! "org+agenda" nil t)
   (load! "org+babel" nil t)
   (load! "org+publish" nil t))
+
+(load! "consult")
