@@ -77,3 +77,91 @@
 
 (custom-set-faces!
   `(doom-modeline-bar-inactive :background ,(face-background 'mode-line-inactive)))
+
+(use-package dirvish
+  :after dired
+  :custom
+  (map! :map dired-mode-map
+        :n "TAB" #'dirvish-toggle-subtree
+        :n "s" #'dirvish-quicksort
+        :n "/" #'dirvish-filter)
+
+  (setq dirvish-bookmark-entries
+        '(("Downloads" "~/Downloads/")
+          ("Dotfiles" "~/.config/")
+          ("Persist" "/persistent/home/linuxing3/")
+          ("Projects" "~/sources/")))
+
+  (dirvish-header-line-format '(:left (path)))
+  (dirvish-mode-line-format '(:left (info)))
+  (dirvish-preview-dispatchers (list 'image 'pdf))
+  :config
+  (setq dirvish-mode-line-format
+        '(:left (index) :right (details)))
+  (setq inhibit-compacting-font-caches t)
+  (setq dirvish-attributes '(file-time file-size git))
+  (setq dirvish-hide-details t)
+  (setq delete-by-moving-to-trash t))
+
+(use-package diredfl
+  :hook (dired-mode . diredfl-mode)
+  :config
+  (setq diredfl-light-blue "#5fafd7"))
+
+;; (use-package all-the-icons-dired
+;;   :hook (dired-mode . all-the-icons-dired-mode))
+
+(use-package dired-hide-dotfiles
+  :hook (dired-mode . dired-hide-dotfiles-mode)
+  :config
+  (setq dired-hide-dotfiles-verbose nil))
+
+(use-package dired-subtree
+  :bind (:map dired-mode-map
+              ("i" . dired-subtree-insert)
+              ("k" . dired-subtree-remove)))
+
+;; (use-package dired-ranger
+;;   :after dired)
+
+(use-package dired-quick-sort
+  :hook (dired-mode . dired-quick-sort-setup))
+
+(use-package async
+  :config
+  (dired-async-mode 1))
+
+;; dired
+(map! "C-c j" #'dired-jump)
+(map! :map dired-mode-map
+      "i" #'dired-display-file ; quick view
+      "j" #'dired-next-line
+      "k" #'dired-previous-line
+      "h" #'dired-up-directory
+      "l" #'dired-open-file ; use dired-find-file instead of dired-open.
+      "m" #'dired-mark
+      "t" #'dired-toggle-marks
+      "u" #'dired-unmark
+      "C" #'dired-do-copy
+      "D" #'dired-do-delete
+      "X" #'dired-do-delete
+      "J" #'dired-goto-file
+      "M" #'dired-do-chmod
+      "O" #'dired-do-chown
+      "P" #'dired-do-print
+      "R" #'dired-do-rename
+      "A" #'dired-do-rename
+      "T" #'dired-do-touch
+      "Y" #'dired-copy-filenamecopy-filename-as-kill ; copies filename to kill ring.
+      "Z" #'dired-do-compress
+      "a" #'dired-create-directory
+      "+" #'dired-create-directory
+      "-" #'dired-do-kill-lines
+      "% l" #'dired-downcase
+      "% m" #'dired-mark-files-regexp
+      "% u" #'dired-upcase
+      "* %" #'dired-mark-files-regexp
+      "* ." #'dired-mark-extension
+      "* /" #'dired-mark-directories
+      "; d" #'epa-dired-do-decrypt
+      "; e" #'epa-dired-do-encrypt)

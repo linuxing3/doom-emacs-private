@@ -27,11 +27,15 @@
 (package! calfw)
 (package! calfw-org)
 
-;;(package! dashboard)
-;;
 (package! dired-open)
 (package! dired-subtree)
 (package! dirvish)
+(package! diredfl)
+(package! all-the-icons-dired)
+(package! dired-hide-dotfiles)
+(package! dired-ranger)
+(package! dired-quick-sort)
+(package! async)
 
 (package! dmenu)
 (package! ednc)
