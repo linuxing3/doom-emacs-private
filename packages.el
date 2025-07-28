@@ -42,3 +42,5 @@
 (package! emojify)
 
 (package! org-web-tools)
+
+(package! aidermacs)

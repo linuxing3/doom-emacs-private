@@ -22,3 +22,5 @@
   (load! "org+publish" nil t))
 
 (load! "consult")
+
+(load! "ai")
